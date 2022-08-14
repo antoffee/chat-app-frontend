@@ -1,0 +1,58 @@
+/** Desktop and Android global styles **/
+
+html,
+body,
+:root {
+    --custom-input-padding-start: 12px;
+    --custom-input-padding-end: 12px;
+    --custom-input-padding-top: 22px;
+    --custom-input-padding-bottom: 6px;
+    --custom-input-min-height: 52px;
+    --custom-input-bottom-offset: 24px;
+    --custom-input-icon-width: 32px;
+    --custom-input-icon-height: 44px;
+    --page-header-min-height: 56px;
+    --ion-item-background: transparent;
+    --ion-item-color: var(--base-110);
+    --ion-background-color: var(--base-0);
+    --ion-text-color: var(--base-110);
+    --ion-toolbar-background: var(--base-0);
+
+    color: var(--base-110);
+
+    @include desktop {
+        --page-header-min-height: 64px;
+    }
+
+    font-family: Montserrat, sans-serif;
+}
+
+body {
+    background-color: var(--base-0);
+
+    .alert-wrapper {
+        --background: var(--base-0);
+
+        border: 1px solid var(--base-20);
+        border-radius: 14px;
+    }
+}
+
+/** styling of preloader in usePreloader hook **/
+.global-loader {
+    --background: transparent;
+    --spinner-color: var(--brand-primary-40);
+
+    transform: scale(2);
+
+    .loading-wrapper {
+        padding: 0 !important;
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+}
+
+ion-button {
+    text-transform: none;
+}

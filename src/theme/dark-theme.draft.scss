@@ -1,0 +1,42 @@
+:root .dark,
+:root.dark {
+    /** BASE **/
+
+    --base-0: #1c2430;
+    --base-10: #323944;
+    --base-20: #474e58;
+    --base-30: #5b6169;
+    --base-40: #6d737a;
+    --base-50: #80848b;
+    --base-60: #90949a;
+    --base-70: #9fa3a7;
+    --base-80: #adb0b5;
+    --base-90: #babdc0;
+    --base-100: #c9cbce;
+    --base-110: #e1e2e4;
+
+    /** PRIMARY **/
+
+    --primary-10: #401b77;
+    --primary-20: #4c248c;
+    --primary-30: #582ea0;
+    --primary-40: #7246c9;
+    --primary-50: #8865d4;
+    --primary-60: #a288df;
+    --primary-70: #beade9;
+    --primary-80: #ddd4f4;
+    --primary-90: #f1eefa;
+    --secondary-10: #20297a;
+    --secondary-20: #29368e;
+    --secondary-30: #3444a3;
+    --secondary-40: #4053b7;
+    --secondary-50: #5f71c5;
+    --secondary-60: #8191d4;
+    --secondary-70: #a7b4e2;
+    --secondary-80: #d1d8f1;
+    --secondary-90: #edeff8;
+
+    /** SECONDARY **/
+
+    --danger-50: #e34646;
+}

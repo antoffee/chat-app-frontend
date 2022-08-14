@@ -1,0 +1,10 @@
+{
+    "src/**/*.{js,jsx,ts,tsx}": [
+        "eslint --max-warnings=0 --fix \"src/**/*.+(js|jsx|ts|tsx|json)\"",
+        "prettier --write \"src/**/*.+(js|jsx|ts|tsx|json)\""
+    ],
+    "src/**/*.{css,scss,less,sass}": [
+        "prettier --write \"src/**/*.{css,scss,less,sass}\"",
+        "stylelint \"src/**/*.{css,scss,less,sass}\" --fix"
+    ]
+}

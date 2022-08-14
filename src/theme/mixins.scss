@@ -1,0 +1,81 @@
+@mixin cut-for-n-rows($n: 2) {
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: pre-line;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: $n;
+    -webkit-box-orient: vertical;
+}
+
+@mixin no-scrollbar {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}
+
+@mixin custom-scrollbar($track: var(--base-0)) {
+    &::-webkit-scrollbar {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+    }
+
+    /* Track */
+    &::-webkit-scrollbar-track {
+        background: $track;
+    }
+
+    /* Handle */
+    &::-webkit-scrollbar-thumb {
+        background: #cdcdcd80;
+        border: 2px solid $track;
+        border-radius: 10px;
+    }
+
+    /* Handle on hover */
+    &::-webkit-scrollbar-thumb:hover {
+        background: #b4b4b480;
+    }
+}
+
+@mixin use-border-box-sizing() {
+    &,
+    * {
+        box-sizing: border-box;
+    }
+}
+
+@mixin fill-svg-and-path($color, $transition-duration: 200ms) {
+    transition: fill $transition-duration;
+    fill: $color;
+
+    path {
+        transition: fill $transition-duration;
+        fill: inherit;
+    }
+}
+
+@mixin fullscreen-modal() {
+    --height: calc(100% - (var(--ion-safe-area-top)));
+}
+
+@mixin centered-flexbox() {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin common-icon-self-size() {
+    width: 24px;
+    height: 24px;
+}
+
+@mixin common-svg-size() {
+    svg {
+        @include common-icon-self-size();
+    }
+}

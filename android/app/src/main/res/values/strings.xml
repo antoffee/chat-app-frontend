@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">ionic-webp</string>
+    <string name="title_activity_main">ionic-webp</string>
+    <string name="package_name">ionic.webp</string>
+    <string name="custom_url_scheme">ionic.webp</string>
+</resources>

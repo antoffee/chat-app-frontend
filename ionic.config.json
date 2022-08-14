@@ -1,0 +1,7 @@
+{
+    "name": "webp-ionic",
+    "integrations": {
+        "capacitor": {}
+    },
+    "type": "react"
+}

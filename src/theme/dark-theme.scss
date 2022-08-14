@@ -1,0 +1,210 @@
+:root .dark,
+:root.dark {
+    /** BASE **/
+
+    --base-0-rgb: 28, 36, 48;
+    --base-0: rgb(var(--base-0-rgb));
+    --base-10-rgb: 50, 57, 68;
+    --base-10: rgb(var(--base-10-rgb));
+    --base-20-rgb: 71, 78, 88;
+    --base-20: rgb(var(--base-20-rgb));
+    --base-30-rgb: 91, 97, 105;
+    --base-30: rgb(var(--base-30-rgb));
+    --base-40-rgb: 109, 115, 122;
+    --base-40: rgb(var(--base-40-rgb));
+    --base-50-rgb: 128, 132, 139;
+    --base-50: rgb(var(--base-50-rgb));
+    --base-60-rgb: 144, 148, 154;
+    --base-60: rgb(var(--base-60-rgb));
+    --base-70-rgb: 159, 163, 167;
+    --base-70: rgb(var(--base-70-rgb));
+    --base-80-rgb: 173, 176, 181;
+    --base-80: rgb(var(--base-80-rgb));
+    --base-90-rgb: 186, 189, 192;
+    --base-90: rgb(var(--base-90-rgb));
+    --base-100-rgb: 201, 203, 206;
+    --base-100: rgb(var(--base-100-rgb));
+    --base-110-rgb: 225, 226, 228;
+    --base-110: rgb(var(--base-110-rgb));
+
+    /** PRIMARY **/
+
+    --primary-10-rgb: 64, 27, 119;
+    --primary-10: rgb(var(--primary-10-rgb));
+    --primary-20-rgb: 76, 36, 140;
+    --primary-20: rgb(var(--primary-20-rgb));
+    --primary-30-rgb: 88, 46, 160;
+    --primary-30: rgb(var(--primary-30-rgb));
+    --primary-40-rgb: 114, 70, 201;
+    --primary-40: rgb(var(--primary-40-rgb));
+    --primary-50-rgb: 136, 101, 212;
+    --primary-50: rgb(var(--primary-50-rgb));
+    --primary-60-rgb: 162, 136, 223;
+    --primary-60: rgb(var(--primary-60-rgb));
+    --primary-70-rgb: 190, 173, 233;
+    --primary-70: rgb(var(--primary-70-rgb));
+    --primary-80-rgb: 221, 212, 244;
+    --primary-80: rgb(var(--primary-80-rgb));
+    --primary-90-rgb: 241, 238, 250;
+    --primary-90: rgb(var(--primary-90-rgb));
+
+    /** SECONDARY **/
+
+    --secondary-10-rgb: 32, 41, 122;
+    --secondary-10: rgb(var(--secondary-10-rgb));
+    --secondary-20-rgb: 41, 54, 142;
+    --secondary-20: rgb(var(--secondary-20-rgb));
+    --secondary-30-rgb: 52, 68, 163;
+    --secondary-30: rgb(var(--secondary-30-rgb));
+    --secondary-40-rgb: 64, 83, 183;
+    --secondary-40: rgb(var(--secondary-40-rgb));
+    --secondary-50-rgb: 95, 113, 197;
+    --secondary-50: rgb(var(--secondary-50-rgb));
+    --secondary-60-rgb: 129, 145, 212;
+    --secondary-60: rgb(var(--secondary-60-rgb));
+    --secondary-70-rgb: 167, 180, 226;
+    --secondary-70: rgb(var(--secondary-70-rgb));
+    --secondary-80-rgb: 209, 216, 241;
+    --secondary-80: rgb(var(--secondary-80-rgb));
+    --secondary-90-rgb: 237, 239, 248;
+    --secondary-90: rgb(var(--secondary-90-rgb));
+
+    /** SUCCESS **/
+
+    --success-0-rgb: 10, 82, 53;
+    --success-0: rgb(var(--success-0-rgb));
+    --success-10-rgb: 17, 99, 59;
+    --success-10: rgb(var(--success-10-rgb));
+    --success-20-rgb: 27, 123, 67;
+    --success-20: rgb(var(--success-20-rgb));
+    --success-30-rgb: 39, 147, 73;
+    --success-30: rgb(var(--success-30-rgb));
+    --success-40-rgb: 82, 193, 106;
+    --success-40: rgb(var(--success-40-rgb));
+    --success-50-rgb: 99, 205, 112;
+    --success-50: rgb(var(--success-50-rgb));
+    --success-60-rgb: 135, 230, 138;
+    --success-60: rgb(var(--success-60-rgb));
+    --success-70-rgb: 183, 246, 179;
+    --success-70: rgb(var(--success-70-rgb));
+    --success-80-rgb: 222, 250, 216;
+    --success-80: rgb(var(--success-80-rgb));
+
+    /** INFO **/
+
+    --info-0-rgb: 9, 51, 107;
+    --info-0: rgb(var(--info-0-rgb));
+    --info-10-rgb: 16, 72, 129;
+    --info-10: rgb(var(--info-10-rgb));
+    --info-20-rgb: 26, 102, 161;
+    --info-20: rgb(var(--info-20-rgb));
+    --info-30-rgb: 38, 135, 192;
+    --info-30: rgb(var(--info-30-rgb));
+    --info-40-rgb: 52, 172, 224;
+    --info-40: rgb(var(--info-40-rgb));
+    --info-50-rgb: 100, 204, 236;
+    --info-50: rgb(var(--info-50-rgb));
+    --info-60-rgb: 132, 226, 245;
+    --info-60: rgb(var(--info-60-rgb));
+    --info-70-rgb: 174, 243, 251;
+    --info-70: rgb(var(--info-70-rgb));
+    --info-80-rgb: 214, 252, 253;
+    --info-80: rgb(var(--info-80-rgb));
+
+    /** WARNING **/
+
+    --warning-0-rgb: 50, 40, 21;
+    --warning-0: rgb(var(--warning-0-rgb));
+    --warning-10-rgb: 127, 75, 8;
+    --warning-10: rgb(var(--warning-10-rgb));
+    --warning-20-rgb: 158, 99, 14;
+    --warning-20: rgb(var(--warning-20-rgb));
+    --warning-30-rgb: 189, 126, 20;
+    --warning-30: rgb(var(--warning-30-rgb));
+    --warning-40-rgb: 220, 155, 28;
+    --warning-40: rgb(var(--warning-40-rgb));
+    --warning-50-rgb: 234, 187, 80;
+    --warning-50: rgb(var(--warning-50-rgb));
+    --warning-60-rgb: 244, 210, 116;
+    --warning-60: rgb(var(--warning-60-rgb));
+    --warning-70-rgb: 251, 230, 163;
+    --warning-70: rgb(var(--warning-70-rgb));
+    --warning-80-rgb: 253, 244, 209;
+    --warning-80: rgb(var(--warning-80-rgb));
+
+    /** DANGER **/
+
+    --danger-0-rgb: 108, 13, 46;
+    --danger-0: rgb(var(--danger-0-rgb));
+    --danger-10-rgb: 131, 22, 50;
+    --danger-10: rgb(var(--danger-10-rgb));
+    --danger-20-rgb: 163, 35, 57;
+    --danger-20: rgb(var(--danger-20-rgb));
+    --danger-30-rgb: 195, 51, 63;
+    --danger-30: rgb(var(--danger-30-rgb));
+    --danger-40-rgb: 227, 70, 70;
+    --danger-40: rgb(var(--danger-40-rgb));
+    --danger-50-rgb: 238, 125, 114;
+    --danger-50: rgb(var(--danger-50-rgb));
+    --danger-60-rgb: 246, 161, 144;
+    --danger-60: rgb(var(--danger-60-rgb));
+    --danger-70-rgb: 252, 200, 182;
+    --danger-70: rgb(var(--danger-70-rgb));
+    --danger-80-rgb: 253, 230, 218;
+    --danger-80: rgb(var(--danger-80-rgb));
+
+    /** STATUS **/
+
+    --status-0-rgb: 4, 203, 0;
+    --status-0: rgb(var(--status-0-rgb));
+
+    /** AVATAR **/
+
+    --avatar-0-rgb: 73, 177, 184;
+    --avatar-0: rgb(var(--avatar-0-rgb));
+    --avatar-10-rgb: 229, 157, 90;
+    --avatar-10: rgb(var(--avatar-10-rgb));
+    --avatar-20-rgb: 142, 203, 121;
+    --avatar-20: rgb(var(--avatar-20-rgb));
+    --avatar-30-rgb: 142, 121, 203;
+    --avatar-30: rgb(var(--avatar-30-rgb));
+    --avatar-40-rgb: 89, 179, 128;
+    --avatar-40: rgb(var(--avatar-40-rgb));
+    --avatar-50-rgb: 96, 155, 224;
+    --avatar-50: rgb(var(--avatar-50-rgb));
+    --avatar-60-rgb: 216, 118, 118;
+    --avatar-60: rgb(var(--avatar-60-rgb));
+    --avatar-70-rgb: 203, 121, 200;
+    --avatar-70: rgb(var(--avatar-70-rgb));
+    --avatar-80-rgb: 223, 99, 166;
+    --avatar-80: rgb(var(--avatar-80-rgb));
+    --avatar-90-rgb: 255, 172, 84;
+    --avatar-90: rgb(var(--avatar-90-rgb));
+
+    /** ADDITION **/
+
+    --addition-0-rgb: 73, 177, 184;
+    --addition-0: rgb(var(--addition-0-rgb));
+    --addition-10-rgb: 125, 106, 179;
+    --addition-10: rgb(var(--addition-10-rgb));
+    --addition-20-rgb: 203, 121, 200;
+    --addition-20: rgb(var(--addition-20-rgb));
+    --addition-30-rgb: 142, 203, 121;
+    --addition-30: rgb(var(--addition-30-rgb));
+    --addition-40-rgb: 0, 0, 0;
+    --addition-40: rgb(var(--addition-40-rgb));
+    --addition-50-rgb: 255, 255, 255;
+    --addition-50: rgb(var(--addition-50-rgb));
+    --addition-60-rgb: 252, 223, 221;
+    --addition-60: rgb(var(--addition-60-rgb));
+    --addition-70-rgb: 54, 54, 54;
+    --addition-70: rgb(var(--addition-70-rgb));
+    --addition-80-rgb: 24, 25, 31;
+    --addition-80: rgb(var(--addition-80-rgb));
+    --addition-90-rgb: 135, 230, 138;
+    --addition-90: rgb(var(--addition-90-rgb));
+    --addition-100-rgb: 34, 35, 40;
+    --addition-100: rgb(var(--addition-100-rgb));
+    --addition-110-rgb: 51, 51, 51;
+    --addition-110: rgb(var(--addition-110-rgb));
+}
