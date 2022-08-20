@@ -3,11 +3,11 @@
 html,
 body,
 :root {
-    --custom-input-padding-start: 12px;
-    --custom-input-padding-end: 12px;
+    --custom-input-padding-start: 20px;
+    --custom-input-padding-end: 20px;
     --custom-input-padding-top: 22px;
     --custom-input-padding-bottom: 6px;
-    --custom-input-min-height: 52px;
+    --custom-input-min-height: 48px;
     --custom-input-bottom-offset: 24px;
     --custom-input-icon-width: 32px;
     --custom-input-icon-height: 44px;
@@ -55,4 +55,13 @@ body {
 
 ion-button {
     text-transform: none;
+}
+
+ion-item.ion-item-input-wrapper-custom.item-has-focus {
+    --ion-color-step-500: var(--secondary-50);
+    --border-color: var(--secondary-50);
+
+    ion-label {
+        --ion-color-primary: var(--secondary-50) !important;
+    }
 }

@@ -3,7 +3,15 @@
         "browser": true,
         "es2020": true
     },
-    "plugins": ["@typescript-eslint", "react", "standard", "react-hooks", "import", "simple-import-sort"],
+    "plugins": [
+        "@typescript-eslint",
+        "react",
+        "standard",
+        "react-hooks",
+        "import",
+        "simple-import-sort",
+        "unused-imports"
+    ],
     "extends": [
         "prettier",
         "eslint:recommended",
@@ -39,7 +47,13 @@
         "@typescript-eslint/no-empty-interface": "error",
         "@typescript-eslint/no-explicit-any": "error",
         "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/no-unused-vars": "off",
+        "no-unused-vars": "off", // or "@typescript-eslint/no-unused-vars": "off",
+        "unused-imports/no-unused-imports": "error",
+        "unused-imports/no-unused-vars": [
+            "error",
+            { "vars": "all", "varsIgnorePattern": "^_", "args": "after-used", "argsIgnorePattern": "^_" }
+        ],
         "import/no-relative-parent-imports": "error",
         "import/no-duplicates": "error",
         "import/no-unresolved": "off",

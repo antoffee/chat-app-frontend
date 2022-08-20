@@ -1,0 +1,71 @@
+$horizontal-padding: var(--custom-input-padding-end);
+$vertical-padding: var(--custom-input-padding-bottom);
+
+.container {
+    position: relative;
+    width: 100%;
+    padding-bottom: var(--padding-bottom);
+}
+
+.prefix-icon {
+    @include common-icon-self-size;
+
+    position: absolute;
+    bottom: calc(#{$vertical-padding} + 8px);
+    left: $horizontal-padding;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: bottom var(--transition-duration);
+}
+
+ion-item.input-wrapper {
+    $inactiveColor: var(--base-60);
+    $activeHighlightColor: var(--secondary-50);
+
+    --background: var(--base-20);
+    --background-focused: var(--base-0);
+    --background-activated: var(--base-0);
+    --background-hover: var(--base-0);
+    --border-width: 1px;
+    --show-full-highlight: 0;
+    /* stylelint-disable-next-line length-zero-no-unit */
+    --highlight-height: 0px;
+    --border-style: solid;
+    --border-radius: 24px;
+    --border-color: #{$inactiveColor};
+    --highlight-color-focused: #{$activeHighlightColor};
+    --min-height: var(--custom-input-min-height);
+
+    &-clickable {
+        cursor: pointer;
+    }
+
+    ion-label {
+        --color: #{$inactiveColor} !important;
+    }
+}
+
+ion-input.input,
+ion-textarea.input {
+    --transition-duration: 100ms;
+    --prefix-icon-size: 24px;
+    --padding-start: 4px !important;
+
+    margin: 0;
+    overflow: hidden;
+    caret-color: var(--secondary-50);
+
+    input,
+    textarea {
+        height: 100%;
+
+        /** !important is used because there is no way to override the opacity style **/
+        opacity: 1 !important;
+
+        &[type='number']::-webkit-inner-spin-button,
+        &[type='number']::-webkit-outer-spin-button {
+            opacity: 0 !important;
+        }
+    }
+}
