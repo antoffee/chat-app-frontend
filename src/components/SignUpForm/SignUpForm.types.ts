@@ -7,4 +7,3 @@ export type SignUpValues = {
 };
 
 export type SignUpErrors = Record<keyof SignUpValues, string | undefined>;
-

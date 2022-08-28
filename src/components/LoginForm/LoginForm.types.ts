@@ -4,4 +4,3 @@ export type LoginValues = {
 };
 
 export type LoginErrors = Record<keyof LoginValues, string | undefined>;
-
