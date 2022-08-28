@@ -9,10 +9,7 @@ export type CustomInputAdditionalProps = {
     prefix?: string;
     prefixIcon?: string;
     hasError?: boolean;
-    errorHint?: string;
-    hint?: string;
-    forceFocused?: boolean;
-    requiredSign?: boolean;
+    errorMessage?: string;
     clearButton?: boolean;
     onInputWrapperClick?: (event: React.MouseEvent) => void;
     onClearValue?: (e: React.MouseEvent<HTMLIonButtonElement, MouseEvent>) => void;

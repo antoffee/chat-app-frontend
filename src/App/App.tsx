@@ -1,8 +1,8 @@
 import React from 'react';
-import { IonButton, IonPage, setupIonicReact } from '@ionic/react';
+import { IonPage, setupIonicReact } from '@ionic/react';
 import { useColorMode } from 'hooks/useColorMode';
 
-import { CustomInput } from 'components/CustomInput';
+import { SignUpForm } from 'components/SignUpForm';
 import { ThemeToggle } from 'components/ThemeToggle';
 
 /* Core CSS required for Ionic components to work properly */
@@ -27,8 +27,6 @@ setupIonicReact({
     spinner: 'bubbles',
 });
 
-
-
 export const App: React.FC = () => {
     useColorMode();
 
@@ -36,8 +34,7 @@ export const App: React.FC = () => {
         <IonPage>
             Hello
             <ThemeToggle />
-            <CustomInput label="Search" inputType="textarea" />
-            <IonButton>Click me!</IonButton>
+            <SignUpForm />
         </IonPage>
     );
 };

@@ -58,10 +58,17 @@ ion-button {
 }
 
 ion-item.ion-item-input-wrapper-custom.item-has-focus {
-    --ion-color-step-500: var(--secondary-50);
-    --border-color: var(--secondary-50);
+    $activeHighlightColor: var(--secondary-50);
+
+    --ion-color-step-500: #{$activeHighlightColor};
+    --border-color: #{$activeHighlightColor};
+
+    &:hover {
+        --ion-color-step-750: #{$activeHighlightColor};
+        --background-hover: var(--background-focused);
+    }
 
     ion-label {
-        --ion-color-primary: var(--secondary-50) !important;
+        --ion-color-primary: #{$activeHighlightColor} !important;
     }
 }

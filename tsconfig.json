@@ -16,6 +16,7 @@
         "noFallthroughCasesInSwitch": true,
         "resolveJsonModule": true,
         "isolatedModules": true,
+        "paths": { "~constants": ["constants/index.ts"] },
         "plugins": [
             {
                 "name": "typescript-plugin-css-modules"
@@ -27,6 +28,7 @@
             "module": "CommonJS"
         }
     },
+
     "include": ["src", "@types", "*.config.ts", "scripts"],
     "exclude": ["node_modules"]
 }

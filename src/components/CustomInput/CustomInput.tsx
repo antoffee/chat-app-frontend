@@ -1,5 +1,5 @@
-import React, { useCallback, useImperativeHandle, useMemo, useRef } from 'react';
-import { IonButton, IonIcon, IonItem, IonLabel } from '@ionic/react';
+import React, { useCallback, useImperativeHandle, useRef } from 'react';
+import { IonButton, IonIcon, IonItem, IonLabel, IonNote } from '@ionic/react';
 import cnBind from 'classnames/bind';
 
 import { CustomInputRef } from './InputFacade/InputFacade.types';
@@ -19,6 +19,7 @@ export const CustomInput = React.forwardRef<HTMLIonInputElement | HTMLIonTextare
             label,
             prefixIcon,
             hasError,
+            errorMessage,
             readonly,
             placeholder,
             clearButton = false,
@@ -44,15 +45,6 @@ export const CustomInput = React.forwardRef<HTMLIonInputElement | HTMLIonTextare
             [onClearValue],
         );
 
-        const labelColor = useMemo(() => {
-            if (disabled) {
-                return 'secondary';
-            }
-            if (hasError) {
-                return 'error';
-            }
-        }, [disabled, hasError]);
-
         return (
             <div className={cx('container')} slot={slot}>
                 <IonItem
@@ -61,13 +53,10 @@ export const CustomInput = React.forwardRef<HTMLIonInputElement | HTMLIonTextare
                     onClick={onInputWrapperClick}
                     className={cx('input-wrapper', 'ion-item-input-wrapper-custom', {
                         'input-wrapper-clickable': onInputWrapperClick,
+                        'input-with-error': hasError,
                     })}
                 >
-                    {label && (
-                        <IonLabel position="floating" color={labelColor}>
-                            {label}
-                        </IonLabel>
-                    )}
+                    {label && <IonLabel position="floating">{label}</IonLabel>}
                     <InputFacade
                         ref={innerRef}
                         className={cx('input', className)}
@@ -91,6 +80,11 @@ export const CustomInput = React.forwardRef<HTMLIonInputElement | HTMLIonTextare
                         )}
                     </InputFacade>
                 </IonItem>
+                {hasError && (
+                    <IonNote color="danger" slot="error">
+                        {errorMessage}
+                    </IonNote>
+                )}
                 {children}
             </div>
         );

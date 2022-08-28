@@ -26,7 +26,8 @@ ion-item.input-wrapper {
     --background: var(--base-20);
     --background-focused: var(--base-0);
     --background-activated: var(--base-0);
-    --background-hover: var(--base-0);
+    --background-hover: var(--base-20);
+    --background-hover-opacity: 0.02;
     --border-width: 1px;
     --show-full-highlight: 0;
     /* stylelint-disable-next-line length-zero-no-unit */
@@ -34,8 +35,15 @@ ion-item.input-wrapper {
     --border-style: solid;
     --border-radius: 24px;
     --border-color: #{$inactiveColor};
+    --ion-color-step-500: #{$inactiveColor};
     --highlight-color-focused: #{$activeHighlightColor};
+    --highlight-color-hover: #{$activeHighlightColor};
     --min-height: var(--custom-input-min-height);
+    --transition: 0.4s;
+
+    &:hover {
+        --ion-color-step-750: var(--secondary-50);
+    }
 
     &-clickable {
         cursor: pointer;
@@ -43,6 +51,15 @@ ion-item.input-wrapper {
 
     ion-label {
         --color: #{$inactiveColor} !important;
+    }
+
+    &.input-with-error {
+        --ion-color-step-500: var(--danger-50);
+        --border-color: var(--danger-50);
+
+        ion-label {
+            --color: var(--danger-50) !important;
+        }
     }
 }
 
