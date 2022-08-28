@@ -7,20 +7,20 @@ http://ionicframework.com/docs/theming/ */
 /** Ionic CSS Variables **/
 :root {
     /** primary **/
-    --ion-color-primary: var(--primary-40);
-    --ion-color-primary-rgb: var(--primary-40-rgb);
+    --ion-color-primary: var(--primary-50);
+    --ion-color-primary-rgb: var(--primary-50-rgb);
     --ion-color-primary-contrast: var(--base-0);
     --ion-color-primary-contrast-rgb: var(--base-0-rgb);
-    --ion-color-primary-shade: var(--primary-50);
+    --ion-color-primary-shade: var(--primary-60);
     --ion-color-primary-tint: var(--primary-30);
 
     /** secondary **/
-    --ion-color-secondary: var(--primary-60);
-    --ion-color-secondary-rgb: var(--primary-60-rgb);
+    --ion-color-secondary: var(--secondary-50);
+    --ion-color-secondary-rgb: var(--secondary-50-rgb);
     --ion-color-secondary-contrast: var(--base-0);
     --ion-color-secondary-contrast-rgb: var(--base-0-rgb);
-    --ion-color-secondary-shade: var(--primary-70);
-    --ion-color-secondary-tint: var(--primary-50);
+    --ion-color-secondary-shade: var(--secondary-60);
+    --ion-color-secondary-tint: var(--secondary-30);
 
     /** tertiary **/
     --ion-color-tertiary: var(--primary-60);
@@ -85,10 +85,10 @@ http://ionicframework.com/docs/theming/ */
    */
 
 .ios body.dark {
-    --ion-background-color: #000000;
+    --ion-background-color: var(--base-0);
     --ion-background-color-rgb: 0, 0, 0;
-    --ion-text-color: #ffffff;
-    --ion-text-color-rgb: 255, 255, 255;
+    --ion-text-color: var(--base-110);
+    --ion-text-color-rgb: var(--base-110-rgb);
     --ion-color-step-50: #0d0d0d;
     --ion-color-step-100: #1a1a1a;
     --ion-color-step-150: #262626;
@@ -108,8 +108,8 @@ http://ionicframework.com/docs/theming/ */
     --ion-color-step-850: #d9d9d9;
     --ion-color-step-900: #e6e6e6;
     --ion-color-step-950: #f2f2f2;
-    --ion-item-background: #000000;
-    --ion-card-background: #1c1c1d;
+    --ion-item-background: var(--base-110);
+    --ion-card-background: var(--base-10);
 }
 
 .ios body.dark ion-modal {

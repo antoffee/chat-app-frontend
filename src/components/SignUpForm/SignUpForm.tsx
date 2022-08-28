@@ -11,13 +11,13 @@ import { ToggleButtonsField } from 'components/Fields/ToggleButtonsField';
 import { TextType, Typography } from 'components/Typography';
 
 import { validateSignUp } from './SignUp.utils';
-import { SignUpFormProps, SignUpValues } from './SignUpForm.types';
+import { SignUpValues } from './SignUpForm.types';
 
 import styles from './SignUpForm.module.scss';
 
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
-export const SignUpForm: React.FC<SignUpFormProps> = () => {
+export const SignUpForm = () => {
     return (
         <div className={cx('sign-up-form__wrapper')}>
             <Typography type={TextType.TITLE_36_48}>Регистрация</Typography>

@@ -1,7 +1,8 @@
 import React from 'react';
-import { IonPage, setupIonicReact } from '@ionic/react';
+import { IonContent, IonPage, setupIonicReact } from '@ionic/react';
 import { useColorMode } from 'hooks/useColorMode';
 
+import { LoginForm } from 'components/LoginForm';
 import { SignUpForm } from 'components/SignUpForm';
 import { ThemeToggle } from 'components/ThemeToggle';
 
@@ -32,9 +33,12 @@ export const App: React.FC = () => {
 
     return (
         <IonPage>
-            Hello
-            <ThemeToggle />
-            <SignUpForm />
+            <IonContent>
+                Hello
+                <ThemeToggle />
+                <SignUpForm />
+                <LoginForm />
+            </IonContent>
         </IonPage>
     );
 };
