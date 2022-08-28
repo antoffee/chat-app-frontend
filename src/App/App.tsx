@@ -1,6 +1,7 @@
 import React from 'react';
 import { IonContent, IonPage, setupIonicReact } from '@ionic/react';
 import { useColorMode } from 'hooks/useColorMode';
+import { useWindowSize } from 'hooks/useWindowSize';
 
 import { AuthorisationCard } from 'components/AuthorisationCard';
 import { ThemeToggle } from 'components/ThemeToggle';
@@ -29,6 +30,8 @@ setupIonicReact({
 
 export const App: React.FC = () => {
     useColorMode();
+    useWindowSize();
+
 
     return (
         <IonPage>

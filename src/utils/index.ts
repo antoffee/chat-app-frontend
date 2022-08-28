@@ -1,3 +1,4 @@
+export * from './document';
 export { noop } from './noop';
 export { sleep } from './sleep';
 export { stopPropagation } from './stopPropagation';

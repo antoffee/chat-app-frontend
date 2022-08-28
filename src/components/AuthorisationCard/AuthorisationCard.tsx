@@ -3,6 +3,8 @@ import { IonIcon, IonList } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
 import { chevronBack } from 'ionicons/icons';
 import { FlipCardLayout } from 'layouts/FlipCardLayout';
+import { useAppSelector } from 'store';
+import { getIsMobile } from 'store/windowSize';
 
 import { Button } from 'components/Button';
 import { LoginForm } from 'components/LoginForm';
@@ -16,6 +18,9 @@ const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const AuthorisationCard = () => {
     const [method, setMethod] = useState<AuthorisationMethod>();
+
+    const { width } = useAppSelector((state) => state.windowSize);
+    const isMobile = useAppSelector(getIsMobile);
 
     const renderStep = useMemo(() => {
         switch (method) {
@@ -32,11 +37,16 @@ export const AuthorisationCard = () => {
         setMethod(undefined);
     }, []);
 
+    const dimensions = useMemo(
+        () => (isMobile ? { width: width - 32, height: 580 } : { width: 440, height: 580 }),
+        [isMobile, width],
+    );
+
     return (
         <FlipCardLayout
             isRotated={!!method}
             direction={method === AuthorisationMethod.REGISTER ? 'left' : 'right'}
-            contentDimensions={{ width: 440, height: 580 }}
+            contentDimensions={dimensions}
         >
             <div className={cx('authorisation-card')}>
                 <IonList className={cx('auth-select')}>
