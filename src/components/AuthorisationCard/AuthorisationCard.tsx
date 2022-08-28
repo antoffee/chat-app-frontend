@@ -38,7 +38,7 @@ export const AuthorisationCard = () => {
     }, []);
 
     const dimensions = useMemo(
-        () => (isMobile ? { width: width - 32, height: 580 } : { width: 440, height: 580 }),
+        () => (isMobile ? { width: (width < 472 ? width : 440) - 32, height: 580 } : { width: 440, height: 580 }),
         [isMobile, width],
     );
 
@@ -50,13 +50,17 @@ export const AuthorisationCard = () => {
         >
             <div className={cx('authorisation-card')}>
                 <IonList className={cx('auth-select')}>
-                    <Button onClick={() => setMethod(AuthorisationMethod.LOGIN)}>Войти</Button>
-                    <Button onClick={() => setMethod(AuthorisationMethod.REGISTER)}>Зарегистрироваться</Button>
+                    <Button size="large" onClick={() => setMethod(AuthorisationMethod.LOGIN)}>
+                        Войти
+                    </Button>
+                    <Button size="large" color="secondary" onClick={() => setMethod(AuthorisationMethod.REGISTER)}>
+                        Зарегистрироваться
+                    </Button>
                 </IonList>
             </div>
             <div className={cx('authorisation-card')}>
                 <Button onClick={resetMethod} className={cx('button-back')} fill="clear">
-                    <IonIcon icon={chevronBack}></IonIcon>
+                    <IonIcon icon={chevronBack} />
                     Назад
                 </Button>
                 {renderStep}

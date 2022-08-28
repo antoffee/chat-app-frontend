@@ -3,7 +3,7 @@
 
     position: relative;
     min-height: 580px;
-    padding-top: 20px;
+    padding-top: 40px;
 
     & > *:not(ion-button) {
         width: 100%;
@@ -11,7 +11,7 @@
 
     .button-back {
         position: absolute;
-        top: 0;
+        top: 8px;
         left: 0;
         z-index: 10;
 

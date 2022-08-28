@@ -1,0 +1,24 @@
+.tab-bar {
+    --border: none;
+    --background: var(--base-0);
+
+    &.unauthorized {
+        display: none;
+    }
+
+    @include desktop {
+        display: none;
+    }
+}
+
+.tab-button {
+    --ripple-color: var(--base-40);
+}
+
+.icon {
+    @include fill-svg-and-path(var(--base-120));
+
+    &-active {
+        @include fill-svg-and-path(var(--brand-primary-40));
+    }
+}

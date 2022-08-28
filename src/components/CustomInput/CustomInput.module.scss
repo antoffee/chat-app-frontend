@@ -5,6 +5,11 @@ $vertical-padding: var(--custom-input-padding-bottom);
     position: relative;
     width: 100%;
     padding-bottom: var(--padding-bottom);
+
+    ion-note {
+        position: absolute;
+        left: 12px;
+    }
 }
 
 .prefix-icon {

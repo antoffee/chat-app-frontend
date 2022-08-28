@@ -1,10 +1,12 @@
 import React from 'react';
-import { IonContent, IonPage, setupIonicReact } from '@ionic/react';
+import { Redirect, Route } from 'react-router';
+import { IonPage, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { useColorMode } from 'hooks/useColorMode';
 import { useWindowSize } from 'hooks/useWindowSize';
+import { LoginPage } from 'pages/LoginPage';
+import { appRoutes } from 'routes';
 
-import { AuthorisationCard } from 'components/AuthorisationCard';
-import { ThemeToggle } from 'components/ThemeToggle';
+import { BottomNavigationTabs } from 'components/BottomNavigationTabs';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -32,14 +34,21 @@ export const App: React.FC = () => {
     useColorMode();
     useWindowSize();
 
-
     return (
         <IonPage>
-            <IonContent>
-                Hello
-                <ThemeToggle />
-                <AuthorisationCard />
-            </IonContent>
+            <Route
+                path="/"
+                render={() => (
+                    <BottomNavigationTabs>
+                        <IonRouterOutlet>
+                            <Route render={() => <Redirect to={appRoutes.login()} />} />
+                            <Route exact path={appRoutes.login()}>
+                                <LoginPage />
+                            </Route>
+                        </IonRouterOutlet>
+                    </BottomNavigationTabs>
+                )}
+            />
         </IonPage>
     );
 };

@@ -17,7 +17,7 @@
     scrollbar-width: none; /* Firefox */
 }
 
-@mixin custom-scrollbar($track: var(--base-0)) {
+@mixin custom-scrollbar($track: var(--primary-30)) {
     &::-webkit-scrollbar {
         position: absolute;
         width: 8px;
@@ -87,8 +87,25 @@
 
     flex-direction: column;
     max-width: 440px;
-    padding: 20px;
+    padding: 0 20px;
     overflow: hidden;
     background-color: var(--base-10);
     border-radius: 24px;
+}
+
+@mixin page-layout {
+    ion-content {
+        --padding-start: 40px;
+        --padding-end: 40px;
+
+        max-width: 1440px;
+        margin: auto !important;
+
+        @include mobile {
+            max-width: 100%;
+
+            --padding-start: 16px;
+            --padding-end: 16px;
+        }
+    }
 }

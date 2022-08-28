@@ -41,6 +41,13 @@
         "no-unused-expressions": "error",
         "react/prop-types": "off",
         "react/display-name": "off",
+        "react/self-closing-comp": [
+            "warn",
+            {
+                "component": true,
+                "html": true
+            }
+        ],
         "newline-before-return": "error",
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/no-empty-function": "error",

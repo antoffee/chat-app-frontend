@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import i18n from 'i18next';
 import { AuthResponse } from 'types/authResponse';
 
 export const requestConfig: AxiosRequestConfig = {
@@ -30,20 +29,9 @@ export const updateAxiosClientCredential = (accessToken: string) => {
     });
 };
 
-const addLanguageQueryParameter = (config: AxiosRequestConfig) => {
-    const language = i18n.language;
-    if (language && !config.url?.includes('language=')) {
-        config.params = {
-            ...config.params,
-            language,
-        } as Record<string, string>;
-    }
-};
-
 axiosInstance.interceptors.request.use(
     (config) => {
         addCompress(config);
-        addLanguageQueryParameter(config);
 
         return config;
     },
