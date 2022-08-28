@@ -1,0 +1,31 @@
+.authorisation-card {
+    @include common-form-card-layout;
+
+    position: relative;
+    min-height: 580px;
+    padding-top: 20px;
+
+    & > *:not(ion-button) {
+        width: 100%;
+    }
+
+    .button-back {
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+
+        ion-icon {
+            font-size: 20px;
+        }
+    }
+
+    ion-list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .auth-select {
+        row-gap: 12px;
+    }
+}

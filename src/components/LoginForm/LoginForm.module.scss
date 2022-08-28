@@ -1,16 +1,7 @@
 .login-form {
     &__wrapper {
-        @include centered-flexbox;
-
-        flex-direction: column;
-        max-width: 440px;
-        padding: 20px;
-        overflow: hidden;
-        background-color: var(--base-10);
-        border-radius: 24px;
+        @include common-form-card-layout;
     }
-
-    --ion-item-background: var(--base-10);
 
     display: flex;
     flex-direction: column;

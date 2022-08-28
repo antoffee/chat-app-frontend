@@ -2,8 +2,7 @@ import React from 'react';
 import { IonContent, IonPage, setupIonicReact } from '@ionic/react';
 import { useColorMode } from 'hooks/useColorMode';
 
-import { LoginForm } from 'components/LoginForm';
-import { SignUpForm } from 'components/SignUpForm';
+import { AuthorisationCard } from 'components/AuthorisationCard';
 import { ThemeToggle } from 'components/ThemeToggle';
 
 /* Core CSS required for Ionic components to work properly */
@@ -36,8 +35,7 @@ export const App: React.FC = () => {
             <IonContent>
                 Hello
                 <ThemeToggle />
-                <SignUpForm />
-                <LoginForm />
+                <AuthorisationCard />
             </IonContent>
         </IonPage>
     );
