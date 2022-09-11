@@ -3,6 +3,7 @@ import { Redirect, Route } from 'react-router';
 import { IonPage, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { useColorMode } from 'hooks/useColorMode';
 import { useWindowSize } from 'hooks/useWindowSize';
+import { DemoPage } from 'pages/DemoPage';
 import { LoginPage } from 'pages/LoginPage';
 import { appRoutes } from 'routes';
 
@@ -44,6 +45,9 @@ export const App: React.FC = () => {
                             <Route render={() => <Redirect to={appRoutes.login()} />} />
                             <Route exact path={appRoutes.login()}>
                                 <LoginPage />
+                            </Route>
+                            <Route path="/demo">
+                                <DemoPage />
                             </Route>
                         </IonRouterOutlet>
                     </BottomNavigationTabs>

@@ -1,0 +1,6 @@
+.demo-page {
+    @include centered-flexbox;
+
+    flex-direction: column;
+    padding: 24px;
+}
