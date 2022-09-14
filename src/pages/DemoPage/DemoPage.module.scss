@@ -3,4 +3,8 @@
 
     flex-direction: column;
     padding: 24px;
+
+    ion-list {
+        max-width: 100%;
+    }
 }

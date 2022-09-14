@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "start": "PORT=8100 webpack serve --config webpack.dev.config.ts --progress",
+        "start": "PORT=8000 webpack serve --config webpack.dev.config.ts --progress",
         "build": "rimraf build && webpack --config webpack.prod.config.ts",
         "build-dev": "rimraf build && webpack --config webpack.prod.config.ts",
         "build-prod": "rimraf build && webpack --config webpack.prod.config.ts",
