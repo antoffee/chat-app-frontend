@@ -71,7 +71,7 @@ const generateApiClient = async () => {
 
     const apiJSONFilename = path.resolve(__dirname, `${apiURL}.json`);
 
-    const apiOutputDir = path.resolve(outputDir, apiURL);
+    const apiOutputDir = path.resolve(outputDir);
 
     rimraf(apiOutputDir, fs, console.error);
 
