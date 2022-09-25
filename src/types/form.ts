@@ -1,4 +1,4 @@
-import { FieldInputProps } from 'react-final-form';
+import { FieldInputProps, UseFieldConfig } from 'react-final-form';
 
 export type FieldProps<T> = Partial<
     Pick<
@@ -10,4 +10,4 @@ export type FieldProps<T> = Partial<
 export type CustomFieldProps<P, T extends string | number | unknown[] = string> = Omit<P, keyof FieldProps<T>> &
     Omit<FieldProps<T>, 'children'> & {
         name: string;
-    };
+    } & UseFieldConfig<T>;

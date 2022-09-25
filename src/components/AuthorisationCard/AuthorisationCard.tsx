@@ -27,7 +27,7 @@ export const AuthorisationCard = () => {
             case AuthorisationMethod.LOGIN:
                 return <LoginForm />;
             case AuthorisationMethod.REGISTER:
-                return <SignUpForm />;
+                return <SignUpForm onComplete={() => setMethod(AuthorisationMethod.LOGIN)} />;
             default:
                 return null;
         }
