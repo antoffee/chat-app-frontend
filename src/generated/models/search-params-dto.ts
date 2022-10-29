@@ -15,37 +15,31 @@
 /**
  *
  * @export
- * @interface CreateUserDto
+ * @interface SearchParamsDto
  */
-export interface CreateUserDto {
+export interface SearchParamsDto {
     /**
      *
      * @type {string}
-     * @memberof CreateUserDto
+     * @memberof SearchParamsDto
      */
-    username: string;
+    searchString: string;
     /**
      *
-     * @type {string}
-     * @memberof CreateUserDto
+     * @type {any}
+     * @memberof SearchParamsDto
      */
-    password: string;
+    sortDirection?: any;
     /**
      *
-     * @type {string}
-     * @memberof CreateUserDto
+     * @type {number}
+     * @memberof SearchParamsDto
      */
-    name: string;
+    offset?: number;
     /**
      *
-     * @type {string}
-     * @memberof CreateUserDto
+     * @type {number}
+     * @memberof SearchParamsDto
      */
-    email?: string;
-    /**
-     *
-     * @type {Array<any>}
-     * @memberof CreateUserDto
-     */
-    roles?: Array<any>;
+    limit?: number;
 }

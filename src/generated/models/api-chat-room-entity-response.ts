@@ -15,52 +15,52 @@
 /**
  *
  * @export
- * @interface ApiUserEntityResponse
+ * @interface ApiChatRoomEntityResponse
  */
-export interface ApiUserEntityResponse {
+export interface ApiChatRoomEntityResponse {
     /**
      *
      * @type {number}
-     * @memberof ApiUserEntityResponse
+     * @memberof ApiChatRoomEntityResponse
      */
     id: number;
     /**
      *
      * @type {string}
-     * @memberof ApiUserEntityResponse
+     * @memberof ApiChatRoomEntityResponse
      */
-    username: string;
+    type: ApiChatRoomEntityResponseTypeEnum;
     /**
      *
      * @type {string}
-     * @memberof ApiUserEntityResponse
+     * @memberof ApiChatRoomEntityResponse
      */
-    password: string;
+    name?: string;
     /**
      *
      * @type {string}
-     * @memberof ApiUserEntityResponse
+     * @memberof ApiChatRoomEntityResponse
      */
-    name: string;
+    description?: string;
     /**
      *
-     * @type {Array<string>}
-     * @memberof ApiUserEntityResponse
+     * @type {Date}
+     * @memberof ApiChatRoomEntityResponse
      */
-    roles: Array<ApiUserEntityResponseRolesEnum>;
+    createdAt: Date;
     /**
      *
-     * @type {string}
-     * @memberof ApiUserEntityResponse
+     * @type {Date}
+     * @memberof ApiChatRoomEntityResponse
      */
-    email?: string;
+    updatedAt: Date;
 }
 
 /**
  * @export
  * @enum {string}
  */
-export enum ApiUserEntityResponseRolesEnum {
-    ADMIN = 'ADMIN',
-    REGULAR = 'REGULAR',
+export enum ApiChatRoomEntityResponseTypeEnum {
+    PRIVATE = 'PRIVATE',
+    GROUP = 'GROUP',
 }

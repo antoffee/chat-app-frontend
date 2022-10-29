@@ -13,4 +13,6 @@
  * Do not edit the class manually.
  */ export * from './apis/app-api';
 export * from './apis/auth-api';
+export * from './apis/chat-api';
+export * from './apis/search-api';
 export * from './apis/users-api';

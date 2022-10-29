@@ -62,7 +62,7 @@ const prepareAxiosGeneratedFiles = (apiURL: string, apiOutputDir: string) => {
 };
 
 const fetchSwaggerJson = async () =>
-    await (await fetch(`https://bmstu-chat-app-back.herokuapp.com/swagger-json`)).text();
+    await (await fetch(`https://don-vadimon.online/swagger-json`)).text();
 
 // ? install this generator for script work. Version - 3.0.34
 // ? https://swagger.io/docs/open-source-tools/swagger-codegen/

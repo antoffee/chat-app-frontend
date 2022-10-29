@@ -29,7 +29,7 @@ export const AppApiAxiosParamCreator = function (configuration?: Configuration) 
          * @throws {RequiredError}
          */
         appControllerGetHello: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/`;
+            const localVarPath = `/hello`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;

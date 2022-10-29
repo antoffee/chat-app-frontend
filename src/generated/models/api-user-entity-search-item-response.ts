@@ -15,37 +15,31 @@
 /**
  *
  * @export
- * @interface CreateUserDto
+ * @interface ApiUserEntitySearchItemResponse
  */
-export interface CreateUserDto {
+export interface ApiUserEntitySearchItemResponse {
     /**
      *
-     * @type {string}
-     * @memberof CreateUserDto
+     * @type {number}
+     * @memberof ApiUserEntitySearchItemResponse
      */
-    username: string;
+    id: number;
     /**
      *
      * @type {string}
-     * @memberof CreateUserDto
-     */
-    password: string;
-    /**
-     *
-     * @type {string}
-     * @memberof CreateUserDto
+     * @memberof ApiUserEntitySearchItemResponse
      */
     name: string;
     /**
      *
      * @type {string}
-     * @memberof CreateUserDto
+     * @memberof ApiUserEntitySearchItemResponse
      */
-    email?: string;
+    username: string;
     /**
      *
-     * @type {Array<any>}
-     * @memberof CreateUserDto
+     * @type {string}
+     * @memberof ApiUserEntitySearchItemResponse
      */
-    roles?: Array<any>;
+    email: string;
 }

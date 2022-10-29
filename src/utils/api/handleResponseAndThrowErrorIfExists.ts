@@ -17,4 +17,6 @@ export const handleResponseAndThrowAnErrorIfExists = (
             Array.isArray(response.data.message) ? response.data.message.join(', ') : response.data.message,
         );
     }
+
+    return resp;
 };

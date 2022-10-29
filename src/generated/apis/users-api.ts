@@ -20,7 +20,6 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 import { ApiCheckUsernameAvailableResponse } from '../models';
 import { ApiUserEntityResponse } from '../models';
 import { CheckUsernameAvailableDto } from '../models';
-import { CreateUserDto } from '../models';
 import { UpdateUserDto } from '../models';
 /**
  * UsersApi - axios parameter creator
@@ -46,61 +45,6 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                 );
             }
             const localVarPath = `/users/check-username`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions: AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options };
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = new URLSearchParams(query).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
-            const needsSerialization =
-                typeof body !== 'string' || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data = needsSerialization
-                ? JSON.stringify(body !== undefined ? body : {})
-                : body || '';
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         *
-         * @param {CreateUserDto} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        usersControllerCreateUser: async (
-            body: CreateUserDto,
-            options: AxiosRequestConfig = {},
-        ): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError(
-                    'body',
-                    'Required parameter body was null or undefined when calling usersControllerCreateUser.',
-                );
-            }
-            const localVarPath = `/users`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -455,28 +399,6 @@ export const UsersApiFp = function (configuration?: Configuration) {
         },
         /**
          *
-         * @param {CreateUserDto} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async usersControllerCreateUser(
-            body: CreateUserDto,
-            options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
-            const localVarAxiosArgs = await UsersApiAxiosParamCreator(configuration).usersControllerCreateUser(
-                body,
-                options,
-            );
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs: AxiosRequestConfig = {
-                    ...localVarAxiosArgs.options,
-                    url: basePath + localVarAxiosArgs.url,
-                };
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         *
          * @param {number} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -627,20 +549,6 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          *
-         * @param {CreateUserDto} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async usersControllerCreateUser(
-            body: CreateUserDto,
-            options?: AxiosRequestConfig,
-        ): Promise<AxiosResponse<ApiUserEntityResponse>> {
-            return UsersApiFp(configuration)
-                .usersControllerCreateUser(body, options)
-                .then((request) => request(axios, basePath));
-        },
-        /**
-         *
          * @param {number} id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -742,21 +650,6 @@ export class UsersApi extends BaseAPI {
     ): Promise<AxiosResponse<ApiCheckUsernameAvailableResponse>> {
         return UsersApiFp(this.configuration)
             .usersControllerCheckUsernameAvailable(body, options)
-            .then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     *
-     * @param {CreateUserDto} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof UsersApi
-     */
-    public async usersControllerCreateUser(
-        body: CreateUserDto,
-        options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<ApiUserEntityResponse>> {
-        return UsersApiFp(this.configuration)
-            .usersControllerCreateUser(body, options)
             .then((request) => request(this.axios, this.basePath));
     }
     /**

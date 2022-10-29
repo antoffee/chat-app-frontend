@@ -1,6 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { AuthResponse } from 'types/authResponse';
 
+import { handleResponseAndThrowAnErrorIfExists } from 'utils';
+
 export const requestConfig: AxiosRequestConfig = {
     baseURL: `${process.env.BACKEND_URL}`,
     responseType: 'json',
@@ -59,3 +61,5 @@ axiosInstance.interceptors.response.use(
         return error;
     },
 );
+
+axiosInstance.interceptors.response.use(handleResponseAndThrowAnErrorIfExists);

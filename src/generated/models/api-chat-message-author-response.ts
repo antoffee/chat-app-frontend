@@ -15,37 +15,25 @@
 /**
  *
  * @export
- * @interface CreateUserDto
+ * @interface ApiChatMessageAuthorResponse
  */
-export interface CreateUserDto {
+export interface ApiChatMessageAuthorResponse {
     /**
      *
-     * @type {string}
-     * @memberof CreateUserDto
+     * @type {number}
+     * @memberof ApiChatMessageAuthorResponse
      */
-    username: string;
+    id: number;
     /**
      *
      * @type {string}
-     * @memberof CreateUserDto
-     */
-    password: string;
-    /**
-     *
-     * @type {string}
-     * @memberof CreateUserDto
+     * @memberof ApiChatMessageAuthorResponse
      */
     name: string;
     /**
      *
      * @type {string}
-     * @memberof CreateUserDto
+     * @memberof ApiChatMessageAuthorResponse
      */
-    email?: string;
-    /**
-     *
-     * @type {Array<any>}
-     * @memberof CreateUserDto
-     */
-    roles?: Array<any>;
+    username: string;
 }
