@@ -1,6 +1,6 @@
 export type ChatItemProps = {
-    title: string;
-    date: string;
+    title?: string;
+    date?: string | Date;
     image?: string;
     unreadCount?: number;
     messageState?: 'sent' | 'error' | 'read';

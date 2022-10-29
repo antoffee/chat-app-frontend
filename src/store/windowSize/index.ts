@@ -1,2 +1,2 @@
+export * from './windowSize.reducer';
 export * from './windowSize.selectors';
-export * from './windowSize.slice';

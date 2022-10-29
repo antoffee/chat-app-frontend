@@ -1,13 +1,17 @@
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
+import chatsReducer from 'store/chats/chats.reducer';
 import localConfigReducer from 'store/localConfig/localConfig.reducer';
-import windowSizeReducer from 'store/windowSize/windowSize.slice';
+import userReducer from 'store/user/user.reducer';
+import windowSizeReducer from 'store/windowSize/windowSize.reducer';
 
 export const makeStore = () =>
     configureStore({
         reducer: {
             windowSize: windowSizeReducer,
             localConfig: localConfigReducer,
+            user: userReducer,
+            chats: chatsReducer,
         },
     });
 

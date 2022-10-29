@@ -27,7 +27,6 @@ export const ChatItem = ({ date, title, image, pinned, unreadCount, message, onD
                 <IonItemOption color={'danger'} onClick={onDelete}>
                     <div className={cx('sliding-option')}>
                         <IonIcon icon={trash} />
-                        <span>Удалить</span>
                     </div>
                 </IonItemOption>
             </IonItemOptions>
@@ -49,7 +48,6 @@ export const ChatItem = ({ date, title, image, pinned, unreadCount, message, onD
                 <IonItemOption onClick={onMakeRead}>
                     <div className={cx('sliding-option')}>
                         <IonIcon icon={chatbubble} />
-                        <span>Прочитать</span>
                     </div>
                 </IonItemOption>
             </IonItemOptions>

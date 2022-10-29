@@ -13,13 +13,14 @@ export const validateSignUp = (values: SignUpValues): SignUpErrors => ({
     username: values.username ? undefined : REQUIRED_FILD_ERROR,
 });
 
-export const usersApi = new UsersApi();
+const usersApi = new UsersApi();
 
 export const validateUsernameAvailability = async (username: string) => {
     if (!username?.trim()) return REQUIRED_FILD_ERROR;
+
     const response = await usersApi.usersControllerCheckUsernameAvailable({ username });
 
-    return response.data.available ? undefined : 'Занято';
+    return response?.data?.available ? undefined : 'Занято';
 };
 
 export const validateRequired = (password: string) => (password?.trim() ? undefined : REQUIRED_FILD_ERROR);

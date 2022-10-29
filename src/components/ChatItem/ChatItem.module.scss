@@ -28,6 +28,12 @@
 
             flex-direction: column;
             row-gap: 8px;
+            min-width: 50px;
+
+            ion-icon {
+                width: 24px;
+                height: 24px;
+            }
         }
     }
 }

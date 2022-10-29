@@ -20,5 +20,6 @@
                 "ignoreValues": ["box"]
             }
         ]
-    }
+    },
+    "customSyntax": "postcss-scss"
 }

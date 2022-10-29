@@ -1,11 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect, Route } from 'react-router';
 import { IonPage, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { useColorMode } from 'hooks/useColorMode';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { DemoPage } from 'pages/DemoPage';
+import { HomePage } from 'pages/HomePage';
 import { LoginPage } from 'pages/LoginPage';
 import { appRoutes } from 'routes';
+import { useAppDispatch, useAppSelector } from 'store';
+import { getChatList } from 'store/chats/chats.actions';
+import { authAction } from 'store/user';
 
 import { BottomNavigationTabs } from 'components/BottomNavigationTabs';
 
@@ -35,6 +39,17 @@ export const App: React.FC = () => {
     useColorMode();
     useWindowSize();
 
+    const dispatch = useAppDispatch();
+    const isAuth = useAppSelector((state) => !!state.user.user?.id);
+
+    useEffect(() => {
+        if (isAuth) {
+            void dispatch(getChatList());
+        } else {
+            void dispatch(authAction());
+        }
+    }, [dispatch, isAuth]);
+
     return (
         <IonPage>
             <Route
@@ -42,7 +57,7 @@ export const App: React.FC = () => {
                 render={() => (
                     <BottomNavigationTabs>
                         <IonRouterOutlet>
-                            <Route render={() => <Redirect to={appRoutes.login()} />} />
+                            <Route render={() => (isAuth ? <Redirect to={appRoutes.login()} /> : <HomePage />)} />
                             <Route exact path={appRoutes.login()}>
                                 <LoginPage />
                             </Route>
