@@ -23,7 +23,11 @@ export const LoginForm = () => {
     const dispatch = useAppDispatch();
     const handleSubmit = useCallback(
         (values: LoginValues) => {
-            void dispatch(loginAction(values)).then(() => router.push('/'));
+            void dispatch(loginAction(values)).then(({ meta }) => {
+                if (meta.requestStatus !== 'rejected') {
+                    router.push('/');
+                }
+            });
         },
         [dispatch, router],
     );

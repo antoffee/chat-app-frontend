@@ -15,8 +15,8 @@ export const PageLayout = ({ children }: PageLayoutProps) => {
 
     return (
         <>
-            <IonContent className={cx('hui')}>
-                <IonSplitPane contentId={id}>
+            <IonContent className={cx('page-layout')}>
+                <IonSplitPane when="md" contentId={id}>
                     {/*--  the side menu  --*/}
                     <SidebarChats id={id} />
 

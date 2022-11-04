@@ -1,6 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
 import cnBind from 'classnames/bind';
+import { useAppSelector } from 'store';
+import { getIsLoggedIn } from 'store/user';
 
 import { TABS } from './BottomNavigationTabs.constants';
 
@@ -8,9 +10,9 @@ import styles from './BottomNavigationTabs.module.scss';
 
 const cx = cnBind.bind(styles);
 
-const isLogged = false;
-
 export const BottomNavigationTabs = ({ children }: PropsWithChildren<Record<never, never>>) => {
+    const isLogged = useAppSelector(getIsLoggedIn);
+
     return (
         <IonTabs>
             {children}

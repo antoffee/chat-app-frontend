@@ -6,6 +6,7 @@ export enum TextType {
     CAPTION_14_24_B = 'caption-14-24-b',
     CAPTION_16_24 = 'caption-16-24',
     CAPTION_18_24 = 'caption-18-24',
+    CAPTION_10_12 = 'caption-10-12',
 }
 
 export type DivProps = DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> & {

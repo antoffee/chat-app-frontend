@@ -12,6 +12,7 @@ import { getChatList } from 'store/chats/chats.actions';
 import { authAction } from 'store/user';
 
 import { BottomNavigationTabs } from 'components/BottomNavigationTabs';
+import { ProtectedRoute } from 'components/ProtectedRoute';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -57,10 +58,12 @@ export const App: React.FC = () => {
                 render={() => (
                     <BottomNavigationTabs>
                         <IonRouterOutlet>
-                            <Route render={() => (isAuth ? <Redirect to={appRoutes.login()} /> : <HomePage />)} />
                             <Route exact path={appRoutes.login()}>
-                                <LoginPage />
+                                {isAuth ? <Redirect to="/" /> : <LoginPage />}
                             </Route>
+                            <ProtectedRoute path="/" exact>
+                                <HomePage />
+                            </ProtectedRoute>
                             <Route path="/demo">
                                 <DemoPage />
                             </Route>

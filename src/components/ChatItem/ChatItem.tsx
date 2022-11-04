@@ -30,7 +30,7 @@ export const ChatItem = ({ date, title, image, pinned, unreadCount, message, onD
                     </div>
                 </IonItemOption>
             </IonItemOptions>
-            <IonItem className={cx('chat-item')}>
+            <IonItem lines="none" className={cx('chat-item')}>
                 <IonAvatar className={cx('avatar')} slot="start">
                     {image ? <img src={image} /> : <IonIcon icon={person} />}
                 </IonAvatar>
@@ -40,7 +40,7 @@ export const ChatItem = ({ date, title, image, pinned, unreadCount, message, onD
                 </IonLabel>
                 <div className={cx('chat-item__end')} slot="end">
                     {date && <IonNote>{moment(date).format('HH:MM')}</IonNote>}
-                    {unreadCount && <IonBadge>+{unreadCount}</IonBadge>}
+                    {unreadCount && <IonBadge className={cx('chat-item__badge')}>+{unreadCount}</IonBadge>}
                 </div>
                 {pinned && <IonIcon slot="end" icon={pin} />}
             </IonItem>

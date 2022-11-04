@@ -6,7 +6,7 @@ import { handleResponseAndThrowAnErrorIfExists } from 'utils';
 export const requestConfig: AxiosRequestConfig = {
     baseURL: `${process.env.BACKEND_URL}`,
     responseType: 'json',
-    withCredentials: false,
+    withCredentials: true,
 };
 
 export const axiosInstance = axios.create(requestConfig);

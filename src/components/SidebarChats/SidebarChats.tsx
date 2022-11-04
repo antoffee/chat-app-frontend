@@ -13,12 +13,15 @@ const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const SidebarChats = ({ id }: SidebarChatsProps) => {
     const { chatList } = useAppSelector((state) => state.chats);
+    const { user } = useAppSelector((state) => state.user);
 
     return (
         <IonMenu contentId={id} className={cx('sidebar')}>
-            <IonHeader>
+            <IonHeader className="ion-no-border">
                 <IonToolbar>
-                    <IonTitle>Menu</IonTitle>
+                    <IonTitle>
+                        {user?.name} ({user?.username})
+                    </IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent>

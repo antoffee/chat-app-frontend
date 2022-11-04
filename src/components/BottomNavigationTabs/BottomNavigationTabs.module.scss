@@ -16,9 +16,9 @@
 }
 
 .icon {
-    @include fill-svg-and-path(var(--base-120));
+    color: (var(--base-120));
 
     &-active {
-        @include fill-svg-and-path(var(--brand-primary-40));
+        color: (var(--brand-primary-40));
     }
 }

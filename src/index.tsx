@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { IonApp } from '@ionic/react';
-import { IonReactHashRouter } from '@ionic/react-router';
+import { IonReactRouter } from '@ionic/react-router';
 import store from 'store';
 
 import { App } from './App';
@@ -12,9 +12,9 @@ ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
             <IonApp>
-                <IonReactHashRouter>
+                <IonReactRouter>
                     <App />
-                </IonReactHashRouter>
+                </IonReactRouter>
             </IonApp>
         </Provider>
     </React.StrictMode>,
