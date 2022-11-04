@@ -3,6 +3,7 @@ import { Redirect, Route } from 'react-router';
 import { IonPage, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { useColorMode } from 'hooks/useColorMode';
 import { useWindowSize } from 'hooks/useWindowSize';
+import { ChatsPage } from 'pages/ChatsPage';
 import { DemoPage } from 'pages/DemoPage';
 import { HomePage } from 'pages/HomePage';
 import { LoginPage } from 'pages/LoginPage';
@@ -67,6 +68,9 @@ export const App: React.FC = () => {
                             <Route path="/demo">
                                 <DemoPage />
                             </Route>
+                            <ProtectedRoute path={appRoutes.chats()}>
+                                <ChatsPage />
+                            </ProtectedRoute>
                         </IonRouterOutlet>
                     </BottomNavigationTabs>
                 )}

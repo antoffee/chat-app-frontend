@@ -1,3 +1,11 @@
-.home-page {
-    display: flex;
+.home {
+    @include centered-flexbox;
+
+    flex-direction: column;
+    height: 100%;
+
+    &__user-name {
+        color: var(--secondary-50);
+        background-clip: text;
+    }
 }
