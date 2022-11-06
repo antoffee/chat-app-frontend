@@ -2,6 +2,7 @@ import React from 'react';
 import { IonContent, IonHeader, IonList, IonMenu, IonTitle, IonToolbar } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
 import { useAppSelector } from 'store';
+import { useConnectQueryState } from 'store/sockets';
 
 import { ChatItem } from 'components/ChatItem';
 
@@ -12,7 +13,7 @@ import styles from './SidebarChats.module.scss';
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const SidebarChats = ({ id }: SidebarChatsProps) => {
-    const { chatList } = useAppSelector((state) => state.chats);
+    const { data } = useConnectQueryState();
     const { user } = useAppSelector((state) => state.user);
 
     return (
@@ -26,8 +27,8 @@ export const SidebarChats = ({ id }: SidebarChatsProps) => {
             </IonHeader>
             <IonContent>
                 <IonList>
-                    {chatList?.map((chat) => (
-                        <ChatItem date={chat.updatedAt} title={chat.name} key={chat.id} />
+                    {data?.map((chat) => (
+                        <ChatItem id={chat.id} date={chat.updatedAt} title={chat.name} key={chat.id} />
                     ))}
                 </IonList>
             </IonContent>

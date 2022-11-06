@@ -2,6 +2,7 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { Action, configureStore, ThunkAction } from '@reduxjs/toolkit';
 import chatsReducer from 'store/chats/chats.reducer';
 import localConfigReducer from 'store/localConfig/localConfig.reducer';
+import { default as socketsReducer, socketsApi } from 'store/sockets/sockets.api';
 import userReducer from 'store/user/user.reducer';
 import windowSizeReducer from 'store/windowSize/windowSize.reducer';
 
@@ -12,7 +13,9 @@ export const makeStore = () =>
             localConfig: localConfigReducer,
             user: userReducer,
             chats: chatsReducer,
+            [socketsApi.reducerPath]: socketsReducer,
         },
+        middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(socketsApi.middleware),
     });
 
 const store = makeStore();

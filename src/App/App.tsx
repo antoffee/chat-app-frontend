@@ -3,13 +3,14 @@ import { Redirect, Route } from 'react-router';
 import { IonPage, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { useColorMode } from 'hooks/useColorMode';
 import { useWindowSize } from 'hooks/useWindowSize';
+import { ChatDetailsPage } from 'pages/ChatDetailsPage';
 import { ChatsPage } from 'pages/ChatsPage';
 import { DemoPage } from 'pages/DemoPage';
 import { HomePage } from 'pages/HomePage';
 import { LoginPage } from 'pages/LoginPage';
 import { appRoutes } from 'routes';
 import { useAppDispatch, useAppSelector } from 'store';
-import { getChatList } from 'store/chats/chats.actions';
+import { useLazyConnectQuery } from 'store/sockets';
 import { authAction } from 'store/user';
 
 import { BottomNavigationTabs } from 'components/BottomNavigationTabs';
@@ -44,13 +45,15 @@ export const App: React.FC = () => {
     const dispatch = useAppDispatch();
     const isAuth = useAppSelector((state) => !!state.user.user?.id);
 
+    const [connect] = useLazyConnectQuery();
+
     useEffect(() => {
         if (isAuth) {
-            void dispatch(getChatList());
+            void connect();
         } else {
             void dispatch(authAction());
         }
-    }, [dispatch, isAuth]);
+    }, [connect, dispatch, isAuth]);
 
     return (
         <IonPage>
@@ -70,6 +73,9 @@ export const App: React.FC = () => {
                             </Route>
                             <ProtectedRoute path={appRoutes.chats()}>
                                 <ChatsPage />
+                            </ProtectedRoute>
+                            <ProtectedRoute path={appRoutes.chatDetails()}>
+                                <ChatDetailsPage />
                             </ProtectedRoute>
                         </IonRouterOutlet>
                     </BottomNavigationTabs>

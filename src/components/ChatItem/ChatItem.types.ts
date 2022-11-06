@@ -6,6 +6,7 @@ export type ChatItemProps = {
     messageState?: 'sent' | 'error' | 'read';
     pinned?: boolean;
     message?: string;
+    id: number;
     onMakeRead?: () => void;
     onDelete?: () => void;
 };
