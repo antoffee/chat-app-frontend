@@ -15,37 +15,25 @@
 /**
  *
  * @export
- * @interface CreateUserDto
+ * @interface CreatePrivateChatRoomEventDto
  */
-export interface CreateUserDto {
+export interface CreatePrivateChatRoomEventDto {
+    /**
+     *
+     * @type {number}
+     * @memberof CreatePrivateChatRoomEventDto
+     */
+    secondMemberId: number;
     /**
      *
      * @type {string}
-     * @memberof CreateUserDto
+     * @memberof CreatePrivateChatRoomEventDto
      */
-    username: string;
+    name?: string;
     /**
      *
      * @type {string}
-     * @memberof CreateUserDto
+     * @memberof CreatePrivateChatRoomEventDto
      */
-    password: string;
-    /**
-     *
-     * @type {string}
-     * @memberof CreateUserDto
-     */
-    name: string;
-    /**
-     *
-     * @type {string}
-     * @memberof CreateUserDto
-     */
-    email: string;
-    /**
-     *
-     * @type {Array<any>}
-     * @memberof CreateUserDto
-     */
-    roles?: Array<any>;
+    description?: string;
 }

@@ -54,6 +54,12 @@ export interface ApiUserEntityResponse {
      * @memberof ApiUserEntityResponse
      */
     email?: string;
+    /**
+     *
+     * @type {boolean}
+     * @memberof ApiUserEntityResponse
+     */
+    isEmailConfirmed: boolean;
 }
 
 /**

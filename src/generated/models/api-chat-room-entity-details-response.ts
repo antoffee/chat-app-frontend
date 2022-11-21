@@ -58,16 +58,16 @@ export interface ApiChatRoomEntityDetailsResponse {
     updatedAt: Date;
     /**
      *
-     * @type {Array<ApiUserEntityResponse>}
-     * @memberof ApiChatRoomEntityDetailsResponse
-     */
-    members: Array<ApiUserEntityResponse>;
-    /**
-     *
      * @type {Array<ApiChatMessageEntityDetailsResponse>}
      * @memberof ApiChatRoomEntityDetailsResponse
      */
     messages: Array<ApiChatMessageEntityDetailsResponse>;
+    /**
+     *
+     * @type {Array<ApiUserEntityResponse>}
+     * @memberof ApiChatRoomEntityDetailsResponse
+     */
+    members: Array<ApiUserEntityResponse>;
 }
 
 /**

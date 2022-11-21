@@ -12,6 +12,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { ApiChatMessageEntityDetailsResponse } from './api-chat-message-entity-details-response';
 /**
  *
  * @export
@@ -54,6 +55,12 @@ export interface ApiChatRoomEntityResponse {
      * @memberof ApiChatRoomEntityResponse
      */
     updatedAt: Date;
+    /**
+     *
+     * @type {Array<ApiChatMessageEntityDetailsResponse>}
+     * @memberof ApiChatRoomEntityResponse
+     */
+    messages: Array<ApiChatMessageEntityDetailsResponse>;
 }
 
 /**

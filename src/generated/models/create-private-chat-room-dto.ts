@@ -15,37 +15,31 @@
 /**
  *
  * @export
- * @interface CreateUserDto
+ * @interface CreatePrivateChatRoomDto
  */
-export interface CreateUserDto {
+export interface CreatePrivateChatRoomDto {
+    /**
+     *
+     * @type {number}
+     * @memberof CreatePrivateChatRoomDto
+     */
+    secondMemberId: number;
     /**
      *
      * @type {string}
-     * @memberof CreateUserDto
+     * @memberof CreatePrivateChatRoomDto
      */
-    username: string;
+    name?: string;
     /**
      *
      * @type {string}
-     * @memberof CreateUserDto
+     * @memberof CreatePrivateChatRoomDto
      */
-    password: string;
+    description?: string;
     /**
      *
-     * @type {string}
-     * @memberof CreateUserDto
+     * @type {number}
+     * @memberof CreatePrivateChatRoomDto
      */
-    name: string;
-    /**
-     *
-     * @type {string}
-     * @memberof CreateUserDto
-     */
-    email: string;
-    /**
-     *
-     * @type {Array<any>}
-     * @memberof CreateUserDto
-     */
-    roles?: Array<any>;
+    firstMemberId: number;
 }

@@ -18,58 +18,33 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { ApiUserEntityResponse } from '../models';
-import { CreateUserDto } from '../models';
-import { LoginDto } from '../models';
+import { ChangePasswordDto } from '../models';
+import { ConfirmEmailDto } from '../models';
+import { ForgotPasswordDto } from '../models';
 /**
- * AuthApi - axios parameter creator
+ * EmailApi - axios parameter creator
  * @export
  */
-export const AuthApiAxiosParamCreator = function (configuration?: Configuration) {
+export const EmailApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          *
+         * @param {ChangePasswordDto} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authControllerAuthenticate: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/auth`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
+        emailControllerChangePassword: async (
+            body: ChangePasswordDto,
+            options: AxiosRequestConfig = {},
+        ): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError(
+                    'body',
+                    'Required parameter body was null or undefined when calling emailControllerChangePassword.',
+                );
             }
-            const localVarRequestOptions: AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options };
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = new URLSearchParams(query).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         *
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        authControllerChangePassword: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/auth/change-password`;
+            const localVarPath = `/email/change-password`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -80,6 +55,8 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
                 query.set(key, localVarQueryParameter[key]);
@@ -94,6 +71,11 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
                 ...headersFromBaseOptions,
                 ...options.headers,
             };
+            const needsSerialization =
+                typeof body !== 'string' || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data = needsSerialization
+                ? JSON.stringify(body !== undefined ? body : {})
+                : body || '';
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -102,19 +84,77 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
         },
         /**
          *
-         * @param {LoginDto} body
+         * @param {ConfirmEmailDto} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authControllerLogin: async (body: LoginDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        emailControllerConfirmEmail: async (
+            body: ConfirmEmailDto,
+            options: AxiosRequestConfig = {},
+        ): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
                 throw new RequiredError(
                     'body',
-                    'Required parameter body was null or undefined when calling authControllerLogin.',
+                    'Required parameter body was null or undefined when calling emailControllerConfirmEmail.',
                 );
             }
-            const localVarPath = `/auth/login`;
+            const localVarPath = `/email/confirm`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions: AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options };
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = new URLSearchParams(query).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+            const needsSerialization =
+                typeof body !== 'string' || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data = needsSerialization
+                ? JSON.stringify(body !== undefined ? body : {})
+                : body || '';
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {ForgotPasswordDto} body
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        emailControllerForgotPassword: async (
+            body: ForgotPasswordDto,
+            options: AxiosRequestConfig = {},
+        ): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError(
+                    'body',
+                    'Required parameter body was null or undefined when calling emailControllerForgotPassword.',
+                );
+            }
+            const localVarPath = `/email/forgot-password`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -157,8 +197,8 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        authControllerLogout: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/auth/logout`;
+        emailControllerResendConfirmationLink: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/email/resend-confirmation`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -183,58 +223,6 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
                 ...headersFromBaseOptions,
                 ...options.headers,
             };
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         *
-         * @param {CreateUserDto} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        authControllerRegister: async (body: CreateUserDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError(
-                    'body',
-                    'Required parameter body was null or undefined when calling authControllerRegister.',
-                );
-            }
-            const localVarPath = `/auth/register`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions: AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options };
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            localVarHeaderParameter['Content-Type'] = 'application/json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = new URLSearchParams(query).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
-            const needsSerialization =
-                typeof body !== 'string' || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data = needsSerialization
-                ? JSON.stringify(body !== undefined ? body : {})
-                : body || '';
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -245,94 +233,22 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
 };
 
 /**
- * AuthApi - functional programming interface
+ * EmailApi - functional programming interface
  * @export
  */
-export const AuthApiFp = function (configuration?: Configuration) {
+export const EmailApiFp = function (configuration?: Configuration) {
     return {
         /**
          *
+         * @param {ChangePasswordDto} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async authControllerAuthenticate(
-            options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
-            const localVarAxiosArgs = await AuthApiAxiosParamCreator(configuration).authControllerAuthenticate(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs: AxiosRequestConfig = {
-                    ...localVarAxiosArgs.options,
-                    url: basePath + localVarAxiosArgs.url,
-                };
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         *
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async authControllerChangePassword(
-            options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
-            const localVarAxiosArgs = await AuthApiAxiosParamCreator(configuration).authControllerChangePassword(
-                options,
-            );
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs: AxiosRequestConfig = {
-                    ...localVarAxiosArgs.options,
-                    url: basePath + localVarAxiosArgs.url,
-                };
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         *
-         * @param {LoginDto} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async authControllerLogin(
-            body: LoginDto,
-            options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
-            const localVarAxiosArgs = await AuthApiAxiosParamCreator(configuration).authControllerLogin(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs: AxiosRequestConfig = {
-                    ...localVarAxiosArgs.options,
-                    url: basePath + localVarAxiosArgs.url,
-                };
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         *
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async authControllerLogout(
+        async emailControllerChangePassword(
+            body: ChangePasswordDto,
             options?: AxiosRequestConfig,
         ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await AuthApiAxiosParamCreator(configuration).authControllerLogout(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs: AxiosRequestConfig = {
-                    ...localVarAxiosArgs.options,
-                    url: basePath + localVarAxiosArgs.url,
-                };
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         *
-         * @param {CreateUserDto} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async authControllerRegister(
-            body: CreateUserDto,
-            options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
-            const localVarAxiosArgs = await AuthApiAxiosParamCreator(configuration).authControllerRegister(
+            const localVarAxiosArgs = await EmailApiAxiosParamCreator(configuration).emailControllerChangePassword(
                 body,
                 options,
             );
@@ -344,49 +260,118 @@ export const AuthApiFp = function (configuration?: Configuration) {
                 return axios.request(axiosRequestArgs);
             };
         },
+        /**
+         *
+         * @param {ConfirmEmailDto} body
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async emailControllerConfirmEmail(
+            body: ConfirmEmailDto,
+            options?: AxiosRequestConfig,
+        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
+            const localVarAxiosArgs = await EmailApiAxiosParamCreator(configuration).emailControllerConfirmEmail(
+                body,
+                options,
+            );
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs: AxiosRequestConfig = {
+                    ...localVarAxiosArgs.options,
+                    url: basePath + localVarAxiosArgs.url,
+                };
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         *
+         * @param {ForgotPasswordDto} body
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async emailControllerForgotPassword(
+            body: ForgotPasswordDto,
+            options?: AxiosRequestConfig,
+        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await EmailApiAxiosParamCreator(configuration).emailControllerForgotPassword(
+                body,
+                options,
+            );
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs: AxiosRequestConfig = {
+                    ...localVarAxiosArgs.options,
+                    url: basePath + localVarAxiosArgs.url,
+                };
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async emailControllerResendConfirmationLink(
+            options?: AxiosRequestConfig,
+        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await EmailApiAxiosParamCreator(
+                configuration,
+            ).emailControllerResendConfirmationLink(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs: AxiosRequestConfig = {
+                    ...localVarAxiosArgs.options,
+                    url: basePath + localVarAxiosArgs.url,
+                };
+                return axios.request(axiosRequestArgs);
+            };
+        },
     };
 };
 
 /**
- * AuthApi - factory interface
+ * EmailApi - factory interface
  * @export
  */
-export const AuthApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const EmailApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     return {
         /**
          *
+         * @param {ChangePasswordDto} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async authControllerAuthenticate(options?: AxiosRequestConfig): Promise<AxiosResponse<ApiUserEntityResponse>> {
-            return AuthApiFp(configuration)
-                .authControllerAuthenticate(options)
+        async emailControllerChangePassword(
+            body: ChangePasswordDto,
+            options?: AxiosRequestConfig,
+        ): Promise<AxiosResponse<void>> {
+            return EmailApiFp(configuration)
+                .emailControllerChangePassword(body, options)
                 .then((request) => request(axios, basePath));
         },
         /**
          *
+         * @param {ConfirmEmailDto} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async authControllerChangePassword(
+        async emailControllerConfirmEmail(
+            body: ConfirmEmailDto,
             options?: AxiosRequestConfig,
         ): Promise<AxiosResponse<ApiUserEntityResponse>> {
-            return AuthApiFp(configuration)
-                .authControllerChangePassword(options)
+            return EmailApiFp(configuration)
+                .emailControllerConfirmEmail(body, options)
                 .then((request) => request(axios, basePath));
         },
         /**
          *
-         * @param {LoginDto} body
+         * @param {ForgotPasswordDto} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async authControllerLogin(
-            body: LoginDto,
+        async emailControllerForgotPassword(
+            body: ForgotPasswordDto,
             options?: AxiosRequestConfig,
-        ): Promise<AxiosResponse<ApiUserEntityResponse>> {
-            return AuthApiFp(configuration)
-                .authControllerLogin(body, options)
+        ): Promise<AxiosResponse<void>> {
+            return EmailApiFp(configuration)
+                .emailControllerForgotPassword(body, options)
                 .then((request) => request(axios, basePath));
         },
         /**
@@ -394,100 +379,75 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async authControllerLogout(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return AuthApiFp(configuration)
-                .authControllerLogout(options)
-                .then((request) => request(axios, basePath));
-        },
-        /**
-         *
-         * @param {CreateUserDto} body
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async authControllerRegister(
-            body: CreateUserDto,
-            options?: AxiosRequestConfig,
-        ): Promise<AxiosResponse<ApiUserEntityResponse>> {
-            return AuthApiFp(configuration)
-                .authControllerRegister(body, options)
+        async emailControllerResendConfirmationLink(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return EmailApiFp(configuration)
+                .emailControllerResendConfirmationLink(options)
                 .then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * AuthApi - object-oriented interface
+ * EmailApi - object-oriented interface
  * @export
- * @class AuthApi
+ * @class EmailApi
  * @extends {BaseAPI}
  */
-export class AuthApi extends BaseAPI {
+export class EmailApi extends BaseAPI {
     /**
      *
+     * @param {ChangePasswordDto} body
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AuthApi
+     * @memberof EmailApi
      */
-    public async authControllerAuthenticate(
+    public async emailControllerChangePassword(
+        body: ChangePasswordDto,
+        options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<void>> {
+        return EmailApiFp(this.configuration)
+            .emailControllerChangePassword(body, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {ConfirmEmailDto} body
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EmailApi
+     */
+    public async emailControllerConfirmEmail(
+        body: ConfirmEmailDto,
         options?: AxiosRequestConfig,
     ): Promise<AxiosResponse<ApiUserEntityResponse>> {
-        return AuthApiFp(this.configuration)
-            .authControllerAuthenticate(options)
+        return EmailApiFp(this.configuration)
+            .emailControllerConfirmEmail(body, options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {ForgotPasswordDto} body
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof EmailApi
+     */
+    public async emailControllerForgotPassword(
+        body: ForgotPasswordDto,
+        options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<void>> {
+        return EmailApiFp(this.configuration)
+            .emailControllerForgotPassword(body, options)
             .then((request) => request(this.axios, this.basePath));
     }
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AuthApi
+     * @memberof EmailApi
      */
-    public async authControllerChangePassword(
-        options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<ApiUserEntityResponse>> {
-        return AuthApiFp(this.configuration)
-            .authControllerChangePassword(options)
-            .then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     *
-     * @param {LoginDto} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AuthApi
-     */
-    public async authControllerLogin(
-        body: LoginDto,
-        options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<ApiUserEntityResponse>> {
-        return AuthApiFp(this.configuration)
-            .authControllerLogin(body, options)
-            .then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AuthApi
-     */
-    public async authControllerLogout(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-        return AuthApiFp(this.configuration)
-            .authControllerLogout(options)
-            .then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     *
-     * @param {CreateUserDto} body
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AuthApi
-     */
-    public async authControllerRegister(
-        body: CreateUserDto,
-        options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<ApiUserEntityResponse>> {
-        return AuthApiFp(this.configuration)
-            .authControllerRegister(body, options)
+    public async emailControllerResendConfirmationLink(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+        return EmailApiFp(this.configuration)
+            .emailControllerResendConfirmationLink(options)
             .then((request) => request(this.axios, this.basePath));
     }
 }

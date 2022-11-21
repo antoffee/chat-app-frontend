@@ -15,37 +15,25 @@
 /**
  *
  * @export
- * @interface CreateUserDto
+ * @interface CreateGroupChatRoomDto
  */
-export interface CreateUserDto {
+export interface CreateGroupChatRoomDto {
+    /**
+     *
+     * @type {Array<number>}
+     * @memberof CreateGroupChatRoomDto
+     */
+    members: Array<number>;
     /**
      *
      * @type {string}
-     * @memberof CreateUserDto
+     * @memberof CreateGroupChatRoomDto
      */
-    username: string;
+    name?: string;
     /**
      *
      * @type {string}
-     * @memberof CreateUserDto
+     * @memberof CreateGroupChatRoomDto
      */
-    password: string;
-    /**
-     *
-     * @type {string}
-     * @memberof CreateUserDto
-     */
-    name: string;
-    /**
-     *
-     * @type {string}
-     * @memberof CreateUserDto
-     */
-    email: string;
-    /**
-     *
-     * @type {Array<any>}
-     * @memberof CreateUserDto
-     */
-    roles?: Array<any>;
+    description?: string;
 }
