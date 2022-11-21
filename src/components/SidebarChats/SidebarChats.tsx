@@ -28,7 +28,13 @@ export const SidebarChats = ({ id }: SidebarChatsProps) => {
             <IonContent>
                 <IonList>
                     {data?.map((chat) => (
-                        <ChatItem id={chat.id} date={chat.updatedAt} title={chat.name} key={chat.id} />
+                        <ChatItem
+                            id={chat.id}
+                            date={chat.updatedAt}
+                            title={chat.name}
+                            key={chat.id}
+                            message={chat?.messages?.[0]?.content}
+                        />
                     ))}
                 </IonList>
             </IonContent>

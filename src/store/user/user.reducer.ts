@@ -28,7 +28,7 @@ export const userSlice = createSlice({
             .addMatcher(
                 isAnyOf(authAction.fulfilled, signUpAction.fulfilled, loginAction.fulfilled),
                 (state, { payload }) => {
-                    state.user = payload.data;
+                    state.user = payload;
                     state.errorMessage = '';
                     state.loadingStatus = FetchStatus.FULFILLED;
                 },
@@ -39,8 +39,10 @@ export const userSlice = createSlice({
             })
             .addMatcher(
                 isAnyOf(loginAction.rejected, signUpAction.rejected, authAction.rejected),
-                (state, { error }) => {
-                    state.errorMessage = error?.message ?? 'Error';
+                (state, { error, type }) => {
+                    if (!type?.includes(authAction.typePrefix)) {
+                        state.errorMessage = error?.message ?? 'Error';
+                    }
                     state.loadingStatus = FetchStatus.REJECTED;
                 },
             );

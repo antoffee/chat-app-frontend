@@ -1,3 +1,19 @@
 .chat-detail {
     display: flex;
+    flex-direction: column;
+    padding: 16px;
+    overflow: auto;
+    row-gap: 8px;
+
+    &__header {
+        --background: var(--base-20);
+        --min-height: 68px;
+        --color: var(--base-110);
+
+        ion-title + ion-title {
+            @include caption-14-24;
+
+            --color: var(--base-70);
+        }
+    }
 }

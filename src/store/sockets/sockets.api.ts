@@ -1,7 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { ApiChatRoomEntityResponse } from 'generated';
+import { AxiosError } from 'axios';
+import { ApiChatRoomEntityDetailsResponse, ApiChatRoomEntityResponse, ChatApi } from 'generated';
 import { io, Socket } from 'socket.io-client';
 import { ChatIncomingEvents } from 'types/chat';
+
+const chatApi = new ChatApi();
 
 let socket: Socket;
 function getSocket() {
@@ -45,11 +48,25 @@ export const socketsApi = createApi({
                 }
             },
         }),
+        getRoomDetails: builder.query<ApiChatRoomEntityDetailsResponse, string>({
+            queryFn: async (id: string) => {
+                try {
+                    const { data } = await chatApi.chatControllerGetRoomDetails(id);
+
+                    return { data: data as unknown as ApiChatRoomEntityDetailsResponse };
+                } catch (error) {
+                    const { message } = error as AxiosError;
+
+                    return { error: { status: 'CUSTOM_ERROR', data: error, error: message } };
+                }
+            },
+        }),
     }),
 });
 
 export const {
     useLazyConnectQuery,
+    useGetRoomDetailsQuery,
     endpoints: {
         connect: { useQueryState: useConnectQueryState },
     },

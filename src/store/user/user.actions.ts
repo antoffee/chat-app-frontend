@@ -3,17 +3,20 @@ import { AuthApi, CreateUserDto, LoginDto } from 'generated';
 
 const authApi = new AuthApi();
 
-export const loginAction = createAsyncThunk(
-    'USER/LOGIN',
-    async (req: LoginDto) => await authApi.authControllerLogin(req),
-);
+export const loginAction = createAsyncThunk('USER/LOGIN', async (req: LoginDto) => {
+    const responce = await authApi.authControllerLogin(req);
 
-export const signUpAction = createAsyncThunk(
-    'USER/SIGN_UP',
-    async (req: CreateUserDto) => await authApi.authControllerRegister(req),
-);
+    return responce.data;
+});
 
-export const authAction = createAsyncThunk(
-    'USER/AUTHENTIFICATE',
-    async () => await authApi.authControllerAuthenticate(),
-);
+export const signUpAction = createAsyncThunk('USER/SIGN_UP', async (req: CreateUserDto) => {
+    const responce = await authApi.authControllerRegister(req);
+
+    return responce.data;
+});
+
+export const authAction = createAsyncThunk('USER/AUTHENTIFICATE', async () => {
+    const responce = await authApi.authControllerAuthenticate();
+
+    return responce.data;
+});
