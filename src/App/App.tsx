@@ -3,6 +3,7 @@ import { Redirect, Route } from 'react-router';
 import { IonPage, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { useColorMode } from 'hooks/useColorMode';
 import { useWindowSize } from 'hooks/useWindowSize';
+import { PageLayout } from 'layouts/PageLayout';
 import { ChatDetailsPage } from 'pages/ChatDetailsPage';
 import { ChatsPage } from 'pages/ChatsPage';
 import { DemoPage } from 'pages/DemoPage';
@@ -65,18 +66,20 @@ export const App: React.FC = () => {
                             <Route exact path={appRoutes.login()}>
                                 {isAuth ? <Redirect to="/" /> : <LoginPage />}
                             </Route>
-                            <ProtectedRoute path="/" exact>
-                                <HomePage />
-                            </ProtectedRoute>
-                            <Route path="/demo">
-                                <DemoPage />
-                            </Route>
-                            <ProtectedRoute path={appRoutes.chats()}>
-                                <ChatsPage />
-                            </ProtectedRoute>
-                            <ProtectedRoute path={appRoutes.chatDetails()}>
-                                <ChatDetailsPage />
-                            </ProtectedRoute>
+                            <PageLayout>
+                                <ProtectedRoute path="/" exact>
+                                    <HomePage />
+                                </ProtectedRoute>
+                                <Route path="/demo">
+                                    <DemoPage />
+                                </Route>
+                                <ProtectedRoute exact path={appRoutes.chats()}>
+                                    <ChatsPage />
+                                </ProtectedRoute>
+                                <ProtectedRoute path={appRoutes.chatDetails()}>
+                                    <ChatDetailsPage />
+                                </ProtectedRoute>
+                            </PageLayout>
                         </IonRouterOutlet>
                     </BottomNavigationTabs>
                 )}

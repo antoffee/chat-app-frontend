@@ -1,8 +1,7 @@
 import React from 'react';
-import { IonImg } from '@ionic/react';
+import { IonContent, IonImg } from '@ionic/react';
 import heart from 'assets/heart_3d.png';
 import cnBind, { Argument } from 'classnames/bind';
-import { PageLayout } from 'layouts/PageLayout';
 import { useAppSelector } from 'store';
 
 import { TextType, Typography } from 'components/Typography';
@@ -15,7 +14,7 @@ export const HomePage = () => {
     const { user } = useAppSelector((state) => state.user);
 
     return (
-        <PageLayout>
+        <IonContent>
             <div className={cx('home')}>
                 <Typography as="div" type={TextType.TITLE_36_48}>
                     Добро пожаловать,{' '}
@@ -25,6 +24,6 @@ export const HomePage = () => {
                 </Typography>
                 <IonImg src={heart} />
             </div>
-        </PageLayout>
+        </IonContent>
     );
 };

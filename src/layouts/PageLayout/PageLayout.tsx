@@ -21,9 +21,7 @@ export const PageLayout = ({ children }: PageLayoutProps) => {
                     <SidebarChats id={id} />
 
                     {/*-- the main content --*/}
-                    <IonPage id={id}>
-                        <IonContent>{children}</IonContent>
-                    </IonPage>
+                    <IonPage id={id}>{children}</IonPage>
                 </IonSplitPane>
             </IonContent>
         </>

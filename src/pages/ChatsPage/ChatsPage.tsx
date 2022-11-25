@@ -1,7 +1,6 @@
 import React from 'react';
-import { IonHeader, IonToolbar } from '@ionic/react';
+import { IonContent, IonHeader, IonToolbar } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
-import { PageLayout } from 'layouts/PageLayout';
 import { useConnectQueryState } from 'store/sockets';
 
 import { ChatItem } from 'components/ChatItem';
@@ -15,7 +14,7 @@ export const ChatsPage = () => {
     const { data } = useConnectQueryState();
 
     return (
-        <PageLayout>
+        <IonContent>
             <IonHeader translucent className={cx('chats-header', 'ion-no-border')}>
                 <IonToolbar>
                     <CustomInput inputType="input" />
@@ -24,6 +23,6 @@ export const ChatsPage = () => {
             {data?.map((chat) => (
                 <ChatItem id={chat.id} date={chat.updatedAt} title={chat.name} key={chat.id} />
             ))}
-        </PageLayout>
+        </IonContent>
     );
 };
