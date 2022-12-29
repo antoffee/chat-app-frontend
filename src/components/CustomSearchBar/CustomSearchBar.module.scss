@@ -1,0 +1,25 @@
+.searchbar {
+    position: relative;
+    z-index: 2;
+
+    &__list {
+        --ion-item-background: var(--base-0);
+
+        position: absolute;
+        left: 12px;
+        display: none;
+        width: calc(100% - 24px);
+        border-radius: 12px;
+        box-shadow: 0 24px 64px 0 rgb(var(--secondary-50-rgb) 10%);
+
+        &:hover {
+            display: block;
+        }
+    }
+
+    :global(.item-has-focus) {
+        & ~ .searchbar__list {
+            display: block;
+        }
+    }
+}

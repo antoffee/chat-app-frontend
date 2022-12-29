@@ -7,7 +7,10 @@ export type FieldProps<T> = Partial<
     >
 >;
 
-export type CustomFieldProps<P, T extends string | number | unknown[] = string> = Omit<P, keyof FieldProps<T>> &
+export type CustomFieldProps<
+    P,
+    T extends string | number | unknown[] | Record<string, unknown> | boolean = string,
+> = Omit<P, keyof FieldProps<T>> &
     Omit<FieldProps<T>, 'children'> & {
         name: string;
     } & UseFieldConfig<T>;

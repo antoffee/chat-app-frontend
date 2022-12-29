@@ -33,7 +33,7 @@ export const ChatItem = ({
     id,
 }: ChatItemProps) => {
     const formattedDate = useMemo(
-        () => (moment(date).isBefore(new Date()) ? moment(date).format('DD MMM, hh:mm') : moment(date).format('hh:mm')),
+        () => (moment(date).isBefore(new Date()) ? moment(date).format('DD MMM, HH:mm') : moment(date).format('hh:mm')),
         [date],
     );
 

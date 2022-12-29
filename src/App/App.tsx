@@ -11,8 +11,8 @@ import { HomePage } from 'pages/HomePage';
 import { LoginPage } from 'pages/LoginPage';
 import { appRoutes } from 'routes';
 import { useAppDispatch, useAppSelector } from 'store';
+import { authAction } from 'store/auth';
 import { useLazyConnectQuery } from 'store/sockets';
-import { authAction } from 'store/user';
 
 import { BottomNavigationTabs } from 'components/BottomNavigationTabs';
 import { ProtectedRoute } from 'components/ProtectedRoute';
@@ -44,7 +44,7 @@ export const App: React.FC = () => {
     useWindowSize();
 
     const dispatch = useAppDispatch();
-    const isAuth = useAppSelector((state) => !!state.user.user?.id);
+    const isAuth = useAppSelector((state) => !!state.auth.user?.id);
 
     const [connect] = useLazyConnectQuery();
 

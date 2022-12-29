@@ -12,7 +12,7 @@ import styles from './LoginPage.module.scss';
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const LoginPage = () => {
-    const isAuth = useAppSelector((state) => !!state.user.user?.id);
+    const isAuth = useAppSelector((state) => !!state.auth.user?.id);
     const router = useIonRouter();
 
     useEffect(() => {

@@ -3,8 +3,8 @@ import { Form } from 'react-final-form';
 import { IonList, useIonAlert } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
 import { useAppDispatch, useAppSelector } from 'store';
-import { clearUserError } from 'store/user';
-import { signUpAction } from 'store/user/user.actions';
+import { clearUserError } from 'store/auth';
+import { signUpAction } from 'store/auth/auth.actions';
 
 import { Button } from 'components/Button';
 import { CustomInputField } from 'components/Fields/CustomInputField';
@@ -23,7 +23,7 @@ export const SignUpForm = ({ onComplete = noop }: SignUpFormProps) => {
 
     const dispatch = useAppDispatch();
 
-    const { errorMessage } = useAppSelector((state) => state.user);
+    const { errorMessage } = useAppSelector((state) => state.auth);
 
     const handleSubmit = useCallback(
         (values: SignUpValues) => {

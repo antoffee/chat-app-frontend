@@ -2,7 +2,7 @@ import React, { PropsWithChildren } from 'react';
 import { IonIcon, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
 import cnBind from 'classnames/bind';
 import { useAppSelector } from 'store';
-import { getIsLoggedIn } from 'store/user';
+import { getIsLoggedIn } from 'store/auth';
 
 import { TABS } from './BottomNavigationTabs.constants';
 

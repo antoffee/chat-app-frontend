@@ -1,7 +1,17 @@
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { Form } from 'react-final-form';
 import { useParams } from 'react-router-dom';
-import { IonContent, IonFooter, IonHeader, IonIcon, IonSpinner, IonTitle, IonToolbar } from '@ionic/react';
+import {
+    IonBackButton,
+    IonButtons,
+    IonContent,
+    IonFooter,
+    IonHeader,
+    IonIcon,
+    IonSpinner,
+    IonTitle,
+    IonToolbar,
+} from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
 import { FormApi } from 'final-form';
 import { send } from 'ionicons/icons';
@@ -20,7 +30,7 @@ import styles from './ChatDetailsPage.module.scss';
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const ChatDetailsPage = () => {
-    const user = useAppSelector((state) => state.user?.user);
+    const user = useAppSelector((state) => state.auth?.user);
 
     const [sendMessage] = useSendMessageMutation();
 
@@ -58,6 +68,9 @@ export const ChatDetailsPage = () => {
         <>
             <IonHeader mode="md" translucent className={cx('ion-no-border', 'chat-detail__header')}>
                 <IonToolbar className={cx('chat-detail__header-toolbar')}>
+                    <IonButtons slot="start">
+                        <IonBackButton />
+                    </IonButtons>
                     <IonTitle>{title}</IonTitle>
                     <IonTitle>{data?.description}</IonTitle>
                 </IonToolbar>

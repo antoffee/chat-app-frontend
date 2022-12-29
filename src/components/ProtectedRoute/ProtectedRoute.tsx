@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect, Route } from 'react-router';
 import { appRoutes } from 'routes';
 import { useAppSelector } from 'store';
-import { getIsLoggedIn } from 'store/user';
+import { getIsLoggedIn } from 'store/auth';
 
 import { ProtectedRouteProps } from './ProtectedRoute.types';
 

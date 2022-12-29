@@ -5,9 +5,13 @@ import {
     ApiChatRoomEntityDetailsResponse,
     ApiChatRoomEntityResponse,
     ChatApi,
+    CreateGroupChatRoomDto,
+    CreatePrivateChatRoomDto,
 } from 'generated';
 import { io, Socket } from 'socket.io-client';
 import { ChatIncomingEvents, ChatOutgoingEvents } from 'types/chat';
+
+import { CreateChatValues } from 'components/CreateChatModal/CreateChatModal.types';
 
 const chatApi = new ChatApi();
 
@@ -72,6 +76,8 @@ export const socketsApi = createApi({
 
                     socket?.on(ChatIncomingEvents.SEND_MESSAGE_TO_CLIENT, patchResult);
 
+                    socket?.on('exception', (err) => console.error(err));
+
                     await cacheEntryRemoved;
                     socket?.off(ChatIncomingEvents.CLIENT_CONNECTED);
                 } catch (e) {
@@ -85,6 +91,25 @@ export const socketsApi = createApi({
                 const socket = getSocket();
 
                 socket.emit(ChatOutgoingEvents.SEND_MESSAGE_TO_SERVER, chatMessageContent);
+
+                return { data: undefined };
+            },
+        }),
+        createRoom: builder.mutation<undefined, CreateChatValues>({
+            queryFn: ({ members, ...room }: CreateChatValues) => {
+                const socket = getSocket();
+
+                if (members?.length > 1) {
+                    socket.emit(ChatOutgoingEvents.NEW_GROUP_ROOM_CREATE, {
+                        ...room,
+                        members: members.map((el) => el.id),
+                    } as CreateGroupChatRoomDto);
+                } else {
+                    socket.emit(ChatOutgoingEvents.NEW_PRIVATE_ROOM_CREATE, {
+                        ...room,
+                        secondMemberId: members?.[0]?.id,
+                    } as CreatePrivateChatRoomDto);
+                }
 
                 return { data: undefined };
             },
@@ -109,6 +134,7 @@ export const {
     useLazyConnectQuery,
     useGetRoomDetailsQuery,
     useSendMessageMutation,
+    useCreateRoomMutation,
     endpoints: {
         connect: { useQueryState: useConnectQueryState },
     },

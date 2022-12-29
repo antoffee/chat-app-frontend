@@ -1,0 +1,14 @@
+.custom-toggle {
+    --background: var(--secondary-70) no-repeat 26px 2px / 20px 20px;
+    --background-checked: var(--secondary-40) no-repeat 4px 2px / 20px 20px;
+    --handle-background: var(--base-0);
+    --handle-background-checked: var(--base-110);
+    --handle-width: 22px;
+    --handle-height: 22px;
+    --handle-spacing: 2px;
+
+    position: relative;
+    width: 50px;
+    height: 25px;
+    padding: 0;
+}

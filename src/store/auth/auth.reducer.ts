@@ -1,6 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { ApiUserEntityResponse } from 'generated';
-import { authAction, loginAction, signUpAction } from 'store/user/user.actions';
+import { authAction, loginAction, signUpAction } from 'store/auth/auth.actions';
 import { FetchStatus } from 'types/asyncState';
 
 export type UserState = {

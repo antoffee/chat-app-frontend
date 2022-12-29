@@ -3,7 +3,7 @@ import { Form } from 'react-final-form';
 import { IonList, useIonAlert, useIonRouter } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
 import { useAppDispatch, useAppSelector } from 'store';
-import { clearUserError, loginAction } from 'store/user';
+import { clearUserError, loginAction } from 'store/auth';
 
 import { Button } from 'components/Button';
 import { CustomInputField } from 'components/Fields/CustomInputField';
@@ -19,7 +19,7 @@ const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 export const LoginForm = () => {
     const router = useIonRouter();
     const [presentAlert] = useIonAlert();
-    const { errorMessage } = useAppSelector((state) => state.user);
+    const { errorMessage } = useAppSelector((state) => state.auth);
     const dispatch = useAppDispatch();
     const handleSubmit = useCallback(
         (values: LoginValues) => {

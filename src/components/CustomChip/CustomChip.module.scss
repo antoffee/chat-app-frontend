@@ -1,0 +1,15 @@
+.chip {
+    --background: var(--primary-80);
+    --color: var(--primary-30);
+
+    position: relative;
+
+    input {
+        position: absolute;
+        opacity: 0;
+    }
+
+    ion-icon {
+        color: var(--color);
+    }
+}

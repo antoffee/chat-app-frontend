@@ -46,7 +46,7 @@ export const CustomInput = React.forwardRef<HTMLIonInputElement | HTMLIonTextare
         );
 
         return (
-            <div className={cx('container')} slot={slot}>
+            <div className={cx('container', className)} slot={slot}>
                 <IonItem
                     mode="md"
                     fill="solid"
@@ -59,7 +59,7 @@ export const CustomInput = React.forwardRef<HTMLIonInputElement | HTMLIonTextare
                     {label && <IonLabel position="floating">{label}</IonLabel>}
                     <InputFacade
                         ref={innerRef}
-                        className={cx('input', className)}
+                        className={cx('input')}
                         value={value}
                         disabled={disabled}
                         readonly={readonly}
