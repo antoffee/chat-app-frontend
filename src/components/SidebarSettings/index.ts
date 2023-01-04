@@ -1,1 +1,1 @@
-export { SidebarChats } from './SidebarChats';
+export { SidebarSettings as SidebarChats } from './SidebarSettings';

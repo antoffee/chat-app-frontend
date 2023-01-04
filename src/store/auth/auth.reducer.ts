@@ -1,6 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { ApiUserEntityResponse } from 'generated';
-import { authAction, loginAction, logoutAction, signUpAction } from 'store/auth/auth.actions';
+import { authAction, confirmEmailAction, loginAction, logoutAction, signUpAction } from 'store/auth/auth.actions';
 import { FetchStatus } from 'types/asyncState';
 
 export type UserState = {
@@ -26,7 +26,13 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addMatcher(
-                isAnyOf(authAction.fulfilled, signUpAction.fulfilled, loginAction.fulfilled, logoutAction.fulfilled),
+                isAnyOf(
+                    authAction.fulfilled,
+                    signUpAction.fulfilled,
+                    loginAction.fulfilled,
+                    logoutAction.fulfilled,
+                    confirmEmailAction.fulfilled,
+                ),
                 (state, { payload }) => {
                     state.user = payload;
                     state.errorMessage = '';
@@ -34,14 +40,26 @@ export const userSlice = createSlice({
                 },
             )
             .addMatcher(
-                isAnyOf(loginAction.pending, signUpAction.pending, authAction.pending, logoutAction.pending),
+                isAnyOf(
+                    loginAction.pending,
+                    signUpAction.pending,
+                    authAction.pending,
+                    logoutAction.pending,
+                    confirmEmailAction.pending,
+                ),
                 (state) => {
                     state.errorMessage = '';
                     state.loadingStatus = FetchStatus.PENDING;
                 },
             )
             .addMatcher(
-                isAnyOf(loginAction.rejected, signUpAction.rejected, authAction.rejected, logoutAction.rejected),
+                isAnyOf(
+                    loginAction.rejected,
+                    signUpAction.rejected,
+                    authAction.rejected,
+                    logoutAction.rejected,
+                    confirmEmailAction.rejected,
+                ),
                 (state, { error, type }) => {
                     if (!type?.includes(authAction.typePrefix)) {
                         state.errorMessage = error?.message ?? 'Error';

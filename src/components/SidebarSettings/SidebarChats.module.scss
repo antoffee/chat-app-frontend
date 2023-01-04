@@ -1,5 +1,9 @@
-.sidebar {
-    --background: var(--base-10);
-    --ion-toolbar-background: var(--background);
-    --ion-background-color: var(--background);
+.list {
+    ion-note {
+        display: block;
+    }
+
+    .item-danger {
+        color: var(--danger-40);
+    }
 }

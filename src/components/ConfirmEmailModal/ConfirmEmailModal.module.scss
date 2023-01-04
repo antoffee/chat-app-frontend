@@ -1,0 +1,47 @@
+.confirm-email {
+    @include centered-flexbox;
+
+    --background: var(--base-10);
+    --border-radius: 24px;
+    --height: 520px;
+
+    @include mobile {
+        --height: 100%;
+        --border-radius: 0;
+    }
+
+    ion-content {
+        --background: var(--background);
+        --ion-item-background: var(--base-10);
+    }
+
+    ion-toolbar {
+        --ion-toolbar-background: var(--background);
+
+        @include mobile {
+            padding-top: 16px;
+
+            ion-buttons {
+                display: none;
+            }
+
+            ion-text {
+                text-align: center !important;
+            }
+        }
+    }
+
+    &__form {
+        @include centered-flexbox;
+
+        flex-direction: column;
+        height: 100%;
+        padding: 16px;
+        row-gap: 20px;
+
+        ion-label {
+            white-space: pre-wrap !important;
+            text-align: center !important;
+        }
+    }
+}

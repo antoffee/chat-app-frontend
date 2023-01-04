@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Redirect, Route } from 'react-router';
-import { IonPage, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import { IonPage, IonRouterOutlet, setupIonicReact, useIonRouter } from '@ionic/react';
 import { useColorMode } from 'hooks/useColorMode';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { PageLayout } from 'layouts/PageLayout';
@@ -11,7 +11,7 @@ import { HomePage } from 'pages/HomePage';
 import { LoginPage } from 'pages/LoginPage';
 import { appRoutes } from 'routes';
 import { useAppDispatch, useAppSelector } from 'store';
-import { authAction } from 'store/auth';
+import { authAction, confirmEmailAction } from 'store/auth';
 import { useLazyConnectQuery } from 'store/sockets';
 
 import { BottomNavigationTabs } from 'components/BottomNavigationTabs';
@@ -48,6 +48,10 @@ export const App: React.FC = () => {
 
     const [connect] = useLazyConnectQuery();
 
+    const {
+        routeInfo: { search },
+    } = useIonRouter();
+
     useEffect(() => {
         if (isAuth) {
             void connect();
@@ -55,6 +59,13 @@ export const App: React.FC = () => {
             void dispatch(authAction());
         }
     }, [connect, dispatch, isAuth]);
+
+    useEffect(() => {
+        const token = new URLSearchParams(search).get('confirmEmailToken');
+        if (token) {
+            void dispatch(confirmEmailAction(token));
+        }
+    }, [dispatch, search]);
 
     return (
         <IonPage>
