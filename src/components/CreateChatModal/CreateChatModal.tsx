@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
 import { FieldArray } from 'react-final-form-arrays';
 import {
@@ -12,7 +12,6 @@ import {
     IonItem,
     IonLabel,
     IonList,
-    IonModal,
     IonTitle,
     IonToolbar,
 } from '@ionic/react';
@@ -20,12 +19,11 @@ import cnBind, { Argument } from 'classnames/bind';
 import arrayMutators from 'final-form-arrays';
 import { checkmark, close } from 'ionicons/icons';
 import debounce from 'lodash.debounce';
-import { useAppSelector } from 'store';
 import { useCreateRoomMutation } from 'store/sockets';
 import { useLazySearchUsersQuery } from 'store/users';
-import { getIsMobile } from 'store/windowSize';
 import { CustomSelectableValue } from 'types/select';
 
+import { validateCreateChat } from 'components/CreateChatModal/CreateChatModal.utils';
 import { CustomSearchBar } from 'components/CustomSearchBar';
 import { CustomChipField } from 'components/Fields/CustomChipField';
 import { CustomInputField } from 'components/Fields/CustomInputField';
@@ -38,12 +36,9 @@ import styles from './CreateChatModal.module.scss';
 
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
-export const CreateChatModal: React.FC<CreateChatModalProps> = () => {
-    const isMobile = useAppSelector(getIsMobile);
+export const CreateChatModal: React.FC<CreateChatModalProps> = ({ onDismiss }) => {
     const [searchUsers, { isLoading, data }] = useLazySearchUsersQuery();
     const [createRoom] = useCreateRoomMutation();
-
-    const modal = useRef<HTMLIonModalElement>(null);
 
     const handleSearch = useMemo(
         () =>
@@ -55,23 +50,33 @@ export const CreateChatModal: React.FC<CreateChatModalProps> = () => {
         [searchUsers],
     );
 
-    const responsiveProps = useMemo(() => (isMobile ? { breakpoints: [0, 1], initialBreakpoint: 1 } : {}), [isMobile]);
+    const handleSubmit = useCallback(
+        async (values: CreateChatValues) => {
+            await createRoom(values);
+            onDismiss?.();
+        },
+        [createRoom, onDismiss],
+    );
 
     return (
-        <IonModal ref={modal} isOpen className={cx('create-chat-modal')} {...responsiveProps}>
+        <>
             <IonToolbar>
                 <IonTitle>
                     <Typography type={TextType.CAPTION_18_24}>Create new chat</Typography>
                 </IonTitle>
                 <IonButtons slot="end">
-                    <IonButton onClick={() => modal.current?.dismiss()}>
+                    <IonButton onClick={onDismiss}>
                         <IonIcon icon={close} />
                     </IonButton>
                 </IonButtons>
             </IonToolbar>
             <IonContent>
-                <Form<CreateChatValues> onSubmit={createRoom} mutators={{ ...arrayMutators }}>
-                    {({ handleSubmit, values }) => (
+                <Form<CreateChatValues>
+                    validate={validateCreateChat}
+                    onSubmit={handleSubmit}
+                    mutators={{ ...arrayMutators }}
+                >
+                    {({ handleSubmit, values, form, valid }) => (
                         <IonList className={cx('create-chat-modal__form')}>
                             <CustomInputField label="Chat name" inputType="input" name="name" />
                             <CustomInputField label="Chat description" inputType="input" name="description" />
@@ -93,6 +98,24 @@ export const CreateChatModal: React.FC<CreateChatModalProps> = () => {
                                                         checked={!!fields?.value?.find((item) => item.id === el.id)}
                                                         value={el}
                                                         onIonChange={(event) => {
+                                                            if (values.isPrivate) {
+                                                                form.batch(() => {
+                                                                    form.change('members', []);
+                                                                    if (event.target.checked)
+                                                                        fields.push({
+                                                                            id: el.id,
+                                                                            label: `${el.username} (${el.name})`,
+                                                                        });
+                                                                    else
+                                                                        fields.remove(
+                                                                            fields?.value?.findIndex(
+                                                                                (item) => item.id === el.id,
+                                                                            ),
+                                                                        );
+                                                                });
+
+                                                                return;
+                                                            }
                                                             if (event.target.checked)
                                                                 fields.push({
                                                                     id: el.id,
@@ -125,15 +148,14 @@ export const CreateChatModal: React.FC<CreateChatModalProps> = () => {
                             </FieldArray>
 
                             <IonFab slot="fixed" horizontal="end" vertical="bottom">
-                                <IonFabButton onClick={handleSubmit}>
+                                <IonFabButton disabled={!valid} onClick={handleSubmit}>
                                     <IonIcon icon={checkmark} />
                                 </IonFabButton>
                             </IonFab>
-                            <pre>{JSON.stringify(values, undefined, 2)}</pre>
                         </IonList>
                     )}
                 </Form>
             </IonContent>
-        </IonModal>
+        </>
     );
 };

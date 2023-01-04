@@ -1,3 +1,5 @@
+import { JoinLeaveGroupChatRoomDto } from 'generated';
+
 export type ChatItemProps = {
     title?: string;
     date?: string | Date;
@@ -8,5 +10,5 @@ export type ChatItemProps = {
     message?: string;
     id: number;
     onMakeRead?: () => void;
-    onDelete?: () => void;
+    onDelete?: (data: Pick<JoinLeaveGroupChatRoomDto, 'roomId'>) => void;
 };

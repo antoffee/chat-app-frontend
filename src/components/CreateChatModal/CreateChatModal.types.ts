@@ -1,6 +1,8 @@
 import { CustomSelectableValue } from 'types/select';
 
-export type CreateChatModalProps = Record<string, undefined>;
+export type CreateChatModalProps = {
+    onDismiss?: () => void;
+};
 
 export type CreateChatValues = {
     /**
@@ -19,3 +21,5 @@ export type CreateChatValues = {
     members: CustomSelectableValue[];
     isPrivate?: boolean;
 };
+
+export type CreateChatErrors = Record<keyof CreateChatValues, string | undefined>;

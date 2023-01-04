@@ -23,6 +23,7 @@ export const PageLayout = ({ children }: PageLayoutProps) => {
                     {/*-- the main content --*/}
                     <IonPage id={id}>{children}</IonPage>
                 </IonSplitPane>
+                {/* <CreateChatModal/> */}
             </IonContent>
         </>
     );

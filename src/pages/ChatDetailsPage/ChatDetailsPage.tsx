@@ -40,8 +40,8 @@ export const ChatDetailsPage = () => {
     });
 
     const title = useMemo(
-        () => data?.name ?? data?.members?.find((member) => member?.id !== user?.id)?.name,
-        [data?.members, data?.name, user?.id],
+        () => data?.name ?? data?.members?.find((member) => member?.username !== user?.username)?.name,
+        [data?.members, data?.name, user?.username],
     );
 
     const handleSubmit = useCallback(

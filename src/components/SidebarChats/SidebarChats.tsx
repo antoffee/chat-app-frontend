@@ -16,10 +16,11 @@ import { useNodeUid } from 'hooks/useNodeUid';
 import { chevronDown } from 'ionicons/icons';
 import { appRoutes } from 'routes';
 import { useAppSelector } from 'store';
-import { useConnectQueryState } from 'store/sockets';
+import { useConnectQueryState, useLeaveRoomMutation } from 'store/sockets';
 
 import { Button } from 'components/Button';
 import { ChatItem } from 'components/ChatItem';
+import { usePresentChatModal } from 'components/CreateChatModal';
 
 import { SidebarChatsProps } from './SidebarChats.types';
 
@@ -31,6 +32,10 @@ export const SidebarChats = ({ id }: SidebarChatsProps) => {
     const { data } = useConnectQueryState();
     const { user } = useAppSelector((state) => state.auth);
     const uniqueId = useNodeUid();
+
+    const { showCreateChat } = usePresentChatModal();
+
+    const [leaveRoom] = useLeaveRoomMutation();
 
     return (
         <IonMenu contentId={id} className={cx('sidebar')}>
@@ -47,7 +52,9 @@ export const SidebarChats = ({ id }: SidebarChatsProps) => {
                             <IonContent>
                                 <IonList>
                                     <IonItem href={appRoutes.settings()}>Settings</IonItem>
-                                    <IonItem>Create new chat</IonItem>
+                                    <IonItem button onClick={() => showCreateChat()}>
+                                        Create new chat
+                                    </IonItem>
                                 </IonList>
                             </IonContent>
                         </IonPopover>
@@ -58,6 +65,7 @@ export const SidebarChats = ({ id }: SidebarChatsProps) => {
                 <IonList>
                     {data?.map((chat) => (
                         <ChatItem
+                            onDelete={leaveRoom}
                             id={chat.id}
                             date={chat?.messages?.[0]?.createdAt}
                             title={chat.name}

@@ -3,12 +3,14 @@ import { AxiosError } from 'axios';
 import {
     ApiChatMessageEntityDetailsResponse,
     ApiChatRoomEntityDetailsResponse,
-    ApiChatRoomEntityResponse,
+    ApiChatRoomEntityWithMembersResponse,
     ChatApi,
     CreateGroupChatRoomDto,
     CreatePrivateChatRoomDto,
+    JoinLeaveGroupChatRoomDto,
 } from 'generated';
 import { io, Socket } from 'socket.io-client';
+import { AppState } from 'store';
 import { ChatIncomingEvents, ChatOutgoingEvents } from 'types/chat';
 
 import { CreateChatValues } from 'components/CreateChatModal/CreateChatModal.types';
@@ -38,19 +40,28 @@ export const socketsApi = createApi({
         credentials: 'include',
     }),
     endpoints: (builder) => ({
-        connect: builder.query<ApiChatRoomEntityResponse[], void>({
+        connect: builder.query<ApiChatRoomEntityWithMembersResponse[], void>({
             queryFn: () => ({ data: [] }),
-            async onCacheEntryAdded(_, { cacheDataLoaded, updateCachedData, cacheEntryRemoved, dispatch }) {
+            async onCacheEntryAdded(_, { cacheDataLoaded, updateCachedData, cacheEntryRemoved, dispatch, getState }) {
                 try {
                     await cacheDataLoaded;
+
+                    const state = getState() as AppState;
 
                     const socket = getSocket();
 
                     socket?.on(
                         ChatIncomingEvents.CLIENT_CONNECTED,
-                        ({ rooms }: { rooms: ApiChatRoomEntityResponse[] }) => {
+                        ({ rooms }: { rooms: ApiChatRoomEntityWithMembersResponse[] }) => {
                             updateCachedData((draft) => {
-                                draft.push(...rooms);
+                                draft.push(
+                                    ...rooms.map((room) => ({
+                                        ...room,
+                                        name:
+                                            room.name ??
+                                            room.members?.find((item) => item.id !== state.auth.user?.id)?.name,
+                                    })),
+                                );
                             });
                         },
                     );
@@ -76,6 +87,17 @@ export const socketsApi = createApi({
 
                     socket?.on(ChatIncomingEvents.SEND_MESSAGE_TO_CLIENT, patchResult);
 
+                    socket?.on(ChatIncomingEvents.CLIENT_JOINED_ROOM, (data: ApiChatRoomEntityWithMembersResponse) => {
+                        dispatch(
+                            socketsApi.util.updateQueryData('connect', undefined, (draft) => {
+                                if (draft.some((room) => room.id === data.id)) {
+                                    return;
+                                }
+                                draft.push(data);
+                            }),
+                        );
+                    });
+
                     socket?.on('exception', (err) => console.error(err));
 
                     await cacheEntryRemoved;
@@ -85,7 +107,6 @@ export const socketsApi = createApi({
                 }
             },
         }),
-
         sendMessage: builder.mutation<undefined, SendMessage>({
             queryFn: (chatMessageContent: SendMessage) => {
                 const socket = getSocket();
@@ -96,10 +117,10 @@ export const socketsApi = createApi({
             },
         }),
         createRoom: builder.mutation<undefined, CreateChatValues>({
-            queryFn: ({ members, ...room }: CreateChatValues) => {
+            queryFn: ({ isPrivate, members, ...room }: CreateChatValues, { dispatch }) => {
                 const socket = getSocket();
 
-                if (members?.length > 1) {
+                if (!isPrivate) {
                     socket.emit(ChatOutgoingEvents.NEW_GROUP_ROOM_CREATE, {
                         ...room,
                         members: members.map((el) => el.id),
@@ -110,6 +131,37 @@ export const socketsApi = createApi({
                         secondMemberId: members?.[0]?.id,
                     } as CreatePrivateChatRoomDto);
                 }
+
+                socket?.on(ChatIncomingEvents.NEW_ROOM_CREATED, (data: ApiChatRoomEntityWithMembersResponse) => {
+                    dispatch(
+                        socketsApi.util.updateQueryData('connect', undefined, (draft) => {
+                            if (draft.some((room) => room.id === data.id)) {
+                                return;
+                            }
+                            draft.push(data);
+                        }),
+                    );
+                });
+
+                return { data: undefined };
+            },
+        }),
+        leaveRoom: builder.mutation<undefined, Pick<JoinLeaveGroupChatRoomDto, 'roomId'>>({
+            queryFn: (payload, { dispatch, getState }) => {
+                const socket = getSocket();
+
+                const state = getState() as AppState;
+
+                socket.emit(ChatOutgoingEvents.CLIENT_LEAVE_GROUP_ROOM, {
+                    userId: state.auth.user?.id,
+                    roomId: payload.roomId,
+                } as JoinLeaveGroupChatRoomDto);
+
+                dispatch(
+                    socketsApi.util.updateQueryData('connect', undefined, (draft) => {
+                        return draft?.filter((room) => room.id !== payload.roomId);
+                    }),
+                );
 
                 return { data: undefined };
             },
@@ -135,6 +187,7 @@ export const {
     useGetRoomDetailsQuery,
     useSendMessageMutation,
     useCreateRoomMutation,
+    useLeaveRoomMutation,
     endpoints: {
         connect: { useQueryState: useConnectQueryState },
     },

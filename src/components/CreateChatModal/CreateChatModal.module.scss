@@ -21,12 +21,12 @@
         flex-direction: column;
         height: 100%;
         padding: 16px;
-        row-gap: 12px;
+        row-gap: 20px;
     }
 
     &__chips {
         display: flex;
-        flex-flow: column wrap;
+        flex-flow: row wrap;
         height: 80px;
         overflow-x: auto;
 

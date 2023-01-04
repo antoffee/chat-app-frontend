@@ -4,7 +4,6 @@ import heart from 'assets/heart_3d.png';
 import cnBind, { Argument } from 'classnames/bind';
 import { useAppSelector } from 'store';
 
-import { CreateChatModal } from 'components/CreateChatModal';
 import { TextType, Typography } from 'components/Typography';
 
 import styles from './HomePage.module.scss';
@@ -25,7 +24,6 @@ export const HomePage = () => {
                 </Typography>
                 <IonImg src={heart} />
             </div>
-            <CreateChatModal />
         </IonContent>
     );
 };

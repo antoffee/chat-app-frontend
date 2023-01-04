@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
     IonAvatar,
     IonBadge,
@@ -37,10 +37,14 @@ export const ChatItem = ({
         [date],
     );
 
+    const handleDelete = useCallback(() => {
+        onDelete?.({ roomId: id });
+    }, [id, onDelete]);
+
     return (
         <IonItemSliding className={cx('chat-item__sliding')}>
             <IonItemOptions side="start">
-                <IonItemOption color={'danger'} onClick={onDelete}>
+                <IonItemOption color={'danger'} onClick={handleDelete}>
                     <div className={cx('sliding-option')}>
                         <IonIcon icon={trash} />
                     </div>
