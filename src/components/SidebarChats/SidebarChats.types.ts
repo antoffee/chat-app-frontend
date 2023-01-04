@@ -1,1 +1,1 @@
-export type SidebarChatsProps = { id: string };
+export type SidebarChatsProps = { id?: string };

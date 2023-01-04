@@ -20,3 +20,9 @@ export const authAction = createAsyncThunk('USER/AUTHENTIFICATE', async () => {
 
     return responce.data;
 });
+
+export const logoutAction = createAsyncThunk('USER/LOGOUT', async () => {
+    await authApi.authControllerLogout();
+
+    return undefined;
+});

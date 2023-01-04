@@ -1,5 +1,9 @@
-.sidebar {
-    --background: var(--base-10);
-    --ion-toolbar-background: var(--background);
-    --ion-background-color: var(--background);
+.toolbar {
+    &-settings {
+        color: var(--base-100);
+
+        ion-icon {
+            color: var(--base-100);
+        }
+    }
 }

@@ -1,6 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { ApiUserEntityResponse } from 'generated';
-import { authAction, loginAction, signUpAction } from 'store/auth/auth.actions';
+import { authAction, loginAction, logoutAction, signUpAction } from 'store/auth/auth.actions';
 import { FetchStatus } from 'types/asyncState';
 
 export type UserState = {
@@ -26,19 +26,22 @@ export const userSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addMatcher(
-                isAnyOf(authAction.fulfilled, signUpAction.fulfilled, loginAction.fulfilled),
+                isAnyOf(authAction.fulfilled, signUpAction.fulfilled, loginAction.fulfilled, logoutAction.fulfilled),
                 (state, { payload }) => {
                     state.user = payload;
                     state.errorMessage = '';
                     state.loadingStatus = FetchStatus.FULFILLED;
                 },
             )
-            .addMatcher(isAnyOf(loginAction.pending, signUpAction.pending, authAction.pending), (state) => {
-                state.errorMessage = '';
-                state.loadingStatus = FetchStatus.PENDING;
-            })
             .addMatcher(
-                isAnyOf(loginAction.rejected, signUpAction.rejected, authAction.rejected),
+                isAnyOf(loginAction.pending, signUpAction.pending, authAction.pending, logoutAction.pending),
+                (state) => {
+                    state.errorMessage = '';
+                    state.loadingStatus = FetchStatus.PENDING;
+                },
+            )
+            .addMatcher(
+                isAnyOf(loginAction.rejected, signUpAction.rejected, authAction.rejected, logoutAction.rejected),
                 (state, { error, type }) => {
                     if (!type?.includes(authAction.typePrefix)) {
                         state.errorMessage = error?.message ?? 'Error';

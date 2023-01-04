@@ -1,47 +1,54 @@
-import React, { useCallback } from 'react';
-import { IonButtons, IonContent, IonHeader, IonIcon, IonList, IonTitle, IonToolbar } from '@ionic/react';
+import React from 'react';
+import {
+    IonButtons,
+    IonContent,
+    IonHeader,
+    IonIcon,
+    IonItem,
+    IonList,
+    IonMenu,
+    IonPopover,
+    IonTitle,
+    IonToolbar,
+} from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
 import { useNodeUid } from 'hooks/useNodeUid';
-import { optionsSharp } from 'ionicons/icons';
+import { chevronDown } from 'ionicons/icons';
+import { appRoutes } from 'routes';
 import { useAppSelector } from 'store';
 import { useConnectQueryState, useLeaveRoomMutation } from 'store/sockets';
-import { getIsMobile } from 'store/windowSize';
 
 import { Button } from 'components/Button';
 import { ChatItem } from 'components/ChatItem';
-import { useUserOptionsModal, useUserOptionsPopover } from 'components/UserOptionsModal';
+import { usePresentChatModal } from 'components/CreateChatModal';
+
+import { SidebarChatsProps } from './SidebarChats.types';
 
 import styles from './SidebarChats.module.scss';
 
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
-export const SidebarChats = () => {
+export const SidebarChats = ({ id }: SidebarChatsProps) => {
     const { data } = useConnectQueryState();
     const { user } = useAppSelector((state) => state.auth);
-    const isMobile = useAppSelector(getIsMobile);
     const uniqueId = useNodeUid();
 
-    const { showUserOptions } = useUserOptionsModal();
-    const { showUserOptions: showUserOptionsPopover } = useUserOptionsPopover();
+    const { showCreateChat } = usePresentChatModal();
 
     const [leaveRoom] = useLeaveRoomMutation();
 
-    const handleOpenSettings = useCallback(() => {
-        return isMobile ? showUserOptions() : showUserOptionsPopover({ trigger: uniqueId });
-    }, [isMobile, showUserOptions, showUserOptionsPopover, uniqueId]);
-
     return (
-        <>
+        <IonMenu contentId={id} className={cx('sidebar')}>
             <IonHeader className="ion-no-border">
-                <IonToolbar className={cx('toolbar')}>
+                <IonToolbar>
                     <IonTitle>
                         {user?.name} ({user?.username})
                     </IonTitle>
                     <IonButtons slot="end">
-                        <Button id={uniqueId} className={cx('toolbar-settings')} onClick={handleOpenSettings}>
-                            <IonIcon slot="icon-only" icon={optionsSharp} />
+                        <Button id={uniqueId}>
+                            <IonIcon slot="icon-only" icon={chevronDown} />
                         </Button>
-                        {/* <IonPopover side="bottom" alignment="end" trigger={uniqueId} triggerAction="click">
+                        <IonPopover side="bottom" alignment="end" trigger={uniqueId} triggerAction="click">
                             <IonContent>
                                 <IonList>
                                     <IonItem href={appRoutes.settings()}>Settings</IonItem>
@@ -50,7 +57,7 @@ export const SidebarChats = () => {
                                     </IonItem>
                                 </IonList>
                             </IonContent>
-                        </IonPopover> */}
+                        </IonPopover>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
@@ -68,6 +75,6 @@ export const SidebarChats = () => {
                     ))}
                 </IonList>
             </IonContent>
-        </>
+        </IonMenu>
     );
 };

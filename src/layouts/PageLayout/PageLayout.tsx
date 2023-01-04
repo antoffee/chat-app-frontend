@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonPage, IonSplitPane } from '@ionic/react';
+import { IonContent, IonMenu, IonPage, IonSplitPane } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
 import { useNodeUid } from 'hooks/useNodeUid';
 import { PageLayoutProps } from 'layouts/PageLayout/PageLayout.types';
@@ -18,9 +18,11 @@ export const PageLayout = ({ children }: PageLayoutProps) => {
             <IonContent className={cx('page-layout')}>
                 <IonSplitPane when="md" contentId={id}>
                     {/*--  the side menu  --*/}
-                    <SidebarChats id={id} />
-
+                    <IonMenu contentId={id} className={cx('sidebar')}>
+                        <SidebarChats />
+                    </IonMenu>
                     {/*-- the main content --*/}
+
                     <IonPage id={id}>{children}</IonPage>
                 </IonSplitPane>
                 {/* <CreateChatModal/> */}
