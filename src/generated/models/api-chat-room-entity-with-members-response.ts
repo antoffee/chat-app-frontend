@@ -13,61 +13,68 @@
  * Do not edit the class manually.
  */
 import { ApiChatMessageEntityDetailsResponse } from './api-chat-message-entity-details-response';
+import { ApiUserEntityResponse } from './api-user-entity-response';
 /**
  *
  * @export
- * @interface ApiChatRoomEntityResponse
+ * @interface ApiChatRoomEntityWithMembersResponse
  */
-export interface ApiChatRoomEntityResponse {
+export interface ApiChatRoomEntityWithMembersResponse {
     /**
      *
      * @type {number}
-     * @memberof ApiChatRoomEntityResponse
+     * @memberof ApiChatRoomEntityWithMembersResponse
      */
     id: number;
     /**
      *
      * @type {string}
-     * @memberof ApiChatRoomEntityResponse
+     * @memberof ApiChatRoomEntityWithMembersResponse
      */
-    type: ApiChatRoomEntityResponseTypeEnum;
+    type: ApiChatRoomEntityWithMembersResponseTypeEnum;
     /**
      *
      * @type {string}
-     * @memberof ApiChatRoomEntityResponse
+     * @memberof ApiChatRoomEntityWithMembersResponse
      */
     name?: string;
     /**
      *
      * @type {string}
-     * @memberof ApiChatRoomEntityResponse
+     * @memberof ApiChatRoomEntityWithMembersResponse
      */
     description?: string;
     /**
      *
      * @type {Date}
-     * @memberof ApiChatRoomEntityResponse
+     * @memberof ApiChatRoomEntityWithMembersResponse
      */
     createdAt: Date;
     /**
      *
      * @type {Date}
-     * @memberof ApiChatRoomEntityResponse
+     * @memberof ApiChatRoomEntityWithMembersResponse
      */
     updatedAt: Date;
     /**
      *
      * @type {Array<ApiChatMessageEntityDetailsResponse>}
-     * @memberof ApiChatRoomEntityResponse
+     * @memberof ApiChatRoomEntityWithMembersResponse
      */
     messages: Array<ApiChatMessageEntityDetailsResponse>;
+    /**
+     * Max count of members is 2 to limit it's from above
+     * @type {Array<ApiUserEntityResponse>}
+     * @memberof ApiChatRoomEntityWithMembersResponse
+     */
+    members: Array<ApiUserEntityResponse>;
 }
 
 /**
  * @export
  * @enum {string}
  */
-export enum ApiChatRoomEntityResponseTypeEnum {
+export enum ApiChatRoomEntityWithMembersResponseTypeEnum {
     PRIVATE = 'PRIVATE',
     GROUP = 'GROUP',
 }

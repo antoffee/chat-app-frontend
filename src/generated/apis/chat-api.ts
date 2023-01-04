@@ -18,7 +18,7 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { ApiChatRoomEntityDetailsResponse } from '../models';
-import { ApiChatRoomEntityResponse } from '../models';
+import { ApiChatRoomEntityWithMembersResponse } from '../models';
 /**
  * ChatApi - axios parameter creator
  * @export
@@ -126,10 +126,7 @@ export const ChatApiFp = function (configuration?: Configuration) {
             id: string,
             options?: AxiosRequestConfig,
         ): Promise<
-            (
-                axios?: AxiosInstance,
-                basePath?: string,
-            ) => Promise<AxiosResponse<Array<ApiChatRoomEntityDetailsResponse>>>
+            (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiChatRoomEntityDetailsResponse>>
         > {
             const localVarAxiosArgs = await ChatApiAxiosParamCreator(configuration).chatControllerGetRoomDetails(
                 id,
@@ -151,7 +148,10 @@ export const ChatApiFp = function (configuration?: Configuration) {
         async chatControllerGetSelfRooms(
             options?: AxiosRequestConfig,
         ): Promise<
-            (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<Array<ApiChatRoomEntityResponse>>>
+            (
+                axios?: AxiosInstance,
+                basePath?: string,
+            ) => Promise<AxiosResponse<Array<ApiChatRoomEntityWithMembersResponse>>>
         > {
             const localVarAxiosArgs = await ChatApiAxiosParamCreator(configuration).chatControllerGetSelfRooms(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
@@ -180,7 +180,7 @@ export const ChatApiFactory = function (configuration?: Configuration, basePath?
         async chatControllerGetRoomDetails(
             id: string,
             options?: AxiosRequestConfig,
-        ): Promise<AxiosResponse<Array<ApiChatRoomEntityDetailsResponse>>> {
+        ): Promise<AxiosResponse<ApiChatRoomEntityDetailsResponse>> {
             return ChatApiFp(configuration)
                 .chatControllerGetRoomDetails(id, options)
                 .then((request) => request(axios, basePath));
@@ -192,7 +192,7 @@ export const ChatApiFactory = function (configuration?: Configuration, basePath?
          */
         async chatControllerGetSelfRooms(
             options?: AxiosRequestConfig,
-        ): Promise<AxiosResponse<Array<ApiChatRoomEntityResponse>>> {
+        ): Promise<AxiosResponse<Array<ApiChatRoomEntityWithMembersResponse>>> {
             return ChatApiFp(configuration)
                 .chatControllerGetSelfRooms(options)
                 .then((request) => request(axios, basePath));
@@ -217,7 +217,7 @@ export class ChatApi extends BaseAPI {
     public async chatControllerGetRoomDetails(
         id: string,
         options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<Array<ApiChatRoomEntityDetailsResponse>>> {
+    ): Promise<AxiosResponse<ApiChatRoomEntityDetailsResponse>> {
         return ChatApiFp(this.configuration)
             .chatControllerGetRoomDetails(id, options)
             .then((request) => request(this.axios, this.basePath));
@@ -230,7 +230,7 @@ export class ChatApi extends BaseAPI {
      */
     public async chatControllerGetSelfRooms(
         options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<Array<ApiChatRoomEntityResponse>>> {
+    ): Promise<AxiosResponse<Array<ApiChatRoomEntityWithMembersResponse>>> {
         return ChatApiFp(this.configuration)
             .chatControllerGetSelfRooms(options)
             .then((request) => request(this.axios, this.basePath));

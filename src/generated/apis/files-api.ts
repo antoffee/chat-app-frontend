@@ -17,26 +17,28 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { ApiUserEntityResponse } from '../models';
+import { UserEntityResponseDto } from '../models';
 /**
- * AppApi - axios parameter creator
+ * FilesApi - axios parameter creator
  * @export
  */
-export const AppApiAxiosParamCreator = function (configuration?: Configuration) {
+export const FilesApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appControllerGetClient: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/`;
+        filesControllerAddOrUpdateAvatar: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/files/avatar`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions: AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options };
+            const localVarRequestOptions: AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options };
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -65,15 +67,15 @@ export const AppApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appControllerGetHello: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/hello`;
+        filesControllerDeleteAvatar: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/files/avatar`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions: AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options };
+            const localVarRequestOptions: AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options };
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -101,20 +103,22 @@ export const AppApiAxiosParamCreator = function (configuration?: Configuration) 
 };
 
 /**
- * AppApi - functional programming interface
+ * FilesApi - functional programming interface
  * @export
  */
-export const AppApiFp = function (configuration?: Configuration) {
+export const FilesApiFp = function (configuration?: Configuration) {
     return {
         /**
          *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appControllerGetClient(
+        async filesControllerAddOrUpdateAvatar(
             options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await AppApiAxiosParamCreator(configuration).appControllerGetClient(options);
+        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
+            const localVarAxiosArgs = await FilesApiAxiosParamCreator(configuration).filesControllerAddOrUpdateAvatar(
+                options,
+            );
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs: AxiosRequestConfig = {
                     ...localVarAxiosArgs.options,
@@ -128,10 +132,12 @@ export const AppApiFp = function (configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appControllerGetHello(
+        async filesControllerDeleteAvatar(
             options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<string>>> {
-            const localVarAxiosArgs = await AppApiAxiosParamCreator(configuration).appControllerGetHello(options);
+        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
+            const localVarAxiosArgs = await FilesApiAxiosParamCreator(configuration).filesControllerDeleteAvatar(
+                options,
+            );
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs: AxiosRequestConfig = {
                     ...localVarAxiosArgs.options,
@@ -144,19 +150,21 @@ export const AppApiFp = function (configuration?: Configuration) {
 };
 
 /**
- * AppApi - factory interface
+ * FilesApi - factory interface
  * @export
  */
-export const AppApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const FilesApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     return {
         /**
          *
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appControllerGetClient(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return AppApiFp(configuration)
-                .appControllerGetClient(options)
+        async filesControllerAddOrUpdateAvatar(
+            options?: AxiosRequestConfig,
+        ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+            return FilesApiFp(configuration)
+                .filesControllerAddOrUpdateAvatar(options)
                 .then((request) => request(axios, basePath));
         },
         /**
@@ -164,41 +172,45 @@ export const AppApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appControllerGetHello(options?: AxiosRequestConfig): Promise<AxiosResponse<string>> {
-            return AppApiFp(configuration)
-                .appControllerGetHello(options)
+        async filesControllerDeleteAvatar(options?: AxiosRequestConfig): Promise<AxiosResponse<ApiUserEntityResponse>> {
+            return FilesApiFp(configuration)
+                .filesControllerDeleteAvatar(options)
                 .then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * AppApi - object-oriented interface
+ * FilesApi - object-oriented interface
  * @export
- * @class AppApi
+ * @class FilesApi
  * @extends {BaseAPI}
  */
-export class AppApi extends BaseAPI {
+export class FilesApi extends BaseAPI {
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AppApi
+     * @memberof FilesApi
      */
-    public async appControllerGetClient(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-        return AppApiFp(this.configuration)
-            .appControllerGetClient(options)
+    public async filesControllerAddOrUpdateAvatar(
+        options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+        return FilesApiFp(this.configuration)
+            .filesControllerAddOrUpdateAvatar(options)
             .then((request) => request(this.axios, this.basePath));
     }
     /**
      *
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof AppApi
+     * @memberof FilesApi
      */
-    public async appControllerGetHello(options?: AxiosRequestConfig): Promise<AxiosResponse<string>> {
-        return AppApiFp(this.configuration)
-            .appControllerGetHello(options)
+    public async filesControllerDeleteAvatar(
+        options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+        return FilesApiFp(this.configuration)
+            .filesControllerDeleteAvatar(options)
             .then((request) => request(this.axios, this.basePath));
     }
 }

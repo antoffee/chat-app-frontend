@@ -12,6 +12,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { ApiFileEntityResponse } from './api-file-entity-response';
 /**
  *
  * @export
@@ -60,6 +61,18 @@ export interface ApiUserEntityResponse {
      * @memberof ApiUserEntityResponse
      */
     isEmailConfirmed: boolean;
+    /**
+     *
+     * @type {number}
+     * @memberof ApiUserEntityResponse
+     */
+    avatarFileEntityId: number;
+    /**
+     *
+     * @type {ApiFileEntityResponse}
+     * @memberof ApiUserEntityResponse
+     */
+    avatar?: ApiFileEntityResponse;
 }
 
 /**

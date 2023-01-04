@@ -15,5 +15,6 @@
 export * from './apis/auth-api';
 export * from './apis/chat-api';
 export * from './apis/email-api';
+export * from './apis/files-api';
 export * from './apis/search-api';
 export * from './apis/users-api';

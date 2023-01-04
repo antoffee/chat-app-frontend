@@ -63,7 +63,7 @@ export interface ApiChatRoomEntityDetailsResponse {
      */
     messages: Array<ApiChatMessageEntityDetailsResponse>;
     /**
-     *
+     * Max count of members is 2 to limit it's from above
      * @type {Array<ApiUserEntityResponse>}
      * @memberof ApiChatRoomEntityDetailsResponse
      */

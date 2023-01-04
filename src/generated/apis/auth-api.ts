@@ -20,6 +20,7 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 import { ApiUserEntityResponse } from '../models';
 import { CreateUserDto } from '../models';
 import { LoginDto } from '../models';
+import { UserEntityResponseDto } from '../models';
 /**
  * AuthApi - axios parameter creator
  * @export

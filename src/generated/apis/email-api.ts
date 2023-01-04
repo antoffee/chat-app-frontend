@@ -21,6 +21,7 @@ import { ApiUserEntityResponse } from '../models';
 import { ChangePasswordDto } from '../models';
 import { ConfirmEmailDto } from '../models';
 import { ForgotPasswordDto } from '../models';
+import { UserEntityResponseDto } from '../models';
 /**
  * EmailApi - axios parameter creator
  * @export
