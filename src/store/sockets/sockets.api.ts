@@ -27,6 +27,7 @@ function getSocket() {
     if (!socket) {
         socket = io(`${process.env.BACKEND_URL}/chat`, {
             withCredentials: true,
+            secure: true,
         });
     }
 
