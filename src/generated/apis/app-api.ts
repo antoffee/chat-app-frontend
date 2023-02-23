@@ -28,45 +28,8 @@ export const AppApiAxiosParamCreator = function (configuration?: Configuration) 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        appControllerGetClient: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions: AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options };
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = new URLSearchParams(query).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {
-                ...localVarHeaderParameter,
-                ...headersFromBaseOptions,
-                ...options.headers,
-            };
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         *
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        appControllerGetHello: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/hello`;
+        appControllerGetPing: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/chat-api/ping`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -111,27 +74,10 @@ export const AppApiFp = function (configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appControllerGetClient(
-            options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await AppApiAxiosParamCreator(configuration).appControllerGetClient(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs: AxiosRequestConfig = {
-                    ...localVarAxiosArgs.options,
-                    url: basePath + localVarAxiosArgs.url,
-                };
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         *
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appControllerGetHello(
+        async appControllerGetPing(
             options?: AxiosRequestConfig,
         ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<string>>> {
-            const localVarAxiosArgs = await AppApiAxiosParamCreator(configuration).appControllerGetHello(options);
+            const localVarAxiosArgs = await AppApiAxiosParamCreator(configuration).appControllerGetPing(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs: AxiosRequestConfig = {
                     ...localVarAxiosArgs.options,
@@ -154,19 +100,9 @@ export const AppApiFactory = function (configuration?: Configuration, basePath?:
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async appControllerGetClient(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+        async appControllerGetPing(options?: AxiosRequestConfig): Promise<AxiosResponse<string>> {
             return AppApiFp(configuration)
-                .appControllerGetClient(options)
-                .then((request) => request(axios, basePath));
-        },
-        /**
-         *
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async appControllerGetHello(options?: AxiosRequestConfig): Promise<AxiosResponse<string>> {
-            return AppApiFp(configuration)
-                .appControllerGetHello(options)
+                .appControllerGetPing(options)
                 .then((request) => request(axios, basePath));
         },
     };
@@ -185,20 +121,9 @@ export class AppApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof AppApi
      */
-    public async appControllerGetClient(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+    public async appControllerGetPing(options?: AxiosRequestConfig): Promise<AxiosResponse<string>> {
         return AppApiFp(this.configuration)
-            .appControllerGetClient(options)
-            .then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     *
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof AppApi
-     */
-    public async appControllerGetHello(options?: AxiosRequestConfig): Promise<AxiosResponse<string>> {
-        return AppApiFp(this.configuration)
-            .appControllerGetHello(options)
+            .appControllerGetPing(options)
             .then((request) => request(this.axios, this.basePath));
     }
 }

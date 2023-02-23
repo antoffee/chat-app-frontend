@@ -45,7 +45,7 @@ export const SearchApiAxiosParamCreator = function (configuration?: Configuratio
                     'Required parameter body was null or undefined when calling searchControllerSearchChats.',
                 );
             }
-            const localVarPath = `/search/chats`;
+            const localVarPath = `/chat-api/search/chats`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -100,7 +100,7 @@ export const SearchApiAxiosParamCreator = function (configuration?: Configuratio
                     'Required parameter body was null or undefined when calling searchControllerSearchMessages.',
                 );
             }
-            const localVarPath = `/search/messages`;
+            const localVarPath = `/chat-api/search/messages`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -155,7 +155,7 @@ export const SearchApiAxiosParamCreator = function (configuration?: Configuratio
                     'Required parameter body was null or undefined when calling searchControllerSearchUsers.',
                 );
             }
-            const localVarPath = `/search/users`;
+            const localVarPath = `/chat-api/search/users`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;

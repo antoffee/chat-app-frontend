@@ -39,7 +39,7 @@ export const ChatApiAxiosParamCreator = function (configuration?: Configuration)
                     'Required parameter id was null or undefined when calling chatControllerGetRoomDetails.',
                 );
             }
-            const localVarPath = `/chat/room/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/chat-api/chat/room/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -76,7 +76,7 @@ export const ChatApiAxiosParamCreator = function (configuration?: Configuration)
          * @throws {RequiredError}
          */
         chatControllerGetSelfRooms: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/chat/self-rooms`;
+            const localVarPath = `/chat-api/chat/self-rooms`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;

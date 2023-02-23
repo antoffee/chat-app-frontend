@@ -19,6 +19,7 @@ import { Configuration } from '../configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { ApiCheckUsernameAvailableResponse } from '../models';
 import { ApiUserEntityResponse } from '../models';
+import { ApiUserEntityWithFaceInfoResponse } from '../models';
 import { CheckUsernameAvailableDto } from '../models';
 import { UpdateUserDto } from '../models';
 /**
@@ -44,7 +45,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                     'Required parameter body was null or undefined when calling usersControllerCheckUsernameAvailable.',
                 );
             }
-            const localVarPath = `/users/check-username`;
+            const localVarPath = `/chat-api/users/check-username`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -96,7 +97,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                     'Required parameter id was null or undefined when calling usersControllerDeleteUser.',
                 );
             }
-            const localVarPath = `/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/chat-api/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -133,7 +134,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         usersControllerGetAllUsers: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/users`;
+            const localVarPath = `/chat-api/users`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -178,7 +179,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                     'Required parameter id was null or undefined when calling usersControllerGetById.',
                 );
             }
-            const localVarPath = `/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/chat-api/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -215,7 +216,44 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         usersControllerGetSelf: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/users/self`;
+            const localVarPath = `/chat-api/users/self`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions: AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options };
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = new URLSearchParams(query).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {
+                ...localVarHeaderParameter,
+                ...headersFromBaseOptions,
+                ...options.headers,
+            };
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        usersControllerGetSelfFaceInfo: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/chat-api/users/self-face-info`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -263,7 +301,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                     'Required parameter body was null or undefined when calling usersControllerUpdateSelf.',
                 );
             }
-            const localVarPath = `/users/self-update`;
+            const localVarPath = `/chat-api/users/self-update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -327,7 +365,7 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
                     'Required parameter id was null or undefined when calling usersControllerUpdateUser.',
                 );
             }
-            const localVarPath = `/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
+            const localVarPath = `/chat-api/users/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -479,6 +517,27 @@ export const UsersApiFp = function (configuration?: Configuration) {
         },
         /**
          *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async usersControllerGetSelfFaceInfo(
+            options?: AxiosRequestConfig,
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>>
+        > {
+            const localVarAxiosArgs = await UsersApiAxiosParamCreator(configuration).usersControllerGetSelfFaceInfo(
+                options,
+            );
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs: AxiosRequestConfig = {
+                    ...localVarAxiosArgs.options,
+                    url: basePath + localVarAxiosArgs.url,
+                };
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         *
          * @param {UpdateUserDto} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -599,6 +658,18 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          *
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async usersControllerGetSelfFaceInfo(
+            options?: AxiosRequestConfig,
+        ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
+            return UsersApiFp(configuration)
+                .usersControllerGetSelfFaceInfo(options)
+                .then((request) => request(axios, basePath));
+        },
+        /**
+         *
          * @param {UpdateUserDto} body
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -704,6 +775,19 @@ export class UsersApi extends BaseAPI {
     public async usersControllerGetSelf(options?: AxiosRequestConfig): Promise<AxiosResponse<ApiUserEntityResponse>> {
         return UsersApiFp(this.configuration)
             .usersControllerGetSelf(options)
+            .then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     *
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public async usersControllerGetSelfFaceInfo(
+        options?: AxiosRequestConfig,
+    ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
+        return UsersApiFp(this.configuration)
+            .usersControllerGetSelfFaceInfo(options)
             .then((request) => request(this.axios, this.basePath));
     }
     /**

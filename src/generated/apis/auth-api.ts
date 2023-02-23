@@ -33,7 +33,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
          * @throws {RequiredError}
          */
         authControllerAuthenticate: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/auth`;
+            const localVarPath = `/chat-api/auth`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -70,7 +70,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
          * @throws {RequiredError}
          */
         authControllerChangePassword: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/auth/change-password`;
+            const localVarPath = `/chat-api/auth/change-password`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -115,7 +115,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
                     'Required parameter body was null or undefined when calling authControllerLogin.',
                 );
             }
-            const localVarPath = `/auth/login`;
+            const localVarPath = `/chat-api/auth/login`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -159,7 +159,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
          * @throws {RequiredError}
          */
         authControllerLogout: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/auth/logout`;
+            const localVarPath = `/chat-api/auth/logout`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -204,7 +204,7 @@ export const AuthApiAxiosParamCreator = function (configuration?: Configuration)
                     'Required parameter body was null or undefined when calling authControllerRegister.',
                 );
             }
-            const localVarPath = `/auth/register`;
+            const localVarPath = `/chat-api/auth/register`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;

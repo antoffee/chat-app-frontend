@@ -31,7 +31,7 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         filesControllerAddOrUpdateAvatar: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/files/avatar`;
+            const localVarPath = `/chat-api/files/avatar`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -68,7 +68,7 @@ export const FilesApiAxiosParamCreator = function (configuration?: Configuration
          * @throws {RequiredError}
          */
         filesControllerDeleteAvatar: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/files/avatar`;
+            const localVarPath = `/chat-api/files/avatar`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
