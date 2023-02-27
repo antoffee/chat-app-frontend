@@ -1,5 +1,6 @@
+import { localConfigService } from 'api/localConfigService';
+import { socketService } from 'api/socketService';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { AuthResponse } from 'types/authResponse';
 
 import { handleResponseAndThrowAnErrorIfExists } from 'utils';
 
@@ -11,35 +12,32 @@ export const requestConfig: AxiosRequestConfig = {
     withCredentials: true,
 };
 
-export const axiosInstance = axios.create(requestConfig);
+const axiosInstance = axios.create(requestConfig);
 
 let axiosCredentialInterceptorsId: number;
 
-export const updateAxiosClientCredential = (accessToken: string) => {
+export const updateLoginConnection = (accessToken: string) => {
     try {
         axiosInstance.interceptors.request.eject(axiosCredentialInterceptorsId);
     } catch (error) {
         console.error('at axios in updateAxiosClientCredential', error);
     }
 
+    socketService.connect(accessToken);
+
     axiosCredentialInterceptorsId = axiosInstance.interceptors.request.use((config) => {
-        config.headers = { ...config.headers, ['authorization']: accessToken };
+        config.headers = { ...config.headers, ['authentication']: accessToken };
 
         return config;
     });
 };
 
-const accessHeader = localStorage.getItem('accessHeader');
+axiosInstance.interceptors.response.use((res: AxiosResponse) => {
+    const accessToken = res.headers?.['authentication'];
 
-if (accessHeader) {
-    updateAxiosClientCredential(accessHeader);
-}
-
-axiosInstance.interceptors.response.use((res: AxiosResponse<AuthResponse>) => {
-    const accessToken = res.headers?.['authorisation'];
     if (accessToken) {
-        localStorage.setItem('accessHeader', accessToken);
-        updateAxiosClientCredential(accessToken);
+        localConfigService.saveHeader(accessToken).catch(console.error);
+        updateLoginConnection(accessToken);
     }
 
     return res;
@@ -61,3 +59,5 @@ axiosInstance.interceptors.response.use((res: AxiosResponse<AuthResponse>) => {
 // );
 
 axiosInstance.interceptors.response.use(handleResponseAndThrowAnErrorIfExists);
+
+export { axiosInstance };

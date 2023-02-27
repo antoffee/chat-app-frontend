@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { socketService } from 'api/socketService';
 import { AxiosError } from 'axios';
 import {
     ApiChatMessageEntityDetailsResponse,
@@ -9,7 +10,6 @@ import {
     CreatePrivateChatRoomDto,
     JoinLeaveGroupChatRoomDto,
 } from 'generated';
-import { io, Socket } from 'socket.io-client';
 import { AppState } from 'store';
 import { ChatIncomingEvents, ChatOutgoingEvents } from 'types/chat';
 
@@ -22,16 +22,8 @@ type SendMessage = {
     roomId: number;
 };
 
-let socket: Socket;
 function getSocket() {
-    if (!socket) {
-        socket = io(`${process.env.BACKEND_URL}/chat`, {
-            withCredentials: true,
-            secure: true,
-        });
-    }
-
-    return socket;
+    return socketService.socket;
 }
 
 export const socketsApi = createApi({
