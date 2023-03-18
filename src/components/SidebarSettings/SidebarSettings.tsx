@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    IonBackButton,
     IonButtons,
     IonContent,
     IonHeader,
@@ -12,8 +13,7 @@ import {
     IonToolbar,
 } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
-import { useNodeUid } from 'hooks/useNodeUid';
-import { arrowBack } from 'ionicons/icons';
+import { createOutline, shieldCheckmarkOutline } from 'ionicons/icons';
 import { appRoutes } from 'routes';
 import { useAppSelector } from 'store';
 
@@ -25,7 +25,6 @@ const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const SidebarSettings = () => {
     const { user } = useAppSelector((state) => state.auth);
-    const uniqueId = useNodeUid();
 
     return (
         <>
@@ -33,21 +32,24 @@ export const SidebarSettings = () => {
                 <IonToolbar>
                     <IonTitle>Profile</IonTitle>
                     <IonButtons slot="start">
-                        <Button href={appRoutes.chats()} id={uniqueId}>
-                            <IonIcon slot="icon-only" icon={arrowBack} />
+                        <IonBackButton />
+                    </IonButtons>
+                    <IonButtons slot="end">
+                        <Button type="button" href={appRoutes.settingsEdit()}>
+                            <IonIcon slot="icon-only" icon={createOutline} />
                         </Button>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
                 <IonList className={cx('list')}>
-                    <IonItem>
+                    <IonItem className="ion-no-border">
                         <IonLabel>
                             <IonNote>Name</IonNote>
                             {user?.name}
                         </IonLabel>
                     </IonItem>
-                    <IonItem>
+                    <IonItem className="ion-no-border">
                         <IonLabel>
                             <IonNote>Username</IonNote>
                             {user?.username}
@@ -58,6 +60,7 @@ export const SidebarSettings = () => {
                             <IonNote>Email</IonNote>
                             {user?.email}
                         </IonLabel>
+                        {user?.isEmailConfirmed && <IonIcon slot="end" color="success" icon={shieldCheckmarkOutline} />}
                     </IonItem>
                 </IonList>
             </IonContent>

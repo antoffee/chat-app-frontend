@@ -8,11 +8,12 @@ import { PageLayout } from 'layouts/PageLayout';
 import { ChatDetailsPage } from 'pages/ChatDetailsPage';
 import { ChatsPage } from 'pages/ChatsPage';
 import { DemoPage } from 'pages/DemoPage';
+import { EditSettingsPage } from 'pages/EditSettingsPage';
 import { HomePage } from 'pages/HomePage';
 import { LoginPage } from 'pages/LoginPage';
 import { appRoutes } from 'routes';
 import { useAppDispatch, useAppSelector } from 'store';
-import { authAction, confirmEmailAction } from 'store/auth';
+import { authAction, confirmEmailAction, getIsLoggedIn } from 'store/auth';
 import { useLazyConnectQuery } from 'store/sockets';
 
 import { BottomNavigationTabs } from 'components/BottomNavigationTabs';
@@ -45,7 +46,7 @@ export const App: React.FC = () => {
     useWindowSize();
 
     const dispatch = useAppDispatch();
-    const isAuth = useAppSelector((state) => !!state.auth.user?.id);
+    const isAuth = useAppSelector(getIsLoggedIn);
 
     const [connect] = useLazyConnectQuery();
 
@@ -79,18 +80,22 @@ export const App: React.FC = () => {
                                 {isAuth ? <Redirect to="/" /> : <LoginPage />}
                             </Route>
                             <PageLayout>
-                                <ProtectedRoute path="/" exact>
+                                <ProtectedRoute isAuth={isAuth} path="/" exact>
                                     <HomePage />
                                 </ProtectedRoute>
                                 <Route path="/demo">
                                     <DemoPage />
                                 </Route>
-                                <ProtectedRoute exact path={appRoutes.chats()}>
+                                <ProtectedRoute isAuth={isAuth} exact path={appRoutes.settingsEdit()}>
+                                    <EditSettingsPage />
+                                </ProtectedRoute>
+                                <ProtectedRoute isAuth={isAuth} exact path={appRoutes.chats()}>
                                     <ChatsPage />
                                 </ProtectedRoute>
-                                <ProtectedRoute path={appRoutes.chatDetails()}>
+                                <ProtectedRoute isAuth={isAuth} path={appRoutes.chatDetails()}>
                                     <ChatDetailsPage />
                                 </ProtectedRoute>
+                                {/* <Route  path={'*'}>404</Route> */}
                             </PageLayout>
                         </IonRouterOutlet>
                     </BottomNavigationTabs>

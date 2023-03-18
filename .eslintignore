@@ -1,3 +1,4 @@
 **/*.json
 postcss.config.js
 src/generated
+src/models

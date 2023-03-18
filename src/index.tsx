@@ -10,6 +10,14 @@ import store from 'store';
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
 
+const AppSetup = () => (
+    <IonApp>
+        <IonReactRouter>
+            <App />
+        </IonReactRouter>
+    </IonApp>
+);
+
 const LazyApp = React.lazy(async () => {
     await localConfigService
         .getHeader()
@@ -21,19 +29,15 @@ const LazyApp = React.lazy(async () => {
         })
         .catch(console.error);
 
-    return { default: App };
+    return { default: AppSetup };
 });
 
 ReactDOM.render(
     <React.StrictMode>
         <Provider store={store}>
-            <IonApp>
-                <IonReactRouter>
-                    <Suspense fallback={null}>
-                        <LazyApp />
-                    </Suspense>
-                </IonReactRouter>
-            </IonApp>
+            <Suspense fallback={null}>
+                <LazyApp />
+            </Suspense>
         </Provider>
     </React.StrictMode>,
     document.getElementById('root'),

@@ -3,6 +3,7 @@ import { IonContent, IonMenu, IonPage, IonSplitPane, useIonRouter } from '@ionic
 import cnBind, { Argument } from 'classnames/bind';
 import { useNodeUid } from 'hooks/useNodeUid';
 import { PageLayoutProps } from 'layouts/PageLayout/PageLayout.types';
+import { appRoutes } from 'routes';
 
 import { SidebarChats } from 'components/SidebarChats';
 import { SidebarSettings } from 'components/SidebarSettings/SidebarSettings';
@@ -16,7 +17,7 @@ export const PageLayout = ({ children }: PageLayoutProps) => {
 
     const { routeInfo } = useIonRouter();
 
-    const isSettingsPart = useMemo(() => routeInfo.pathname?.includes('settings'), [routeInfo.pathname]);
+    const isSettingsPart = useMemo(() => routeInfo.pathname === appRoutes.settings(), [routeInfo.pathname]);
 
     return (
         <>

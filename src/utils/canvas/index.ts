@@ -1,0 +1,1 @@
+export { generateEyeMaterial } from './generateEyeMaterial';

@@ -1,10 +1,20 @@
 import { useCallback } from 'react';
-import { useIonModal, UseIonModalResult, useIonPopover, UseIonPopoverResult } from '@ionic/react';
+import { useIonModal, UseIonModalResult, useIonPopover, UseIonPopoverResult, useIonRouter } from '@ionic/react';
+import { appRoutes } from 'routes';
 
 import { UserOptionsModal } from 'components/UserOptionsModal/UserOptionsModal';
 
 export const useUserOptionsModal = () => {
-    const [showUserOptions, closeUserOptions] = useIonModal(UserOptionsModal, { onDismiss: () => closeUserOptions() });
+    const router = useIonRouter();
+
+    const onSettingsClick = useCallback(() => {
+        router.push(appRoutes.settings());
+    }, [router]);
+
+    const [showUserOptions, closeUserOptions] = useIonModal(UserOptionsModal, {
+        onDismiss: () => closeUserOptions(),
+        onSettingsClick,
+    });
 
     const showModal: UseIonModalResult[0] = useCallback(
         (options) => {
@@ -17,8 +27,15 @@ export const useUserOptionsModal = () => {
 };
 
 export const useUserOptionsPopover = () => {
+    const router = useIonRouter();
+
+    const onSettingsClick = useCallback(() => {
+        router.push(appRoutes.settings());
+    }, [router]);
+
     const [showUserOptions, closeUserOptions] = useIonPopover(UserOptionsModal, {
         onDismiss: () => closeUserOptions(),
+        onSettingsClick,
     });
 
     const showModal: UseIonPopoverResult[0] = useCallback(

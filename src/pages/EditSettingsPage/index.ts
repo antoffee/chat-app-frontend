@@ -1,0 +1,1 @@
+export { EditSettingsPage } from './EditSettingsPage';

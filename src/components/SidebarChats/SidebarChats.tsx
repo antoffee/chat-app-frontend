@@ -41,16 +41,6 @@ export const SidebarChats = () => {
                         <Button id={uniqueId} className={cx('toolbar-settings')} onClick={handleOpenSettings}>
                             <IonIcon slot="icon-only" icon={optionsSharp} />
                         </Button>
-                        {/* <IonPopover side="bottom" alignment="end" trigger={uniqueId} triggerAction="click">
-                            <IonContent>
-                                <IonList>
-                                    <IonItem href={appRoutes.settings()}>Settings</IonItem>
-                                    <IonItem button onClick={() => showCreateChat()}>
-                                        Create new chat
-                                    </IonItem>
-                                </IonList>
-                            </IonContent>
-                        </IonPopover> */}
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>

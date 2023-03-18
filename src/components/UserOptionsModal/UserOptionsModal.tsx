@@ -2,7 +2,6 @@ import React from 'react';
 import { IonContent, IonIcon, IonItem, IonList } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
 import { createOutline, logOutOutline, settingsOutline } from 'ionicons/icons';
-import { appRoutes } from 'routes';
 import { useAppDispatch } from 'store';
 import { logoutAction } from 'store/auth';
 
@@ -12,7 +11,7 @@ import styles from './UserOptionsModal.module.scss';
 
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
-export const UserOptionsModal = () => {
+export const UserOptionsModal = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
     const dispatch = useAppDispatch();
 
     const { showCreateChat } = usePresentChatModal();
@@ -20,7 +19,7 @@ export const UserOptionsModal = () => {
     return (
         <IonContent>
             <IonList>
-                <IonItem detail={false} href={appRoutes.settings()}>
+                <IonItem detail={false} button onClick={onSettingsClick}>
                     <IonIcon icon={settingsOutline} slot="start" />
                     Settings
                 </IonItem>

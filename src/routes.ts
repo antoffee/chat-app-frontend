@@ -3,6 +3,7 @@ class AppRoutes {
     login = () => '/login';
     chats = () => '/chats';
     settings = () => '/settings';
+    settingsEdit = () => '/settings';
     chatDetails = (id: string | number = ':id') => `/chats/${id}`;
 }
 
