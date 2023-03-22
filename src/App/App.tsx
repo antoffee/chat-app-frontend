@@ -18,6 +18,7 @@ import { useLazyConnectQuery } from 'store/sockets';
 
 import { BottomNavigationTabs } from 'components/BottomNavigationTabs';
 import { ProtectedRoute } from 'components/ProtectedRoute';
+import { SidebarSettings } from 'components/SidebarSettings/SidebarSettings';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -88,6 +89,9 @@ export const App: React.FC = () => {
                                 </Route>
                                 <ProtectedRoute isAuth={isAuth} exact path={appRoutes.settingsEdit()}>
                                     <EditSettingsPage />
+                                </ProtectedRoute>
+                                <ProtectedRoute isAuth={isAuth} exact path={appRoutes.settingsMobile()}>
+                                    <SidebarSettings />
                                 </ProtectedRoute>
                                 <ProtectedRoute isAuth={isAuth} exact path={appRoutes.chats()}>
                                     <ChatsPage />
