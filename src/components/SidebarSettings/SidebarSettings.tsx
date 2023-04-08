@@ -3,6 +3,7 @@ import {
     IonBackButton,
     IonButtons,
     IonContent,
+    IonFooter,
     IonHeader,
     IonIcon,
     IonItem,
@@ -18,6 +19,7 @@ import { appRoutes } from 'routes';
 import { useAppSelector } from 'store';
 
 import { Button } from 'components/Button';
+import { ThemeToggle } from 'components/ThemeToggle';
 
 import styles from './SidebarChats.module.scss';
 
@@ -64,6 +66,11 @@ export const SidebarSettings = () => {
                     </IonItem>
                 </IonList>
             </IonContent>
+            <IonFooter className={cx('footer')}>
+                <IonToolbar>
+                    <ThemeToggle />
+                </IonToolbar>
+            </IonFooter>
         </>
     );
 };

@@ -8,7 +8,7 @@ export const useUserOptionsModal = () => {
     const router = useIonRouter();
 
     const onSettingsClick = useCallback(() => {
-        router.push(appRoutes.settings());
+        router.push(appRoutes.settingsMobile());
     }, [router]);
 
     const [showUserOptions, closeUserOptions] = useIonModal(UserOptionsModal, {
