@@ -1,3 +1,4 @@
 export type ModelViewerProps = {
-    color?: string
+    color?: string;
+    mode?: 'avatar' | 'viewer' | 'editor'
 };

@@ -17,7 +17,7 @@ export const PageLayout = ({ children }: PageLayoutProps) => {
 
     const { routeInfo } = useIonRouter();
 
-    const isSettingsPart = useMemo(() => routeInfo.pathname === appRoutes.settings(), [routeInfo.pathname]);
+    const isSettingsPart = useMemo(() => routeInfo.pathname?.includes( appRoutes.settings()), [routeInfo.pathname]);
 
     return (
         <>

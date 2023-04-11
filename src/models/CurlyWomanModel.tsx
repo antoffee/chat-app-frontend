@@ -39,12 +39,12 @@ export default function Model({ ...props }: JSX.IntrinsicElements['group']) {
     const {
         nodes: { Wolf3D_Hair },
     } = useGLTF('/curly-woman.gltf') as GLTFResult;
-    // const material = generateEyeMaterial();
+    const material = generateEyeMaterial();
 
 return (
         <group ref={group} {...props} dispose={null} position={[0, -1.5, 0]}>
-            <mesh geometry={nodes.EyeLeft.geometry} material={materials.Wolf3D_Eye} />
-            <mesh geometry={nodes.EyeRight.geometry} material={materials.Wolf3D_Eye} />
+            <mesh geometry={nodes.EyeLeft.geometry} material={material} />
+            <mesh geometry={nodes.EyeRight.geometry} material={material} />
             <mesh geometry={nodes.Wolf3D_Head.geometry} material={materials.Wolf3D_Skin} />
             <mesh geometry={nodes.Wolf3D_Teeth.geometry} material={materials.Wolf3D_Teeth} />
             {/* <mesh geometry={nodes.Wolf3D_Body.geometry} material={materials.Wolf3D_Body} /> */}

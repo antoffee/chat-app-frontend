@@ -1,8 +1,14 @@
 .chat-item {
-    --min-height: 60px;
+    --min-height: 80px;
 
     .avatar {
         @include centered-flexbox;
+
+        div {
+            min-width: 100px;
+            min-height: 100px;
+            padding-top: 10px;
+        }
 
         img {
             width: 100%;

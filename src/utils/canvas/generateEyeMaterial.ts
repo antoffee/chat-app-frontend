@@ -1,4 +1,4 @@
-import THREE, { Color } from 'three';
+import { Color, MeshStandardMaterial, Texture } from 'three';
 
 const generateTexture = (color = 'rebeccapurple') => {
     const size = 500;
@@ -35,12 +35,12 @@ const generateTexture = (color = 'rebeccapurple') => {
 };
 
 export const generateEyeMaterial = (color?: string) => {
-    const texture = new THREE.Texture(generateTexture(color));
+    const texture = new Texture(generateTexture(color));
 
     texture.needsUpdate = true; // important!
 
     // material
-    return new THREE.MeshStandardMaterial({
+    return new MeshStandardMaterial({
         map: texture,
         opacity: 1,
         emissive: new Color(0, 0, 0),

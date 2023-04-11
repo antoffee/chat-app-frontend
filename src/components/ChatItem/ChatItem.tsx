@@ -11,9 +11,11 @@ import {
     IonNote,
 } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
-import { chatbubble, person, pin, trash } from 'ionicons/icons';
+import { chatbubble, pin, trash } from 'ionicons/icons';
 import moment from 'moment';
 import { appRoutes } from 'routes';
+
+import { ModelViewer } from 'components/ModelViewer';
 
 import { ChatItemProps } from './ChatItem.types';
 
@@ -52,7 +54,7 @@ export const ChatItem = ({
             </IonItemOptions>
             <IonItem routerLink={appRoutes.chatDetails(id)} lines="none" className={cx('chat-item')}>
                 <IonAvatar className={cx('avatar')} slot="start">
-                    {image ? <img src={image} /> : <IonIcon icon={person} />}
+                    {image ? <img src={image} /> : <ModelViewer mode='avatar'/>}
                 </IonAvatar>
                 <IonLabel>
                     <h2>{title}</h2>

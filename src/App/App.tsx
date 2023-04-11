@@ -11,6 +11,7 @@ import { DemoPage } from 'pages/DemoPage';
 import { EditSettingsPage } from 'pages/EditSettingsPage';
 import { HomePage } from 'pages/HomePage';
 import { LoginPage } from 'pages/LoginPage';
+import { ProfilePage } from 'pages/ProfilePage';
 import { appRoutes } from 'routes';
 import { useAppDispatch, useAppSelector } from 'store';
 import { authAction, confirmEmailAction, getIsLoggedIn } from 'store/auth';
@@ -87,6 +88,9 @@ export const App: React.FC = () => {
                                 <Route path="/demo">
                                     <DemoPage />
                                 </Route>
+                                <ProtectedRoute isAuth={true} exact path={appRoutes.settings()}>
+                                    <ProfilePage />
+                                </ProtectedRoute>
                                 <ProtectedRoute isAuth={isAuth} exact path={appRoutes.settingsEdit()}>
                                     <EditSettingsPage />
                                 </ProtectedRoute>

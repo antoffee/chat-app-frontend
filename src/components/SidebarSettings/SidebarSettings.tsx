@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-    IonBackButton,
     IonButtons,
     IonContent,
     IonFooter,
@@ -14,11 +13,11 @@ import {
     IonToolbar,
 } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
-import { createOutline, shieldCheckmarkOutline } from 'ionicons/icons';
+import { shieldCheckmarkOutline } from 'ionicons/icons';
 import { appRoutes } from 'routes';
 import { useAppSelector } from 'store';
 
-import { Button } from 'components/Button';
+import { CustomLinkButton } from 'components/CustomLinkButton';
 import { ThemeToggle } from 'components/ThemeToggle';
 
 import styles from './SidebarChats.module.scss';
@@ -34,12 +33,10 @@ export const SidebarSettings = () => {
                 <IonToolbar>
                     <IonTitle>Profile</IonTitle>
                     <IonButtons slot="start">
-                        <IonBackButton />
+                        <CustomLinkButton back />
                     </IonButtons>
                     <IonButtons slot="end">
-                        <Button type="button" href={appRoutes.settingsEdit()}>
-                            <IonIcon slot="icon-only" icon={createOutline} />
-                        </Button>
+                        <CustomLinkButton iconName="createOutline" href={appRoutes.settingsEdit()}/>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
