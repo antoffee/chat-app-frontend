@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 import { IonApp } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import { updateLoginConnection } from 'api/axios';
@@ -9,6 +10,9 @@ import store from 'store';
 
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
+
+// Call the element loader after the platform has been bootstrapped
+void defineCustomElements(window);
 
 const AppSetup = () => (
     <IonApp>
