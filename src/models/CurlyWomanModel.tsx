@@ -41,7 +41,7 @@ export default function Model({ ...props }: JSX.IntrinsicElements['group']) {
     } = useGLTF('/curly-woman.gltf') as GLTFResult;
     const material = generateEyeMaterial();
 
-return (
+    return (
         <group ref={group} {...props} dispose={null} position={[0, -1.5, 0]}>
             <mesh geometry={nodes.EyeLeft.geometry} material={material} />
             <mesh geometry={nodes.EyeRight.geometry} material={material} />

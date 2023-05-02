@@ -1,3 +1,3 @@
 export type EditSettingsPageProps = {
-    draft?: unknown
+    draft?: unknown;
 };

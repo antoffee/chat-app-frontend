@@ -14,10 +14,9 @@ export const CustomLinkButton: React.FC<CustomLinkButtonProps> = ({ href, back, 
 
     const handleNavClick = useCallback(() => {
         if (href) {
-
             router.push(href, back ? 'back' : undefined);
         } else if (back) {
-            router.goBack()
+            router.goBack();
         }
     }, [back, href, router]);
 

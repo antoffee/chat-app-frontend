@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { AuthApi, CreateUserDto, EmailApi, LoginDto } from 'generated';
+import { AuthApi, CreateUserDto, EmailApi, LoginDto, UpdateUserDto, UsersApi } from 'generated';
 
 const authApi = new AuthApi();
 const emailApi = new EmailApi();
+const userApi = new UsersApi();
 
 export const loginAction = createAsyncThunk('USER/LOGIN', async (req: LoginDto) => {
     const responce = await authApi.authControllerLogin(req);
@@ -32,4 +33,10 @@ export const confirmEmailAction = createAsyncThunk('USER/CONFIRM_EMAIL', async (
     const response = await emailApi.emailControllerConfirmEmail({ token });
 
     return response.data;
+});
+
+export const updateProfileAction = createAsyncThunk('USER/UPDATE', async (dto: UpdateUserDto) => {
+    const responce = await userApi.usersControllerUpdateSelf(dto);
+
+    return responce.data;
 });

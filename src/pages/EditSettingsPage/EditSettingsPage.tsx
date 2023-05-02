@@ -18,7 +18,7 @@ export const EditSettingsPage: React.FC<EditSettingsPageProps> = () => {
     return (
         <>
             <IonHeader />
-            <ModelViewer/>
+            <ModelViewer />
         </>
     );
 };

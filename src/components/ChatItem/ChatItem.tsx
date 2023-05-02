@@ -54,7 +54,7 @@ export const ChatItem = ({
             </IonItemOptions>
             <IonItem routerLink={appRoutes.chatDetails(id)} lines="none" className={cx('chat-item')}>
                 <IonAvatar className={cx('avatar')} slot="start">
-                    {image ? <img src={image} /> : <ModelViewer mode='avatar'/>}
+                    {image ? <img src={image} /> : <ModelViewer mode="avatar" />}
                 </IonAvatar>
                 <IonLabel>
                     <h2>{title}</h2>

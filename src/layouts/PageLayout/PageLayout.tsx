@@ -7,6 +7,7 @@ import { appRoutes } from 'routes';
 
 import { SidebarChats } from 'components/SidebarChats';
 import { SidebarSettings } from 'components/SidebarSettings/SidebarSettings';
+import { SidebarSettingsEdit } from 'components/SidebarSettingsEdit';
 
 import styles from './PageLayout.module.scss';
 
@@ -17,7 +18,8 @@ export const PageLayout = ({ children }: PageLayoutProps) => {
 
     const { routeInfo } = useIonRouter();
 
-    const isSettingsPart = useMemo(() => routeInfo.pathname?.includes( appRoutes.settings()), [routeInfo.pathname]);
+    const isSettingsPart = useMemo(() => routeInfo.pathname === appRoutes.settings(), [routeInfo.pathname]);
+    const isSettingsEditPart = useMemo(() => routeInfo.pathname === appRoutes.settingsEdit(), [routeInfo.pathname]);
 
     return (
         <>
@@ -25,7 +27,13 @@ export const PageLayout = ({ children }: PageLayoutProps) => {
                 <IonSplitPane when="md" contentId={id}>
                     {/*--  the side menu  --*/}
                     <IonMenu contentId={id} className={cx('sidebar')}>
-                        {isSettingsPart ? <SidebarSettings /> : <SidebarChats />}
+                        {isSettingsPart ? (
+                            <SidebarSettings />
+                        ) : isSettingsEditPart ? (
+                            <SidebarSettingsEdit />
+                        ) : (
+                            <SidebarChats />
+                        )}
                     </IonMenu>
                     {/*-- the main content --*/}
 

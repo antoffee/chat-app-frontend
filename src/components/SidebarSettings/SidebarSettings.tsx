@@ -31,12 +31,12 @@ export const SidebarSettings = () => {
         <>
             <IonHeader className="ion-no-border">
                 <IonToolbar>
-                    <IonTitle>Profile</IonTitle>
+                    <IonTitle>Профиль</IonTitle>
                     <IonButtons slot="start">
                         <CustomLinkButton back />
                     </IonButtons>
                     <IonButtons slot="end">
-                        <CustomLinkButton iconName="createOutline" href={appRoutes.settingsEdit()}/>
+                        <CustomLinkButton iconName="createOutline" href={appRoutes.settingsEdit()} />
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
@@ -44,7 +44,7 @@ export const SidebarSettings = () => {
                 <IonList className={cx('list')}>
                     <IonItem className="ion-no-border">
                         <IonLabel>
-                            <IonNote>Name</IonNote>
+                            <IonNote>Имя</IonNote>
                             {user?.name}
                         </IonLabel>
                     </IonItem>

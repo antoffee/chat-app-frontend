@@ -1,6 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import { ApiUserEntityResponse } from 'generated';
-import { authAction, confirmEmailAction, loginAction, logoutAction, signUpAction } from 'store/auth/auth.actions';
+import { authAction, confirmEmailAction, loginAction, logoutAction, signUpAction, updateProfileAction } from 'store/auth/auth.actions';
 import { FetchStatus } from 'types/asyncState';
 
 export type UserState = {
@@ -32,6 +32,7 @@ export const userSlice = createSlice({
                     loginAction.fulfilled,
                     logoutAction.fulfilled,
                     confirmEmailAction.fulfilled,
+                    updateProfileAction.fulfilled
                 ),
                 (state, { payload }) => {
                     state.user = payload;
@@ -46,6 +47,7 @@ export const userSlice = createSlice({
                     authAction.pending,
                     logoutAction.pending,
                     confirmEmailAction.pending,
+                    updateProfileAction.pending
                 ),
                 (state) => {
                     state.errorMessage = '';
@@ -59,6 +61,7 @@ export const userSlice = createSlice({
                     authAction.rejected,
                     logoutAction.rejected,
                     confirmEmailAction.rejected,
+                    updateProfileAction.rejected
                 ),
                 (state, { error, type }) => {
                     if (!type?.includes(authAction.typePrefix)) {

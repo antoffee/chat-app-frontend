@@ -1,6 +1,6 @@
 import React, { Suspense, useMemo } from 'react';
 import { OrbitControls } from '@react-three/drei';
-import { Canvas, Vector3 } from '@react-three/fiber';
+import { Canvas, Vector3 as V3 } from '@react-three/fiber';
 import cnBind, { Argument } from 'classnames/bind';
 import CurlyWomanModel from 'models/CurlyWomanModel';
 
@@ -14,8 +14,8 @@ export const ModelViewer: React.FC<ModelViewerProps> = ({ mode }) => {
     const camera = useMemo(
         () =>
             mode !== 'avatar'
-                ? { position: [0.2, 0.2, 0.7] as Vector3, fov: 50 }
-                : { position: [0.2, 0.5, 1] as Vector3, fov: 30 },
+                ? { position: [0.2, 0.2, 0.7] as V3, fov: 50 }
+                : { position: [0.2, 0.5, 1] as V3, fov: 30 },
         [mode],
     );
 
@@ -27,7 +27,7 @@ export const ModelViewer: React.FC<ModelViewerProps> = ({ mode }) => {
             <directionalLight intensity={0.4}>
                 <orthographicCamera attach="shadow-camera" args={[-8.5, 8.5, 8.5, -8.5, 0.1, 20]} />
             </directionalLight>
-            <OrbitControls />
+            {mode !== 'avatar' && <OrbitControls />}
             <Suspense fallback={null}>
                 <CurlyWomanModel />
             </Suspense>

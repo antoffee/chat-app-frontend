@@ -14,7 +14,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = () => {
     return (
         <>
             <IonHeader />
-            <ModelViewer/>
+            <ModelViewer />
         </>
     );
 };
