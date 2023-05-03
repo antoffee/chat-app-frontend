@@ -93,7 +93,12 @@ export const socketsApi = createApi({
                                 if (Object.keys(draft).includes(`${data.id}`)) {
                                     return;
                                 }
-                                draft[data.id] = data;
+                                draft[data.id] = {
+                                    ...data,
+                                    name:
+                                        data.name ??
+                                        data.members?.find((item) => item.id !== state.auth.user?.id)?.name,
+                                };
                             }),
                         );
                     });
@@ -117,8 +122,11 @@ export const socketsApi = createApi({
             },
         }),
         createRoom: builder.mutation<undefined, CreateChatValues>({
-            queryFn: ({ isPrivate, members, ...room }: CreateChatValues, { dispatch }) => {
+            queryFn: ({ isPrivate, members, ...room }: CreateChatValues, { dispatch, getState }) => {
                 const socket = getSocket();
+
+                const state = getState() as AppState;
+
 
                 if (!isPrivate) {
                     socket.emit(ChatOutgoingEvents.NEW_GROUP_ROOM_CREATE, {
@@ -133,12 +141,15 @@ export const socketsApi = createApi({
                 }
 
                 socket?.on(ChatIncomingEvents.NEW_ROOM_CREATED, (data: ApiChatRoomEntityWithMembersResponse) => {
+
                     dispatch(
                         socketsApi.util.updateQueryData('connect', undefined, (draft) => {
                             if (Object.keys(draft).includes(`${data.id}`)) {
                                 return;
                             }
-                            draft[data.id] = data;
+                            draft[data.id] = {...data, name:
+                                data.name ??
+                                data.members?.find((item) => item.id !== state.auth.user?.id)?.name,};
                         }),
                     );
                 });
@@ -159,7 +170,7 @@ export const socketsApi = createApi({
 
                 dispatch(
                     socketsApi.util.updateQueryData('connect', undefined, (draft) => {
-                        delete draft[payload.roomId]
+                        delete draft[payload.roomId];
                     }),
                 );
 
@@ -190,6 +201,7 @@ export const {
     useLeaveRoomMutation,
     endpoints: {
         connect: { useQueryState: useConnectQueryState },
+        getRoomDetails: { useQueryState: useRoomDetailsState },
     },
 } = socketsApi;
 

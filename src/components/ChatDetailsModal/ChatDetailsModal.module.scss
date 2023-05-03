@@ -1,0 +1,28 @@
+.create-chat-modal {
+    --background: var(--base-10);
+    --border-radius: 24px;
+    --height: 520px;
+
+    @include mobile {
+        --height: 100%;
+        --border-radius: 0;
+    }
+
+    ion-content {
+        --background: var(--background);
+    }
+
+    ion-toolbar {
+        --ion-toolbar-background: var(--background);
+    }
+
+    ion-note {
+        margin-right: 4px;
+    }
+
+    ion-footer {
+        padding: 16px;
+    }
+
+
+}

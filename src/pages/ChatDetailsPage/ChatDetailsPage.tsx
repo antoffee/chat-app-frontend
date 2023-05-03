@@ -21,6 +21,7 @@ import { useAppSelector } from 'store';
 import { useGetRoomDetailsQuery, useSendMessageMutation } from 'store/sockets';
 
 import { Button } from 'components/Button';
+import { usePresentChatDetailsModal } from 'components/ChatDetailsModal';
 import { ChatMessage } from 'components/ChatMessage';
 import { CustomInputField } from 'components/Fields/CustomInputField';
 import { sleep } from 'utils';
@@ -60,6 +61,8 @@ export const ChatDetailsPage = () => {
         contentRef.current?.scrollByPoint(0, scrollPos ?? 0, 700).catch(console.error);
     }, []);
 
+    const { showCreateChat } = usePresentChatDetailsModal();
+
     useEffect(() => {
         void scrollToBottom();
     }, [data, scrollToBottom]);
@@ -71,7 +74,7 @@ export const ChatDetailsPage = () => {
                     <IonButtons slot="start">
                         <IonBackButton />
                     </IonButtons>
-                    <IonTitle>{title}</IonTitle>
+                    <IonTitle onClick={() => showCreateChat()}>{title}</IonTitle>
                     <IonTitle>{data?.description}</IonTitle>
                 </IonToolbar>
             </IonHeader>
