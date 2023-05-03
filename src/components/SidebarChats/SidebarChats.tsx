@@ -4,7 +4,7 @@ import cnBind, { Argument } from 'classnames/bind';
 import { useNodeUid } from 'hooks/useNodeUid';
 import { optionsSharp } from 'ionicons/icons';
 import { useAppSelector } from 'store';
-import { useConnectQueryState, useLeaveRoomMutation } from 'store/sockets';
+import { useLeaveRoomMutation, useSocketsListSelector } from 'store/sockets';
 import { getIsMobile } from 'store/windowSize';
 
 import { Button } from 'components/Button';
@@ -16,7 +16,7 @@ import styles from './SidebarChats.module.scss';
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const SidebarChats = () => {
-    const { data } = useConnectQueryState();
+    const { chats } = useSocketsListSelector();
     const { user } = useAppSelector((state) => state.auth);
     const isMobile = useAppSelector(getIsMobile);
     const uniqueId = useNodeUid();
@@ -46,7 +46,7 @@ export const SidebarChats = () => {
             </IonHeader>
             <IonContent>
                 <IonList>
-                    {data?.map((chat) => (
+                    {chats?.map((chat) => (
                         <ChatItem
                             onDelete={leaveRoom}
                             id={chat.id}

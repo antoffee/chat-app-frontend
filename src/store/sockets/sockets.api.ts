@@ -33,8 +33,8 @@ export const socketsApi = createApi({
         credentials: 'include',
     }),
     endpoints: (builder) => ({
-        connect: builder.query<ApiChatRoomEntityWithMembersResponse[], void>({
-            queryFn: () => ({ data: [] }),
+        connect: builder.query<Record<string, ApiChatRoomEntityWithMembersResponse>, void>({
+            queryFn: () => ({ data: {} }),
             async onCacheEntryAdded(_, { cacheDataLoaded, updateCachedData, cacheEntryRemoved, dispatch, getState }) {
                 try {
                     await cacheDataLoaded;
@@ -47,14 +47,22 @@ export const socketsApi = createApi({
                         ChatIncomingEvents.CLIENT_CONNECTED,
                         ({ rooms }: { rooms: ApiChatRoomEntityWithMembersResponse[] }) => {
                             updateCachedData((draft) => {
-                                draft.push(
-                                    ...rooms.map((room) => ({
+                                rooms.forEach((room) => {
+                                    draft[room.id] = {
                                         ...room,
                                         name:
                                             room.name ??
                                             room.members?.find((item) => item.id !== state.auth.user?.id)?.name,
-                                    })),
-                                );
+                                    };
+                                });
+                                // draft.push(
+                                //     ...rooms.map((room) => ({
+                                //         ...room,
+                                //         name:
+                                //             room.name ??
+                                //             room.members?.find((item) => item.id !== state.auth.user?.id)?.name,
+                                //     })),
+                                // );
                             });
                         },
                     );
@@ -70,11 +78,10 @@ export const socketsApi = createApi({
                                     },
                                 ),
                             );
-                            updateCachedData((draft) =>
-                                draft.map((item) =>
-                                    item.id === message.chatRoomEntityId ? { ...item, messages: [message] } : item,
-                                ),
-                            );
+                            updateCachedData((draft) => {
+                                const item = draft[message.chatRoomEntityId];
+                                draft[message.chatRoomEntityId] = { ...item, messages: [message] };
+                            });
                         }
                     };
 
@@ -83,10 +90,10 @@ export const socketsApi = createApi({
                     socket?.on(ChatIncomingEvents.CLIENT_JOINED_ROOM, (data: ApiChatRoomEntityWithMembersResponse) => {
                         dispatch(
                             socketsApi.util.updateQueryData('connect', undefined, (draft) => {
-                                if (draft.some((room) => room.id === data.id)) {
+                                if (Object.keys(draft).includes(`${data.id}`)) {
                                     return;
                                 }
-                                draft.push(data);
+                                draft[data.id] = data;
                             }),
                         );
                     });
@@ -128,10 +135,10 @@ export const socketsApi = createApi({
                 socket?.on(ChatIncomingEvents.NEW_ROOM_CREATED, (data: ApiChatRoomEntityWithMembersResponse) => {
                     dispatch(
                         socketsApi.util.updateQueryData('connect', undefined, (draft) => {
-                            if (draft.some((room) => room.id === data.id)) {
+                            if (Object.keys(draft).includes(`${data.id}`)) {
                                 return;
                             }
-                            draft.push(data);
+                            draft[data.id] = data;
                         }),
                     );
                 });
@@ -152,7 +159,7 @@ export const socketsApi = createApi({
 
                 dispatch(
                     socketsApi.util.updateQueryData('connect', undefined, (draft) => {
-                        return draft?.filter((room) => room.id !== payload.roomId);
+                        delete draft[payload.roomId]
                     }),
                 );
 
