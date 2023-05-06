@@ -9,6 +9,7 @@ import {
     CreateGroupChatRoomDto,
     CreatePrivateChatRoomDto,
     JoinLeaveGroupChatRoomDto,
+    UpdateChatRoomDto,
 } from 'generated';
 import { AppState } from 'store';
 import { ChatIncomingEvents, ChatOutgoingEvents } from 'types/chat';
@@ -55,14 +56,6 @@ export const socketsApi = createApi({
                                             room.members?.find((item) => item.id !== state.auth.user?.id)?.name,
                                     };
                                 });
-                                // draft.push(
-                                //     ...rooms.map((room) => ({
-                                //         ...room,
-                                //         name:
-                                //             room.name ??
-                                //             room.members?.find((item) => item.id !== state.auth.user?.id)?.name,
-                                //     })),
-                                // );
                             });
                         },
                     );
@@ -85,20 +78,42 @@ export const socketsApi = createApi({
                         }
                     };
 
-                    socket?.on(ChatIncomingEvents.SEND_MESSAGE_TO_CLIENT, patchResult);
-
-                    socket?.on(ChatIncomingEvents.CLIENT_JOINED_ROOM, (data: ApiChatRoomEntityWithMembersResponse) => {
+                    const updateData = (data: ApiChatRoomEntityWithMembersResponse) => {
                         dispatch(
                             socketsApi.util.updateQueryData('connect', undefined, (draft) => {
-                                if (Object.keys(draft).includes(`${data.id}`)) {
-                                    return;
-                                }
                                 draft[data.id] = {
                                     ...data,
                                     name:
                                         data.name ??
                                         data.members?.find((item) => item.id !== state.auth.user?.id)?.name,
                                 };
+                            }),
+                        );
+                    };
+
+                    socket?.on(ChatIncomingEvents.SEND_MESSAGE_TO_CLIENT, patchResult);
+
+                    socket?.on(ChatIncomingEvents.CLIENT_JOINED_ROOM, updateData);
+                    socket?.on(ChatIncomingEvents.NEW_ROOM_CREATED, updateData);
+                    socket?.on(ChatIncomingEvents.MEMBER_EXCLUDED_FROM_GROUP_ROOM, updateData);
+                    socket?.on(ChatIncomingEvents.NEW_MEMBER_ADDED_TO_GROUP_ROOM, updateData);
+                    socket?.on(ChatIncomingEvents.ROOM_ENTITY_UPDATED, (data: ApiChatRoomEntityDetailsResponse) => {
+                        dispatch(
+                            socketsApi.util.updateQueryData('connect', undefined, (draft) => {
+                                draft[data.id] = {
+                                    ...draft[data.id],
+                                    ...data,
+                                } as unknown as ApiChatRoomEntityWithMembersResponse;
+                            }),
+                        );
+                    });
+
+                    socket?.on(ChatIncomingEvents.CLIENT_LEAVED_ROOM, (data: ApiChatRoomEntityWithMembersResponse) => {
+                        dispatch(
+                            socketsApi.util.updateQueryData('connect', undefined, (draft) => {
+                                if (Object.keys(draft).includes(`${data.id}`)) {
+                                    delete draft[data.id];
+                                }
                             }),
                         );
                     });
@@ -122,11 +137,8 @@ export const socketsApi = createApi({
             },
         }),
         createRoom: builder.mutation<undefined, CreateChatValues>({
-            queryFn: ({ isPrivate, members, ...room }: CreateChatValues, { dispatch, getState }) => {
+            queryFn: ({ isPrivate, members, ...room }: CreateChatValues) => {
                 const socket = getSocket();
-
-                const state = getState() as AppState;
-
 
                 if (!isPrivate) {
                     socket.emit(ChatOutgoingEvents.NEW_GROUP_ROOM_CREATE, {
@@ -140,39 +152,58 @@ export const socketsApi = createApi({
                     } as CreatePrivateChatRoomDto);
                 }
 
-                socket?.on(ChatIncomingEvents.NEW_ROOM_CREATED, (data: ApiChatRoomEntityWithMembersResponse) => {
+                return { data: undefined };
+            },
+        }),
+        updateRoom: builder.mutation<undefined, UpdateChatRoomDto>({
+            queryFn: ({ name, description, roomId }: UpdateChatRoomDto) => {
+                const socket = getSocket();
 
-                    dispatch(
-                        socketsApi.util.updateQueryData('connect', undefined, (draft) => {
-                            if (Object.keys(draft).includes(`${data.id}`)) {
-                                return;
-                            }
-                            draft[data.id] = {...data, name:
-                                data.name ??
-                                data.members?.find((item) => item.id !== state.auth.user?.id)?.name,};
-                        }),
-                    );
+                socket.emit(ChatOutgoingEvents.UPDATE_ROOM_ENTITY, {
+                    name,
+                    description,
+                    roomId,
                 });
 
                 return { data: undefined };
             },
         }),
-        leaveRoom: builder.mutation<undefined, Pick<JoinLeaveGroupChatRoomDto, 'roomId'>>({
-            queryFn: (payload, { dispatch, getState }) => {
+        leaveRoom: builder.mutation<
+            undefined,
+            Pick<JoinLeaveGroupChatRoomDto, 'roomId'> & {
+                isPrivate?: boolean;
+                userId?: JoinLeaveGroupChatRoomDto['userId'];
+            }
+        >({
+            queryFn: (payload, { getState }) => {
                 const socket = getSocket();
 
                 const state = getState() as AppState;
 
-                socket.emit(ChatOutgoingEvents.CLIENT_LEAVE_GROUP_ROOM, {
-                    userId: state.auth.user?.id,
+                const event = payload.isPrivate
+                    ? ChatOutgoingEvents.CLIENT_LEAVE_PRIVATE_ROOM
+                    : ChatOutgoingEvents.CLIENT_LEAVE_GROUP_ROOM;
+
+                socket.emit(event, {
+                    userId: payload.userId ?? state.auth.user?.id,
                     roomId: payload.roomId,
                 } as JoinLeaveGroupChatRoomDto);
 
-                dispatch(
-                    socketsApi.util.updateQueryData('connect', undefined, (draft) => {
-                        delete draft[payload.roomId];
-                    }),
-                );
+                return { data: undefined };
+            },
+        }),
+        addToGroupRoom: builder.mutation<undefined, JoinLeaveGroupChatRoomDto[]>({
+            queryFn: (payload) => {
+                const socket = getSocket();
+
+                const users = payload;
+
+                users.forEach((user) => {
+                    socket.emit(ChatOutgoingEvents.CLIENT_JOIN_GROUP_ROOM, {
+                        userId: user.userId,
+                        roomId: user.roomId,
+                    } as JoinLeaveGroupChatRoomDto);
+                });
 
                 return { data: undefined };
             },
@@ -198,7 +229,9 @@ export const {
     useGetRoomDetailsQuery,
     useSendMessageMutation,
     useCreateRoomMutation,
+    useUpdateRoomMutation,
     useLeaveRoomMutation,
+    useAddToGroupRoomMutation,
     endpoints: {
         connect: { useQueryState: useConnectQueryState },
         getRoomDetails: { useQueryState: useRoomDetailsState },

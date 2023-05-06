@@ -14,7 +14,7 @@ const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 export const UserOptionsModal = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
     const dispatch = useAppDispatch();
 
-    const { showCreateChat } = usePresentChatModal();
+    const { showCreateChat } = usePresentChatModal({});
 
     return (
         <IonContent>

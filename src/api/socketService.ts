@@ -3,10 +3,10 @@ import { io, Socket } from 'socket.io-client';
 class SocketService {
     socket!: Socket;
 
-    connect = (authentication: string) => {
+    connect = (Authorization: string) => {
         this.socket = io(`${process.env.BACKEND_URL}/chat`, {
             withCredentials: true,
-            extraHeaders: { authentication },
+            extraHeaders: { Authorization },
         });
     };
 

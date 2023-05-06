@@ -8,6 +8,10 @@ export enum ChatOutgoingEvents {
      */
     CLIENT_JOIN_GROUP_ROOM = 'CHAT/CLIENT_JOIN_GROUP_ROOM',
     /**
+     * Recieve request to delete PRIVATE chat room
+     */
+    CLIENT_LEAVE_PRIVATE_ROOM = 'CHAT/CLIENT_LEAVE_PRIVATE_ROOM',
+    /**
      * Recieve request to exclude member from GROUP chat room
      */
     CLIENT_LEAVE_GROUP_ROOM = 'CHAT/CLIENT_LEAVE_GROUP_ROOM',
@@ -19,6 +23,10 @@ export enum ChatOutgoingEvents {
      * Recieve request to create new PRIVATE chat room
      */
     NEW_PRIVATE_ROOM_CREATE = 'CHAT/NEW_PRIVATE_ROOM_CREATE',
+    /**
+     * Recieve request to update chat room info
+     */
+    UPDATE_ROOM_ENTITY = 'CHAT/UPDATE_ROOM_ENTITY',
 }
 
 export enum ChatIncomingEvents {
@@ -50,4 +58,8 @@ export enum ChatIncomingEvents {
      * Send cew chat room
      */
     NEW_ROOM_CREATED = 'CHAT/NEW_ROOM_CREATED',
+    /**
+     * Send message with updated chat room
+     */
+    ROOM_ENTITY_UPDATED = 'CHAT/ROOM_ENTITY_UPDATED',
 }

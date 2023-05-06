@@ -6,7 +6,5 @@ export const useSocketsListSelector = () => {
 
     const chats = useMemo(() => Object.values(raw.data ?? {}), [raw.data]);
 
-    return {chats}
+    return { chats };
 };
-
-

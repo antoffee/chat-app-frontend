@@ -26,14 +26,14 @@ export const updateLoginConnection = (accessToken: string) => {
     socketService.connect(accessToken);
 
     axiosCredentialInterceptorsId = axiosInstance.interceptors.request.use((config) => {
-        config.headers = { ...config.headers, ['authentication']: accessToken };
+        config.headers = { ...config.headers, ['Authorization']: accessToken };
 
         return config;
     });
 };
 
 axiosInstance.interceptors.response.use((res: AxiosResponse) => {
-    const accessToken = res.headers?.['authentication'];
+    const accessToken = res.headers?.['Authorization'] ?? res.headers?.['authorization'];
 
     if (accessToken) {
         localConfigService.saveHeader(accessToken).catch(console.error);

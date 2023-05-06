@@ -62,7 +62,7 @@ const prepareAxiosGeneratedFiles = (apiURL: string, apiOutputDir: string) => {
 };
 
 const fetchSwaggerJson = async () =>
-    await (await fetch(`https://don-vadimon.online/chat-api/swagger-json`)).text();
+    await (await fetch(`http://192.168.1.65:8888/chat-api/swagger-json`)).text();
 
 // ? install this generator for script work. Version - 3.0.34
 // ? https://swagger.io/docs/open-source-tools/swagger-codegen/

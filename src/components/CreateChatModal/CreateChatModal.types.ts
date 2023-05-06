@@ -2,6 +2,9 @@ import { CustomSelectableValue } from 'types/select';
 
 export type CreateChatModalProps = {
     onDismiss?: () => void;
+    isEdit?: boolean;
+    initialValues?: Partial<CreateChatValues>;
+    roomId?: number;
 };
 
 export type CreateChatValues = {

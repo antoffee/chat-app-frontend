@@ -2,7 +2,7 @@ import { CustomSelectableValue } from 'types/select';
 
 export type ChatDetailsModalProps = {
     onDismiss?: () => void;
-    id: string
+    id: string;
 };
 
 export type ChatDetailsValues = {

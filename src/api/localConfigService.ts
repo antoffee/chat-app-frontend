@@ -3,7 +3,7 @@ import { Theme } from 'types/localConfig';
 import { LocalStorageItems } from 'types/localStorage';
 
 class LocalConfigService {
-    public authHeader!: string;
+    public authHeader?: string;
 
     saveTheme = async (theme: Theme) => {
         await Storage.set({ key: LocalStorageItems.THEME, value: theme });
@@ -32,6 +32,11 @@ class LocalConfigService {
 
     initHeader = (header: string) => {
         this.authHeader = header;
+    };
+
+    removeHeader = async () => {
+        await Storage.remove({ key: LocalStorageItems.AUTH_HEADER });
+        this.authHeader = undefined;
     };
 }
 

@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { localConfigService } from 'api/localConfigService';
 import { AuthApi, CreateUserDto, EmailApi, LoginDto, UpdateUserDto, UsersApi } from 'generated';
 
 const authApi = new AuthApi();
@@ -25,6 +26,8 @@ export const authAction = createAsyncThunk('USER/AUTHENTIFICATE', async () => {
 
 export const logoutAction = createAsyncThunk('USER/LOGOUT', async () => {
     await authApi.authControllerLogout();
+
+    await localConfigService.removeHeader();
 
     return undefined;
 });

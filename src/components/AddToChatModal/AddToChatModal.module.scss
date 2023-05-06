@@ -1,4 +1,4 @@
-.create-chat-modal {
+.add-to-chat-modal {
     --background: var(--base-10);
     --border-radius: 24px;
     --height: 520px;
@@ -16,15 +16,22 @@
         --ion-toolbar-background: var(--background);
     }
 
-    ion-note {
-        margin-right: 4px;
-    }
-
-    ion-footer {
-        padding: 16px;
-    }
-
-    ion-title {
+    &__form {
         display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 16px;
+        row-gap: 20px;
+    }
+
+    &__chips {
+        display: flex;
+        flex-flow: row wrap;
+        height: 80px;
+        overflow-x: auto;
+
+        & > * {
+            width: fit-content;
+        }
     }
 }

@@ -12,13 +12,15 @@ import {
     IonTitle,
     IonToolbar,
 } from '@ionic/react';
-import { close } from 'ionicons/icons';
+import { close, createOutline } from 'ionicons/icons';
 import moment from 'moment';
 import { useAppSelector } from 'store';
 import { useLeaveRoomMutation, useRoomDetailsState } from 'store/sockets';
 
+import { usePresentAddToChatModal } from 'components/AddToChatModal/AddToChatModal.hooks';
 import { Button } from 'components/Button';
 import { UserItem } from 'components/ChatDetailsModal/UserItem';
+import { usePresentChatModal } from 'components/CreateChatModal';
 import { TextType, Typography } from 'components/Typography';
 import { noop } from 'utils';
 
@@ -28,11 +30,18 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
     const { data } = useRoomDetailsState(id);
 
     const { user } = useAppSelector((state) => state.auth);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //@ts-ignore
-    const isOwner = user?.id === data.ownerId || true;
+
+    const isOwner = user?.id === data?.ownerId;
 
     const [leaveRoom] = useLeaveRoomMutation();
+
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
+    const { showAddToChat } = usePresentAddToChatModal({ roomId: data?.id! });
+    const { showCreateChat } = usePresentChatModal({
+        roomId: +id,
+        initialValues: { name: data?.name, description: data?.description },
+        isEdit: true,
+    });
 
     if (!data) {
         return null;
@@ -45,8 +54,11 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
                     <Typography type={TextType.CAPTION_18_24}>{data?.name}</Typography>
                 </IonTitle>
                 <IonButtons slot="end">
+                    <IonButton onClick={() => showCreateChat()}>
+                        <IonIcon slot="icon-only" icon={createOutline} />
+                    </IonButton>
                     <IonButton onClick={onDismiss}>
-                        <IonIcon icon={close} />
+                        <IonIcon slot="icon-only" icon={close} />
                     </IonButton>
                 </IonButtons>
             </IonToolbar>
@@ -85,7 +97,11 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
                 </IonList>
             </IonContent>
             <IonFooter>
-                {isOwner && <Button size="default">Добавить в чат</Button>}
+                {isOwner && (
+                    <Button size="default" onClick={() => showAddToChat()}>
+                        Добавить в чат
+                    </Button>
+                )}
                 <Button
                     onClick={() => {
                         void leaveRoom({ roomId: data?.id });
