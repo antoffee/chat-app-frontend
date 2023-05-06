@@ -18,9 +18,9 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { ApiUserEntityResponse } from '../models';
+import { ApiUserEntityWithFaceInfoResponse } from '../models';
 import { CreateUserDto } from '../models';
 import { LoginDto } from '../models';
-import { UserEntityResponseDto } from '../models';
 /**
  * AuthApi - axios parameter creator
  * @export
@@ -296,7 +296,9 @@ export const AuthApiFp = function (configuration?: Configuration) {
         async authControllerLogin(
             body: LoginDto,
             options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>>
+        > {
             const localVarAxiosArgs = await AuthApiAxiosParamCreator(configuration).authControllerLogin(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs: AxiosRequestConfig = {
@@ -385,7 +387,7 @@ export const AuthApiFactory = function (configuration?: Configuration, basePath?
         async authControllerLogin(
             body: LoginDto,
             options?: AxiosRequestConfig,
-        ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+        ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
             return AuthApiFp(configuration)
                 .authControllerLogin(body, options)
                 .then((request) => request(axios, basePath));
@@ -460,7 +462,7 @@ export class AuthApi extends BaseAPI {
     public async authControllerLogin(
         body: LoginDto,
         options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+    ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
         return AuthApiFp(this.configuration)
             .authControllerLogin(body, options)
             .then((request) => request(this.axios, this.basePath));

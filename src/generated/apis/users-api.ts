@@ -108,6 +108,8 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication bearer required
+
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
                 query.set(key, localVarQueryParameter[key]);
@@ -144,6 +146,8 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             const localVarRequestOptions: AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -190,6 +194,8 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication bearer required
+
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
                 query.set(key, localVarQueryParameter[key]);
@@ -227,6 +233,8 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
+            // authentication bearer required
+
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
                 query.set(key, localVarQueryParameter[key]);
@@ -263,6 +271,8 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             const localVarRequestOptions: AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options };
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -311,6 +321,8 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             const localVarRequestOptions: AxiosRequestConfig = { method: 'PATCH', ...baseOptions, ...options };
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
@@ -375,6 +387,8 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
             const localVarRequestOptions: AxiosRequestConfig = { method: 'PATCH', ...baseOptions, ...options };
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
+
+            // authentication bearer required
 
             localVarHeaderParameter['Content-Type'] = 'application/json';
 
@@ -545,7 +559,9 @@ export const UsersApiFp = function (configuration?: Configuration) {
         async usersControllerUpdateSelf(
             body: UpdateUserDto,
             options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>>
+        > {
             const localVarAxiosArgs = await UsersApiAxiosParamCreator(configuration).usersControllerUpdateSelf(
                 body,
                 options,
@@ -569,7 +585,9 @@ export const UsersApiFp = function (configuration?: Configuration) {
             body: UpdateUserDto,
             id: number,
             options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>>
+        > {
             const localVarAxiosArgs = await UsersApiAxiosParamCreator(configuration).usersControllerUpdateUser(
                 body,
                 id,
@@ -677,7 +695,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         async usersControllerUpdateSelf(
             body: UpdateUserDto,
             options?: AxiosRequestConfig,
-        ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+        ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
             return UsersApiFp(configuration)
                 .usersControllerUpdateSelf(body, options)
                 .then((request) => request(axios, basePath));
@@ -693,7 +711,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
             body: UpdateUserDto,
             id: number,
             options?: AxiosRequestConfig,
-        ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+        ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
             return UsersApiFp(configuration)
                 .usersControllerUpdateUser(body, id, options)
                 .then((request) => request(axios, basePath));
@@ -800,7 +818,7 @@ export class UsersApi extends BaseAPI {
     public async usersControllerUpdateSelf(
         body: UpdateUserDto,
         options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+    ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
         return UsersApiFp(this.configuration)
             .usersControllerUpdateSelf(body, options)
             .then((request) => request(this.axios, this.basePath));
@@ -817,7 +835,7 @@ export class UsersApi extends BaseAPI {
         body: UpdateUserDto,
         id: number,
         options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+    ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
         return UsersApiFp(this.configuration)
             .usersControllerUpdateUser(body, id, options)
             .then((request) => request(this.axios, this.basePath));

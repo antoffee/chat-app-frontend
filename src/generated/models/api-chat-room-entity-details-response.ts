@@ -68,6 +68,12 @@ export interface ApiChatRoomEntityDetailsResponse {
      * @memberof ApiChatRoomEntityDetailsResponse
      */
     members: Array<ApiUserEntityResponse>;
+    /**
+     *
+     * @type {number}
+     * @memberof ApiChatRoomEntityDetailsResponse
+     */
+    ownerId: number;
 }
 
 /**

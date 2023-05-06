@@ -17,8 +17,7 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { ApiUserEntityResponse } from '../models';
-import { UserEntityResponseDto } from '../models';
+import { ApiUserEntityWithFaceInfoResponse } from '../models';
 /**
  * FilesApi - axios parameter creator
  * @export
@@ -115,7 +114,9 @@ export const FilesApiFp = function (configuration?: Configuration) {
          */
         async filesControllerAddOrUpdateAvatar(
             options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>>
+        > {
             const localVarAxiosArgs = await FilesApiAxiosParamCreator(configuration).filesControllerAddOrUpdateAvatar(
                 options,
             );
@@ -134,7 +135,9 @@ export const FilesApiFp = function (configuration?: Configuration) {
          */
         async filesControllerDeleteAvatar(
             options?: AxiosRequestConfig,
-        ): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityResponse>>> {
+        ): Promise<
+            (axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>>
+        > {
             const localVarAxiosArgs = await FilesApiAxiosParamCreator(configuration).filesControllerDeleteAvatar(
                 options,
             );
@@ -162,7 +165,7 @@ export const FilesApiFactory = function (configuration?: Configuration, basePath
          */
         async filesControllerAddOrUpdateAvatar(
             options?: AxiosRequestConfig,
-        ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+        ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
             return FilesApiFp(configuration)
                 .filesControllerAddOrUpdateAvatar(options)
                 .then((request) => request(axios, basePath));
@@ -172,7 +175,9 @@ export const FilesApiFactory = function (configuration?: Configuration, basePath
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async filesControllerDeleteAvatar(options?: AxiosRequestConfig): Promise<AxiosResponse<ApiUserEntityResponse>> {
+        async filesControllerDeleteAvatar(
+            options?: AxiosRequestConfig,
+        ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
             return FilesApiFp(configuration)
                 .filesControllerDeleteAvatar(options)
                 .then((request) => request(axios, basePath));
@@ -195,7 +200,7 @@ export class FilesApi extends BaseAPI {
      */
     public async filesControllerAddOrUpdateAvatar(
         options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+    ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
         return FilesApiFp(this.configuration)
             .filesControllerAddOrUpdateAvatar(options)
             .then((request) => request(this.axios, this.basePath));
@@ -208,7 +213,7 @@ export class FilesApi extends BaseAPI {
      */
     public async filesControllerDeleteAvatar(
         options?: AxiosRequestConfig,
-    ): Promise<AxiosResponse<ApiUserEntityResponse>> {
+    ): Promise<AxiosResponse<ApiUserEntityWithFaceInfoResponse>> {
         return FilesApiFp(this.configuration)
             .filesControllerDeleteAvatar(options)
             .then((request) => request(this.axios, this.basePath));
