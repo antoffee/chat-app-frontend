@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
     IonButton,
     IonButtons,
@@ -12,6 +12,7 @@ import {
     IonTitle,
     IonToolbar,
 } from '@ionic/react';
+import { ApiChatRoomEntityDetailsResponseTypeEnum, ApiUserEntityResponse } from 'generated';
 import { close, createOutline } from 'ionicons/icons';
 import moment from 'moment';
 import { useAppSelector } from 'store';
@@ -35,6 +36,18 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
 
     const [leaveRoom] = useLeaveRoomMutation();
 
+    const handleRemoveUser = useCallback(
+        (user?: ApiUserEntityResponse) => {
+            void leaveRoom({
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
+                roomId: data?.id!,
+                isPrivate: data?.type === ApiChatRoomEntityDetailsResponseTypeEnum.PRIVATE,
+                userId: user?.id,
+            });
+        },
+        [data?.id, data?.type, leaveRoom],
+    );
+
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
     const { showAddToChat } = usePresentAddToChatModal({ roomId: data?.id! });
     const { showCreateChat } = usePresentChatModal({
@@ -51,7 +64,10 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
         <>
             <IonToolbar>
                 <IonTitle>
-                    <Typography type={TextType.CAPTION_18_24}>{data?.name}</Typography>
+                    <Typography type={TextType.CAPTION_18_24}>
+                        {data?.name} (
+                        {data.type === ApiChatRoomEntityDetailsResponseTypeEnum.PRIVATE ? 'Личный' : 'Групповой'})
+                    </Typography>
                 </IonTitle>
                 <IonButtons slot="end">
                     <IonButton onClick={() => showCreateChat()}>
@@ -85,7 +101,7 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
                                         <UserItem
                                             key={member.id}
                                             user={member}
-                                            onDelete={noop}
+                                            onDelete={handleRemoveUser}
                                             onUserAvatarClick={noop}
                                             deletable={isOwner}
                                         />
@@ -97,7 +113,7 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
                 </IonList>
             </IonContent>
             <IonFooter>
-                {isOwner && (
+                {isOwner && data.type !== ApiChatRoomEntityDetailsResponseTypeEnum.PRIVATE && (
                     <Button size="default" onClick={() => showAddToChat()}>
                         Добавить в чат
                     </Button>

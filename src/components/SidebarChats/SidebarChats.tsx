@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { IonButtons, IonContent, IonHeader, IonIcon, IonList, IonTitle, IonToolbar } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
+import { ApiChatRoomEntityWithMembersResponseTypeEnum } from 'generated';
 import { useNodeUid } from 'hooks/useNodeUid';
 import { optionsSharp } from 'ionicons/icons';
 import { useAppSelector } from 'store';
@@ -54,6 +55,7 @@ export const SidebarChats = () => {
                             title={chat.name}
                             key={chat.id}
                             message={chat?.messages?.[0]?.content}
+                            isPrivate={chat.type === ApiChatRoomEntityWithMembersResponseTypeEnum.PRIVATE}
                         />
                     ))}
                 </IonList>

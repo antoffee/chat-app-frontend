@@ -33,6 +33,7 @@ export const ChatItem = ({
     onDelete,
     onMakeRead,
     id,
+    isPrivate,
 }: ChatItemProps) => {
     const formattedDate = useMemo(
         () => (moment(date).isBefore(new Date()) ? moment(date).format('DD MMM, HH:mm') : moment(date).format('hh:mm')),
@@ -40,8 +41,8 @@ export const ChatItem = ({
     );
 
     const handleDelete = useCallback(() => {
-        onDelete?.({ roomId: id });
-    }, [id, onDelete]);
+        onDelete?.({ roomId: id, isPrivate });
+    }, [id, onDelete, isPrivate]);
 
     return (
         <IonItemSliding className={cx('chat-item__sliding')}>

@@ -89,6 +89,20 @@ export const socketsApi = createApi({
                                 };
                             }),
                         );
+
+                        dispatch(
+                            socketsApi.util.updateQueryData('getRoomDetails', `${data.id}`, (draft) => {
+                                if (draft.id) {
+                                    return {
+                                        ...draft,
+                                        ...data,
+                                        name:
+                                            data.name ??
+                                            data.members?.find((item) => item.id !== state.auth.user?.id)?.name,
+                                    } as unknown as ApiChatRoomEntityDetailsResponse;
+                                }
+                            }),
+                        );
                     };
 
                     socket?.on(ChatIncomingEvents.SEND_MESSAGE_TO_CLIENT, patchResult);

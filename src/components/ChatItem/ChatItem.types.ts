@@ -9,6 +9,7 @@ export type ChatItemProps = {
     pinned?: boolean;
     message?: string;
     id: number;
+    isPrivate?: boolean;
     onMakeRead?: () => void;
-    onDelete?: (data: Pick<JoinLeaveGroupChatRoomDto, 'roomId'>) => void;
+    onDelete?: (data: Pick<JoinLeaveGroupChatRoomDto, 'roomId'> & { isPrivate?: boolean }) => void;
 };
