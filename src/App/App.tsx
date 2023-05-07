@@ -73,11 +73,14 @@ export const App: React.FC = () => {
         }
     }, [dispatch, search]);
 
+    const authIsPending =
+        !isAuth &&
+        !!localConfigService.authHeader &&
+        ![FetchStatus.REJECTED, FetchStatus.FULFILLED].includes(loadingStatus);
+
     return (
         <IonPage>
-            {!isAuth &&
-            !!localConfigService.authHeader &&
-            ![FetchStatus.REJECTED, FetchStatus.FULFILLED].includes(loadingStatus) ? (
+            {authIsPending ? (
                 <IonLoading isOpen />
             ) : (
                 <Route
