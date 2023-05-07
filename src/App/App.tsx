@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Redirect, Route } from 'react-router';
-import { IonPage, IonRouterOutlet, setupIonicReact, useIonRouter } from '@ionic/react';
+import { IonLoading, IonPage, IonRouterOutlet, setupIonicReact, useIonRouter } from '@ionic/react';
 import { localConfigService } from 'api/localConfigService';
 import { useColorMode } from 'hooks/useColorMode';
 import { useWindowSize } from 'hooks/useWindowSize';
@@ -16,6 +16,7 @@ import { appRoutes } from 'routes';
 import { useAppDispatch, useAppSelector } from 'store';
 import { authAction, confirmEmailAction, getIsLoggedIn } from 'store/auth';
 import { useLazyConnectQuery } from 'store/sockets';
+import { FetchStatus } from 'types/asyncState';
 
 import { BottomNavigationTabs } from 'components/BottomNavigationTabs';
 import { ProtectedRoute } from 'components/ProtectedRoute';
@@ -49,6 +50,7 @@ export const App: React.FC = () => {
 
     const dispatch = useAppDispatch();
     const isAuth = useAppSelector(getIsLoggedIn);
+    const { loadingStatus } = useAppSelector((state) => state.auth);
 
     const [connect] = useLazyConnectQuery();
 
@@ -73,42 +75,48 @@ export const App: React.FC = () => {
 
     return (
         <IonPage>
-            <Route
-                path="/"
-                render={() => (
-                    <BottomNavigationTabs>
-                        <IonRouterOutlet>
-                            <Route exact path={appRoutes.login()}>
-                                {isAuth ? <Redirect to="/" /> : <LoginPage />}
-                            </Route>
-                            <PageLayout>
-                                <ProtectedRoute isAuth={isAuth} path="/" exact>
-                                    <HomePage />
-                                </ProtectedRoute>
-                                <Route path="/demo">
-                                    <DemoPage />
+            {!isAuth &&
+            !!localConfigService.authHeader &&
+            ![FetchStatus.REJECTED, FetchStatus.FULFILLED].includes(loadingStatus) ? (
+                <IonLoading isOpen />
+            ) : (
+                <Route
+                    path="/"
+                    render={() => (
+                        <BottomNavigationTabs>
+                            <IonRouterOutlet>
+                                <Route exact path={appRoutes.login()}>
+                                    {isAuth ? <Redirect to="/" /> : <LoginPage />}
                                 </Route>
-                                <ProtectedRoute isAuth={true} exact path={appRoutes.settings()}>
-                                    <ProfilePage />
-                                </ProtectedRoute>
-                                <ProtectedRoute isAuth={isAuth} exact path={appRoutes.settingsEdit()}>
-                                    <EditSettingsPage />
-                                </ProtectedRoute>
-                                <ProtectedRoute isAuth={isAuth} exact path={appRoutes.settingsMobile()}>
-                                    <SidebarSettings />
-                                </ProtectedRoute>
-                                <ProtectedRoute isAuth={isAuth} exact path={appRoutes.chats()}>
-                                    <ChatsPage />
-                                </ProtectedRoute>
-                                <ProtectedRoute isAuth={isAuth} path={appRoutes.chatDetails()}>
-                                    <ChatDetailsPage />
-                                </ProtectedRoute>
-                                {/* <Route  path={'*'}>404</Route> */}
-                            </PageLayout>
-                        </IonRouterOutlet>
-                    </BottomNavigationTabs>
-                )}
-            />
+                                <PageLayout>
+                                    <ProtectedRoute isAuth={isAuth} path="/" exact>
+                                        <HomePage />
+                                    </ProtectedRoute>
+                                    <Route path="/demo">
+                                        <DemoPage />
+                                    </Route>
+                                    <ProtectedRoute isAuth={true} exact path={appRoutes.settings()}>
+                                        <ProfilePage />
+                                    </ProtectedRoute>
+                                    <ProtectedRoute isAuth={isAuth} exact path={appRoutes.settingsEdit()}>
+                                        <EditSettingsPage />
+                                    </ProtectedRoute>
+                                    <ProtectedRoute isAuth={isAuth} exact path={appRoutes.settingsMobile()}>
+                                        <SidebarSettings />
+                                    </ProtectedRoute>
+                                    <ProtectedRoute isAuth={isAuth} exact path={appRoutes.chats()}>
+                                        <ChatsPage />
+                                    </ProtectedRoute>
+                                    <ProtectedRoute isAuth={isAuth} path={appRoutes.chatDetails()}>
+                                        <ChatDetailsPage />
+                                    </ProtectedRoute>
+                                    {/* <Route  path={'*'}>404</Route> */}
+                                </PageLayout>
+                            </IonRouterOutlet>
+                        </BottomNavigationTabs>
+                    )}
+                />
+            )}
         </IonPage>
     );
 };

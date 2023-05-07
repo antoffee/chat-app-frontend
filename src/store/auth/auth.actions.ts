@@ -6,10 +6,21 @@ const authApi = new AuthApi();
 const emailApi = new EmailApi();
 const userApi = new UsersApi();
 
-export const loginAction = createAsyncThunk('USER/LOGIN', async (req: LoginDto) => {
-    const responce = await authApi.authControllerLogin(req);
+const wrapAuthTryCatch = async <T>(cb: () => Promise<T>) => {
+    try {
+        return cb();
+    } catch (err) {
+        await localConfigService.removeHeader();
+        throw err;
+    }
+};
 
-    return responce.data;
+export const loginAction = createAsyncThunk('USER/LOGIN', async (req: LoginDto) => {
+    return wrapAuthTryCatch(async () => {
+        const responce = await authApi.authControllerLogin(req);
+
+        return responce.data;
+    });
 });
 
 export const signUpAction = createAsyncThunk('USER/SIGN_UP', async (req: CreateUserDto) => {
@@ -19,17 +30,21 @@ export const signUpAction = createAsyncThunk('USER/SIGN_UP', async (req: CreateU
 });
 
 export const authAction = createAsyncThunk('USER/AUTHENTIFICATE', async () => {
-    const responce = await authApi.authControllerAuthenticate();
+    return wrapAuthTryCatch(async () => {
+        const responce = await authApi.authControllerAuthenticate();
 
-    return responce.data;
+        return responce.data;
+    });
 });
 
 export const logoutAction = createAsyncThunk('USER/LOGOUT', async () => {
-    await authApi.authControllerLogout();
+    return wrapAuthTryCatch(async () => {
+        await authApi.authControllerLogout();
 
-    await localConfigService.removeHeader();
+        await localConfigService.removeHeader();
 
-    return undefined;
+        return undefined;
+    });
 });
 
 export const confirmEmailAction = createAsyncThunk('USER/CONFIRM_EMAIL', async (token: string) => {
