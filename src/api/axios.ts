@@ -1,3 +1,4 @@
+import { AUTH_HEADER_NAME } from 'api/constants';
 import { localConfigService } from 'api/localConfigService';
 import { socketService } from 'api/socketService';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
@@ -26,14 +27,14 @@ export const updateLoginConnection = (accessToken: string) => {
     socketService.connect(accessToken);
 
     axiosCredentialInterceptorsId = axiosInstance.interceptors.request.use((config) => {
-        config.headers = { ...config.headers, ['Authorization']: accessToken };
+        config.headers = { ...config.headers, [AUTH_HEADER_NAME]: accessToken };
 
         return config;
     });
 };
 
 axiosInstance.interceptors.response.use((res: AxiosResponse) => {
-    const accessToken = res.headers?.['Authorization'] ?? res.headers?.['authorization'];
+    const accessToken = res.headers?.[AUTH_HEADER_NAME] ?? res.headers?.[AUTH_HEADER_NAME.toLowerCase()];
 
     if (accessToken) {
         localConfigService.saveHeader(accessToken).catch(console.error);

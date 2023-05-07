@@ -14,7 +14,6 @@
         "stylelint:fix": "stylelint 'src/**/*.{css,scss,less,sass}' --fix",
         "ionic:build": "PLATFORM=native npm run build",
         "ionic:serve": "PLATFORM=native npm run start",
-        "storybook": " start-storybook -p 6006 -s public",
         "build-storybook": "build-storybook -s public",
         "gen-api:axios:dev": "ts-node ./scripts/generateAPI.ts",
         "make-rgb-css-vars": "ts-node ./scripts/makeRGBVars.ts"
@@ -118,8 +117,6 @@
         "sass": "1.49.9",
         "sass-loader": "12.6.0",
         "source-map-loader": "3.0.0",
-        "storybook-dark-mode": "^1.1.0",
-        "storybook-react-i18next": "^1.0.20",
         "style-loader": "3.3.1",
         "style-resources-loader": "^1.5.0",
         "stylelint": "^14.8.2",
