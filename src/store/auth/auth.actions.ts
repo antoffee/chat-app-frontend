@@ -1,10 +1,23 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { axiosInstance } from 'api/axios';
 import { localConfigService } from 'api/localConfigService';
-import { AuthApi, CreateUserDto, EmailApi, LoginDto, UpdateUserDto, UsersApi } from 'generated';
+import { AxiosResponse } from 'axios';
+import {
+    ApiUserEntityWithFaceInfoResponse,
+    AuthApi,
+    CreateUserDto,
+    EmailApi,
+    // FaceAnalyzeApi,
+    LoginDto,
+    UpdateUserDto,
+    UsersApi,
+} from 'generated';
+import heic2any from 'heic2any';
 
 const authApi = new AuthApi();
 const emailApi = new EmailApi();
 const userApi = new UsersApi();
+// const faceApi = new FaceAnalyzeApi();
 
 const wrapAuthTryCatch = async <T>(cb: () => Promise<T>) => {
     try {
@@ -58,3 +71,37 @@ export const updateProfileAction = createAsyncThunk('USER/UPDATE', async (dto: U
 
     return responce.data;
 });
+
+export const uploadAvatarAction = createAsyncThunk(
+    'USER/GENERATE_AVATAR',
+    async ({ filePath, mimeType, fileName }: { filePath: string; mimeType: string; fileName: string }) => {
+        const rawFile = await fetch(filePath)
+            .then((res) => res.blob())
+            .then((blob) => {
+                return new File([blob], fileName, { type: mimeType });
+            });
+        let file: File;
+        if (rawFile.type.toLowerCase().includes('heic')) {
+            const pngFile = await heic2any({
+                blob: rawFile,
+                toType: 'image/png',
+                quality: 0.1,
+            });
+
+            file = new File([pngFile as Blob], fileName, { type: 'image/png' });
+        } else {
+            file = rawFile;
+        }
+        const data = new FormData();
+        data.set('avatar', file);
+        const fileResponse = await axiosInstance.post<FormData, AxiosResponse<ApiUserEntityWithFaceInfoResponse>>(
+            '/chat-api/files/avatar',
+            data,
+            {
+                headers: { 'Content-Length': file.size },
+            },
+        );
+
+        return fileResponse.data;
+    },
+);

@@ -4,7 +4,8 @@ class AppRoutes {
     chats = () => '/chats';
     settings = () => '/settings';
     settingsMobile = () => '/mobile/settings';
-    settingsEdit = () => '/settings/edit';
+    settingsEditMobile = () => '/mobile/settingsEdit';
+    settingsEdit = (mobile?: boolean) => (mobile ? this.settingsEditMobile() : '/settings/edit');
     chatDetails = (id: string | number = ':id') => `/chats/${id}`;
 }
 

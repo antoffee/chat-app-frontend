@@ -21,6 +21,7 @@ import { FetchStatus } from 'types/asyncState';
 import { BottomNavigationTabs } from 'components/BottomNavigationTabs';
 import { ProtectedRoute } from 'components/ProtectedRoute';
 import { SidebarSettings } from 'components/SidebarSettings/SidebarSettings';
+import { SidebarSettingsEdit } from 'components/SidebarSettingsEdit';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -106,6 +107,9 @@ export const App: React.FC = () => {
                                     </ProtectedRoute>
                                     <ProtectedRoute isAuth={isAuth} exact path={appRoutes.settingsMobile()}>
                                         <SidebarSettings />
+                                    </ProtectedRoute>
+                                    <ProtectedRoute isAuth={isAuth} exact path={appRoutes.settingsEditMobile()}>
+                                        <SidebarSettingsEdit />
                                     </ProtectedRoute>
                                     <ProtectedRoute isAuth={isAuth} exact path={appRoutes.chats()}>
                                         <ChatsPage />

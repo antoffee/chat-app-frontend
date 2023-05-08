@@ -16,6 +16,7 @@ import cnBind, { Argument } from 'classnames/bind';
 import { shieldCheckmarkOutline } from 'ionicons/icons';
 import { appRoutes } from 'routes';
 import { useAppSelector } from 'store';
+import { getIsMobile } from 'store/windowSize';
 
 import { CustomLinkButton } from 'components/CustomLinkButton';
 import { ThemeToggle } from 'components/ThemeToggle';
@@ -27,6 +28,8 @@ const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 export const SidebarSettings = () => {
     const { user } = useAppSelector((state) => state.auth);
 
+    const isMobile = useAppSelector(getIsMobile);
+
     return (
         <>
             <IonHeader className="ion-no-border">
@@ -36,7 +39,7 @@ export const SidebarSettings = () => {
                         <CustomLinkButton back />
                     </IonButtons>
                     <IonButtons slot="end">
-                        <CustomLinkButton iconName="createOutline" href={appRoutes.settingsEdit()} />
+                        <CustomLinkButton iconName="createOutline" href={appRoutes.settingsEdit(isMobile)} />
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>

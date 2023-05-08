@@ -7,6 +7,7 @@ import {
     logoutAction,
     signUpAction,
     updateProfileAction,
+    uploadAvatarAction,
 } from 'store/auth/auth.actions';
 import { FetchStatus } from 'types/asyncState';
 
@@ -40,6 +41,7 @@ export const userSlice = createSlice({
                     logoutAction.fulfilled,
                     confirmEmailAction.fulfilled,
                     updateProfileAction.fulfilled,
+                    uploadAvatarAction.fulfilled,
                 ),
                 (state, { payload }) => {
                     state.user = payload as ApiUserEntityResponse;
@@ -55,6 +57,7 @@ export const userSlice = createSlice({
                     logoutAction.pending,
                     confirmEmailAction.pending,
                     updateProfileAction.pending,
+                    uploadAvatarAction.pending,
                 ),
                 (state) => {
                     state.errorMessage = '';
@@ -69,6 +72,7 @@ export const userSlice = createSlice({
                     logoutAction.rejected,
                     confirmEmailAction.rejected,
                     updateProfileAction.rejected,
+                    uploadAvatarAction.rejected,
                 ),
                 (state, { error, type }) => {
                     if (!type?.includes(authAction.typePrefix)) {

@@ -27,7 +27,7 @@ export function usePhotoGallery() {
             }
             setPhotos(photosInPreferences);
         };
-        void loadSaved();
+        void loadSaved().catch(console.error);
     }, []);
 
     const takePhoto = async () => {
@@ -36,11 +36,14 @@ export function usePhotoGallery() {
             source: CameraSource.Camera,
             quality: 100,
         });
+
         const fileName = `${new Date().getTime()}.jpeg`;
         const savedFileImage = await savePicture(photo, fileName);
         const newPhotos = [savedFileImage, ...photos];
         setPhotos(newPhotos);
-        await Preferences.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) });
+        await Preferences.set({ key: PHOTO_STORAGE, value: JSON.stringify(newPhotos) }).catch((err) =>
+            console.error('ERROR', err),
+        );
     };
 
     const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> => {
@@ -56,18 +59,20 @@ export function usePhotoGallery() {
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
             base64Data = await base64FromPath(photo.webPath!);
         }
-        const savedFile = await Filesystem.writeFile({
-            path: fileName,
-            data: base64Data,
-            directory: Directory.Data,
-        });
 
         if (isPlatform('hybrid')) {
+            const savedFile = await Filesystem.writeFile({
+                path: fileName,
+                data: base64Data,
+                directory: Directory.Data,
+            });
+
             // Display the new image by rewriting the 'file://' path to HTTP
             // Details: https://ionicframework.com/docs/building/webview#file-protocol
             return {
                 filepath: savedFile.uri,
                 webviewPath: Capacitor.convertFileSrc(savedFile.uri),
+                mimeType: `image/${photo.format}`,
             };
         } else {
             // Use webPath to display the new image instead of base64 since it's
@@ -75,6 +80,7 @@ export function usePhotoGallery() {
             return {
                 filepath: fileName,
                 webviewPath: photo.webPath,
+                mimeType: `image/${photo.format}`,
             };
         }
     };
@@ -88,10 +94,12 @@ export function usePhotoGallery() {
 
         // delete photo file from filesystem
         const filename = photo.filepath.substr(photo.filepath.lastIndexOf('/') + 1);
-        await Filesystem.deleteFile({
-            path: filename,
-            directory: Directory.Data,
-        });
+        if (isPlatform('hybrid')) {
+            await Filesystem.deleteFile({
+                path: filename,
+                directory: Directory.Data,
+            }).catch(console.error);
+        }
         setPhotos(newPhotos);
     };
 
@@ -105,6 +113,7 @@ export function usePhotoGallery() {
 export interface UserPhoto {
     filepath: string;
     webviewPath?: string;
+    mimeType: string;
 }
 
 export async function base64FromPath(path: string): Promise<string> {

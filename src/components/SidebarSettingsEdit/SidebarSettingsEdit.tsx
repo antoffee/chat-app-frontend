@@ -19,7 +19,8 @@ import {
 import cnBind, { Argument } from 'classnames/bind';
 import { camera, close, trash } from 'ionicons/icons';
 import { useAppDispatch, useAppSelector } from 'store';
-import { updateProfileAction } from 'store/auth';
+import { updateProfileAction, uploadAvatarAction } from 'store/auth';
+import { FetchStatus } from 'types/asyncState';
 
 import { Button } from 'components/Button';
 import { CustomLinkButton } from 'components/CustomLinkButton';
@@ -28,13 +29,16 @@ import { validateEdit } from 'components/SidebarSettingsEdit/SidebarSettings.uti
 import { EditSettingsValues } from 'components/SidebarSettingsEdit/SidebarSettingsEdit.types';
 import { usePhotoGallery, UserPhoto } from 'components/SidebarSettingsEdit/usePhotoGallery';
 import { ThemeToggle } from 'components/ThemeToggle';
+import { TextType, Typography } from 'components/Typography';
 
 import styles from './SidebarSettingsEdit.module.scss';
 
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const SidebarSettingsEdit = () => {
-    const { user } = useAppSelector((state) => state.auth);
+    const { user, loadingStatus } = useAppSelector((state) => state.auth);
+
+    const isLoading = loadingStatus === FetchStatus.PENDING;
 
     const router = useIonRouter();
 
@@ -59,6 +63,15 @@ export const SidebarSettingsEdit = () => {
         [user?.email, user?.name, user?.username],
     );
 
+    const handleGenerateAvatar = useCallback(() => {
+        const path = photos[0]?.webviewPath;
+        if (path) {
+            void dispatch(
+                uploadAvatarAction({ filePath: path, mimeType: photos[0]?.mimeType, fileName: photos[0]?.filepath }),
+            );
+        }
+    }, [dispatch, photos]);
+
     return (
         <>
             <IonHeader className="ion-no-border">
@@ -77,31 +90,42 @@ export const SidebarSettingsEdit = () => {
                             <CustomInputField inputType="input" name="username" label="Username" />
                             <CustomInputField inputType="input" name="email" label="Адрес эл. почты" />
 
-                            <Button size="large" onClick={handleSubmit} disabled={!valid}>
+                            <Button onClick={handleSubmit} disabled={!valid || isLoading}>
                                 Сохранить изменения
                             </Button>
                         </IonList>
                     )}
                 </Form>
                 <IonList className={cx('list')}>
+                    <Typography type={TextType.CAPTION_16_24}>Аватар</Typography>
                     <IonGrid>
                         <IonRow>
                             {photos.map((photo, index) => (
                                 <IonCol size="6" key={index}>
-                                    <IonImg onClick={() => setPhotoToDelete(photo)} src={photo.webviewPath} />
+                                    <IonImg
+                                        alt="Аватар"
+                                        onClick={() => setPhotoToDelete(photo)}
+                                        src={photo.webviewPath}
+                                    />
                                 </IonCol>
                             ))}
                         </IonRow>
                     </IonGrid>
-                    <Button onClick={() => takePhoto()}>
-                        <IonIcon icon={camera} />
-                    </Button>
+                    {!photos?.length ? (
+                        <Button onClick={() => takePhoto()}>
+                            <IonIcon icon={camera} />
+                        </Button>
+                    ) : (
+                        <Button loading={isLoading} disabled={isLoading} onClick={handleGenerateAvatar}>
+                            Создать аватар
+                        </Button>
+                    )}
                 </IonList>
                 <IonActionSheet
                     isOpen={!!photoToDelete}
                     buttons={[
                         {
-                            text: 'Delete',
+                            text: 'Удалить',
                             role: 'destructive',
                             icon: trash,
                             handler: () => {
@@ -112,7 +136,7 @@ export const SidebarSettingsEdit = () => {
                             },
                         },
                         {
-                            text: 'Cancel',
+                            text: 'Отмена',
                             icon: close,
                             role: 'cancel',
                         },

@@ -1,1 +1,0 @@
-export { EditSettingsForm } from './EditSettingsForm';
