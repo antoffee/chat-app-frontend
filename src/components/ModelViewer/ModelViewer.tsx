@@ -2,7 +2,8 @@ import React, { Suspense, useMemo } from 'react';
 import { OrbitControls } from '@react-three/drei';
 import { Canvas, Vector3 as V3 } from '@react-three/fiber';
 import cnBind, { Argument } from 'classnames/bind';
-import CurlyWomanModel from 'models/CurlyWomanModel';
+
+import ModelBase from 'components/ModelViewer/ModelBase';
 
 import { ModelViewerProps } from './ModelViewer.types';
 
@@ -10,7 +11,7 @@ import styles from './ModelViewer.module.scss';
 
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
-export const ModelViewer: React.FC<ModelViewerProps> = ({ mode }) => {
+export const ModelViewer: React.FC<ModelViewerProps> = ({ mode, faceInfo }) => {
     const camera = useMemo(
         () =>
             mode !== 'avatar'
@@ -29,7 +30,7 @@ export const ModelViewer: React.FC<ModelViewerProps> = ({ mode }) => {
             </directionalLight>
             {mode !== 'avatar' && <OrbitControls />}
             <Suspense fallback={null}>
-                <CurlyWomanModel />
+                <ModelBase faceInfo={faceInfo} />
             </Suspense>
         </Canvas>
     );

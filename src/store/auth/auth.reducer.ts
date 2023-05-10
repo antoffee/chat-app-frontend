@@ -1,18 +1,19 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { ApiUserEntityResponse } from 'generated';
+import { ApiUserEntityWithFaceInfoResponse } from 'generated';
 import {
     authAction,
     confirmEmailAction,
     loginAction,
     logoutAction,
     signUpAction,
+    updateFaceInfo,
     updateProfileAction,
     uploadAvatarAction,
 } from 'store/auth/auth.actions';
 import { FetchStatus } from 'types/asyncState';
 
 export type UserState = {
-    user?: ApiUserEntityResponse;
+    user?: ApiUserEntityWithFaceInfoResponse;
     loadingStatus: FetchStatus;
     errorMessage: string;
 };
@@ -33,6 +34,11 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(updateFaceInfo, (state, { payload }) => {
+                if (state.user) {
+                    state.user.faceInfo = payload;
+                }
+            })
             .addMatcher(
                 isAnyOf(
                     authAction.fulfilled,
@@ -42,9 +48,10 @@ export const userSlice = createSlice({
                     confirmEmailAction.fulfilled,
                     updateProfileAction.fulfilled,
                     uploadAvatarAction.fulfilled,
+                    updateFaceInfo,
                 ),
                 (state, { payload }) => {
-                    state.user = payload as ApiUserEntityResponse;
+                    state.user = payload as ApiUserEntityWithFaceInfoResponse;
                     state.errorMessage = '';
                     state.loadingStatus = FetchStatus.FULFILLED;
                 },

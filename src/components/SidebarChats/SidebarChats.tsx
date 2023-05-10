@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { IonButtons, IonContent, IonHeader, IonIcon, IonList, IonTitle, IonToolbar } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
-import { ApiChatRoomEntityWithMembersResponseTypeEnum } from 'generated';
+import { ApiChatRoomEntityWithMembersResponseTypeEnum, ApiUserEntityWithFaceInfoResponse } from 'generated';
 import { useNodeUid } from 'hooks/useNodeUid';
 import { optionsSharp } from 'ionicons/icons';
 import { useAppSelector } from 'store';
@@ -49,6 +49,9 @@ export const SidebarChats = () => {
                 <IonList>
                     {chats?.map((chat) => (
                         <ChatItem
+                            members={chat.members as unknown as ApiUserEntityWithFaceInfoResponse[]}
+                            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
+                            userId={user?.id!}
                             onDelete={leaveRoom}
                             id={chat.id}
                             date={chat?.messages?.[0]?.createdAt}

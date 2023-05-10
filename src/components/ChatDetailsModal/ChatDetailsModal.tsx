@@ -12,7 +12,7 @@ import {
     IonTitle,
     IonToolbar,
 } from '@ionic/react';
-import { ApiChatRoomEntityDetailsResponseTypeEnum, ApiUserEntityResponse } from 'generated';
+import { ApiChatRoomEntityDetailsResponseTypeEnum, ApiUserEntityWithFaceInfoResponse } from 'generated';
 import { close, createOutline } from 'ionicons/icons';
 import moment from 'moment';
 import { useAppSelector } from 'store';
@@ -37,7 +37,7 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
     const [leaveRoom] = useLeaveRoomMutation();
 
     const handleRemoveUser = useCallback(
-        (user?: ApiUserEntityResponse) => {
+        (user?: ApiUserEntityWithFaceInfoResponse) => {
             void leaveRoom({
                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion, @typescript-eslint/no-non-null-asserted-optional-chain
                 roomId: data?.id!,
@@ -100,7 +100,7 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
                                     return (
                                         <UserItem
                                             key={member.id}
-                                            user={member}
+                                            user={member as unknown as ApiUserEntityWithFaceInfoResponse}
                                             onDelete={handleRemoveUser}
                                             onUserAvatarClick={noop}
                                             deletable={isOwner}

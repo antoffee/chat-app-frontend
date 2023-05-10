@@ -1,4 +1,4 @@
-import { JoinLeaveGroupChatRoomDto } from 'generated';
+import { ApiUserEntityWithFaceInfoResponse, JoinLeaveGroupChatRoomDto } from 'generated';
 
 export type ChatItemProps = {
     title?: string;
@@ -10,6 +10,8 @@ export type ChatItemProps = {
     message?: string;
     id: number;
     isPrivate?: boolean;
+    members?: ApiUserEntityWithFaceInfoResponse[];
+    userId: number;
     onMakeRead?: () => void;
     onDelete?: (data: Pick<JoinLeaveGroupChatRoomDto, 'roomId'> & { isPrivate?: boolean }) => void;
 };

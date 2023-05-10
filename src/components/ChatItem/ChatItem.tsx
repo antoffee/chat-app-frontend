@@ -11,7 +11,7 @@ import {
     IonNote,
 } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
-import { chatbubble, pin, trash } from 'ionicons/icons';
+import { chatbubble, person, pin, trash } from 'ionicons/icons';
 import moment from 'moment';
 import { appRoutes } from 'routes';
 
@@ -26,7 +26,6 @@ const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 export const ChatItem = ({
     date,
     title,
-    image,
     pinned,
     unreadCount,
     message,
@@ -34,6 +33,8 @@ export const ChatItem = ({
     onMakeRead,
     id,
     isPrivate,
+    members,
+    userId,
 }: ChatItemProps) => {
     const formattedDate = useMemo(
         () => (moment(date).isBefore(new Date()) ? moment(date).format('DD MMM, HH:mm') : moment(date).format('hh:mm')),
@@ -43,6 +44,14 @@ export const ChatItem = ({
     const handleDelete = useCallback(() => {
         onDelete?.({ roomId: id, isPrivate });
     }, [id, onDelete, isPrivate]);
+
+    const faceInfo = useMemo(() => {
+        return isPrivate ? members?.find((member) => member.id !== userId)?.faceInfo : undefined;
+    }, [isPrivate, members, userId]);
+
+    const image = useMemo(() => {
+        return isPrivate ? members?.find((member) => member.id !== userId)?.avatar?.path : undefined;
+    }, [isPrivate, members, userId]);
 
     return (
         <IonItemSliding className={cx('chat-item__sliding')}>
@@ -55,7 +64,13 @@ export const ChatItem = ({
             </IonItemOptions>
             <IonItem routerLink={appRoutes.chatDetails(id)} lines="none" className={cx('chat-item')}>
                 <IonAvatar className={cx('avatar')} slot="start">
-                    {image ? <img src={image} /> : <ModelViewer mode="avatar" />}
+                    {faceInfo ? (
+                        <ModelViewer mode="avatar" faceInfo={faceInfo} />
+                    ) : image ? (
+                        <img src={image} />
+                    ) : (
+                        <IonIcon icon={person} />
+                    )}
                 </IonAvatar>
                 <IonLabel>
                     <h2>{title}</h2>

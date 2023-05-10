@@ -1,8 +1,8 @@
-import { ApiUserEntityResponse } from 'generated';
+import { ApiUserEntityWithFaceInfoResponse } from 'generated';
 
 export type UserItemProps = {
-    user: ApiUserEntityResponse;
-    onDelete: (user: ApiUserEntityResponse) => void;
-    onUserAvatarClick: (user: ApiUserEntityResponse) => void;
+    user: ApiUserEntityWithFaceInfoResponse;
+    onDelete: (user: ApiUserEntityWithFaceInfoResponse) => void;
+    onUserAvatarClick: (user: ApiUserEntityWithFaceInfoResponse) => void;
     deletable?: boolean;
 };

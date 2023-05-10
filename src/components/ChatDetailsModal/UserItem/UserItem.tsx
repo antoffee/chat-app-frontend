@@ -10,7 +10,7 @@ import {
     IonNote,
 } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
-import { trash } from 'ionicons/icons';
+import { person, trash } from 'ionicons/icons';
 
 import { ModelViewer } from 'components/ModelViewer';
 
@@ -42,7 +42,13 @@ export const UserItem: React.FC<UserItemProps> = ({ user, onDelete, onUserAvatar
             )}
             <IonItem lines="none" className={cx('chat-item')}>
                 <IonAvatar onClick={handleUserAvatarClick} className={cx('avatar')} slot="start">
-                    {user.avatar ? <img src={user.avatar.path} /> : <ModelViewer mode="avatar" />}
+                    {user.faceInfo ? (
+                        <ModelViewer faceInfo={user.faceInfo} mode="avatar" />
+                    ) : user.avatar ? (
+                        <img src={user.avatar.path} />
+                    ) : (
+                        <IonIcon icon={person} />
+                    )}
                 </IonAvatar>
                 <IonLabel>
                     <h2>{user.name}</h2>

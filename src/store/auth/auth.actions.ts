@@ -1,13 +1,13 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
 import { axiosInstance } from 'api/axios';
 import { localConfigService } from 'api/localConfigService';
 import { AxiosResponse } from 'axios';
 import {
+    ApiFaceInfoEntityResponse,
     ApiUserEntityWithFaceInfoResponse,
     AuthApi,
     CreateUserDto,
     EmailApi,
-    // FaceAnalyzeApi,
     LoginDto,
     UpdateUserDto,
     UsersApi,
@@ -17,7 +17,6 @@ import heic2any from 'heic2any';
 const authApi = new AuthApi();
 const emailApi = new EmailApi();
 const userApi = new UsersApi();
-// const faceApi = new FaceAnalyzeApi();
 
 const wrapAuthTryCatch = async <T>(cb: () => Promise<T>) => {
     try {
@@ -44,7 +43,7 @@ export const signUpAction = createAsyncThunk('USER/SIGN_UP', async (req: CreateU
 
 export const authAction = createAsyncThunk('USER/AUTHENTIFICATE', async () => {
     return wrapAuthTryCatch(async () => {
-        const responce = await authApi.authControllerAuthenticate();
+        const responce = await userApi.usersControllerGetSelfFaceInfo();
 
         return responce.data;
     });
@@ -72,36 +71,45 @@ export const updateProfileAction = createAsyncThunk('USER/UPDATE', async (dto: U
     return responce.data;
 });
 
-export const uploadAvatarAction = createAsyncThunk(
-    'USER/GENERATE_AVATAR',
-    async ({ filePath, mimeType, fileName }: { filePath: string; mimeType: string; fileName: string }) => {
-        const rawFile = await fetch(filePath)
-            .then((res) => res.blob())
-            .then((blob) => {
-                return new File([blob], fileName, { type: mimeType });
-            });
-        let file: File;
-        if (rawFile.type.toLowerCase().includes('heic')) {
-            const pngFile = await heic2any({
-                blob: rawFile,
-                toType: 'image/png',
-                quality: 0.1,
-            });
+export type FileInput = { filePath: string; mimeType: string; fileName: string };
 
-            file = new File([pngFile as Blob], fileName, { type: 'image/png' });
-        } else {
-            file = rawFile;
-        }
-        const data = new FormData();
-        data.set('avatar', file);
-        const fileResponse = await axiosInstance.post<FormData, AxiosResponse<ApiUserEntityWithFaceInfoResponse>>(
-            '/chat-api/files/avatar',
-            data,
-            {
-                headers: { 'Content-Length': file.size },
-            },
-        );
+export const createFileFromBase64 = async ({ fileName, filePath, mimeType }: FileInput) => {
+    const rawFile = await fetch(filePath)
+        .then((res) => res.blob())
+        .then((blob) => {
+            return new File([blob], fileName, { type: mimeType });
+        });
+    let file: File;
+    if (rawFile.type.toLowerCase().includes('heic')) {
+        const pngFile = await heic2any({
+            blob: rawFile,
+            toType: 'image/png',
+            quality: 0.1,
+        });
 
-        return fileResponse.data;
-    },
-);
+        file = new File([pngFile as Blob], fileName, { type: 'image/png' });
+    } else {
+        file = rawFile;
+    }
+
+    return file;
+};
+
+export const uploadAvatarAction = createAsyncThunk('USER/GENERATE_AVATAR', async (input: FileInput) => {
+    const file = await createFileFromBase64(input);
+    const data = new FormData();
+    data.set('avatar', file);
+    const fileResponse = await axiosInstance.post<FormData, AxiosResponse<ApiUserEntityWithFaceInfoResponse>>(
+        '/chat-api/files/avatar',
+        data,
+        {
+            headers: { 'Content-Length': file.size },
+        },
+    );
+
+    return fileResponse.data;
+});
+
+export const updateFaceInfo = createAction('USER/UPDATE_FACE_INFO', (faceInfo: ApiFaceInfoEntityResponse) => {
+    return { payload: faceInfo };
+});

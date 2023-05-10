@@ -1,10 +1,9 @@
 import React from 'react';
 import { IonHeader } from '@ionic/react';
 // import cnBind, { Argument } from 'classnames/bind';
-import { ApiUserEntityResponse } from 'generated';
 import { useAppSelector } from 'store';
 
-import { ModelViewer } from 'components/ModelViewer';
+import { AvatarEditor } from 'components/AvatarEditor';
 
 import { EditSettingsPageProps } from './EditSettingsPage.types';
 
@@ -13,12 +12,12 @@ import { EditSettingsPageProps } from './EditSettingsPage.types';
 // const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const EditSettingsPage: React.FC<EditSettingsPageProps> = () => {
-    const _user = useAppSelector((state) => state.auth.user as ApiUserEntityResponse);
+    const user = useAppSelector((state) => state.auth.user);
 
     return (
         <>
             <IonHeader />
-            <ModelViewer />
+            <AvatarEditor faceInfo={user?.faceInfo} />
         </>
     );
 };

@@ -1,35 +1,34 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Form } from 'react-final-form';
 import {
-    IonActionSheet,
     IonButtons,
-    IonCol,
     IonContent,
     IonFooter,
-    IonGrid,
     IonHeader,
-    IonIcon,
-    IonImg,
     IonList,
-    IonRow,
+    IonLoading,
     IonTitle,
     IonToolbar,
     useIonRouter,
 } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
-import { camera, close, trash } from 'ionicons/icons';
+import { ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum } from 'generated';
+import { UserPhoto } from 'hooks/usePhotoGallery';
 import { useAppDispatch, useAppSelector } from 'store';
-import { updateProfileAction, uploadAvatarAction } from 'store/auth';
+import { updateFaceInfo, updateProfileAction, uploadAvatarAction } from 'store/auth';
 import { FetchStatus } from 'types/asyncState';
 
+import { AvatarUploader } from 'components/AvatarUploader';
 import { Button } from 'components/Button';
 import { CustomLinkButton } from 'components/CustomLinkButton';
 import { CustomInputField } from 'components/Fields/CustomInputField';
-import { validateEdit } from 'components/SidebarSettingsEdit/SidebarSettings.utils';
+import {
+    checkFaceAnalizeStatus,
+    scheduleFaceAnalize,
+    validateEdit,
+} from 'components/SidebarSettingsEdit/SidebarSettings.utils';
 import { EditSettingsValues } from 'components/SidebarSettingsEdit/SidebarSettingsEdit.types';
-import { usePhotoGallery, UserPhoto } from 'components/SidebarSettingsEdit/usePhotoGallery';
 import { ThemeToggle } from 'components/ThemeToggle';
-import { TextType, Typography } from 'components/Typography';
 
 import styles from './SidebarSettingsEdit.module.scss';
 
@@ -55,25 +54,77 @@ export const SidebarSettingsEdit = () => {
         [dispatch, router],
     );
 
-    const { deletePhoto, photos, takePhoto } = usePhotoGallery();
-    const [photoToDelete, setPhotoToDelete] = useState<UserPhoto>();
-
     const initialValues = useMemo(
         () => ({ name: user?.name, username: user?.username, email: user?.email }),
         [user?.email, user?.name, user?.username],
     );
 
-    const handleGenerateAvatar = useCallback(() => {
-        const path = photos[0]?.webviewPath;
-        if (path) {
-            void dispatch(
-                uploadAvatarAction({ filePath: path, mimeType: photos[0]?.mimeType, fileName: photos[0]?.filepath }),
-            );
+    const handleUploadAvatar = useCallback(
+        (photo?: UserPhoto) => {
+            const path = photo?.webviewPath;
+            if (path) {
+                void dispatch(
+                    uploadAvatarAction({ filePath: path, mimeType: photo?.mimeType, fileName: photo?.filepath }),
+                );
+            }
+        },
+        [dispatch],
+    );
+
+    const [faceInfoStatus, setFaceInfoStatus] = useState<ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum>(
+        ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending,
+    );
+
+    const [jobId, setJobId] = useState<string | null>(null);
+
+    useEffect(() => {
+        let timer: NodeJS.Timeout | null = null;
+        if (
+            typeof jobId === 'string' &&
+            faceInfoStatus === ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending
+        ) {
+            timer = setInterval(() => {
+                checkFaceAnalizeStatus(jobId)
+                    .then(({ status, result }) => {
+                        setFaceInfoStatus(status);
+                        switch (status) {
+                            case ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Cancelled:
+                                // !TODO: handle error
+                                setJobId(null);
+                                setFaceInfoStatus(ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending);
+                                break;
+                            case ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Done:
+                                // !TODO: handle done with result
+                                setJobId(null);
+                                setFaceInfoStatus(ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending);
+                                dispatch(updateFaceInfo(result));
+                        }
+                    })
+                    .catch(console.error);
+            }, 2000);
         }
-    }, [dispatch, photos]);
+
+        return () => {
+            if (timer !== null) {
+                clearInterval(timer);
+            }
+        };
+    }, [dispatch, faceInfoStatus, jobId]);
+
+    // na sunmit
+    const scheduleFaceInfoAnalyze = useCallback(async (photo: UserPhoto) => {
+        const { jobId } = await scheduleFaceAnalize({
+            fileName: photo.filepath,
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            filePath: photo.webviewPath!,
+            mimeType: photo.mimeType,
+        });
+        setJobId(jobId);
+    }, []);
 
     return (
         <>
+            <IonLoading isOpen={faceInfoStatus === ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending} />
             <IonHeader className="ion-no-border">
                 <IonToolbar>
                     <IonTitle>Редактирование профиля</IonTitle>
@@ -96,52 +147,11 @@ export const SidebarSettingsEdit = () => {
                         </IonList>
                     )}
                 </Form>
-                <IonList className={cx('list')}>
-                    <Typography type={TextType.CAPTION_16_24}>Аватар</Typography>
-                    <IonGrid>
-                        <IonRow>
-                            {photos.map((photo, index) => (
-                                <IonCol size="6" key={index}>
-                                    <IonImg
-                                        alt="Аватар"
-                                        onClick={() => setPhotoToDelete(photo)}
-                                        src={photo.webviewPath}
-                                    />
-                                </IonCol>
-                            ))}
-                        </IonRow>
-                    </IonGrid>
-                    {!photos?.length ? (
-                        <Button onClick={() => takePhoto()}>
-                            <IonIcon icon={camera} />
-                        </Button>
-                    ) : (
-                        <Button loading={isLoading} disabled={isLoading} onClick={handleGenerateAvatar}>
-                            Создать аватар
-                        </Button>
-                    )}
-                </IonList>
-                <IonActionSheet
-                    isOpen={!!photoToDelete}
-                    buttons={[
-                        {
-                            text: 'Удалить',
-                            role: 'destructive',
-                            icon: trash,
-                            handler: () => {
-                                if (photoToDelete) {
-                                    void deletePhoto(photoToDelete);
-                                    setPhotoToDelete(undefined);
-                                }
-                            },
-                        },
-                        {
-                            text: 'Отмена',
-                            icon: close,
-                            role: 'cancel',
-                        },
-                    ]}
-                    onDidDismiss={() => setPhotoToDelete(undefined)}
+                <AvatarUploader
+                    isLoading={isLoading}
+                    onUploadSubmit={handleUploadAvatar}
+                    className={cx('list')}
+                    onGenerateSubmit={scheduleFaceInfoAnalyze}
                 />
             </IonContent>
             <IonFooter className={cx('footer')}>
