@@ -18,6 +18,8 @@ export const AvatarUploader: React.FC<AvatarUploaderProps> = ({
     className,
     onUploadSubmit,
     onGenerateSubmit,
+    hasAvatar,
+    onDeleteAvatar,
 }) => {
     const { deletePhoto, photos, takePhoto } = usePhotoGallery();
     const [photoToDelete, setPhotoToDelete] = useState<UserPhoto>();
@@ -43,7 +45,11 @@ export const AvatarUploader: React.FC<AvatarUploaderProps> = ({
                         ))}
                     </IonRow>
                 </IonGrid>
-                {!photos?.length ? (
+                {hasAvatar ? (
+                    <Button onClick={onDeleteAvatar} loading={isLoading} disabled={isLoading} color={'danger'}>
+                        Удалить аватар
+                    </Button>
+                ) : !photos?.length ? (
                     <Button onClick={() => takePhoto()}>
                         <IonIcon icon={camera} />
                     </Button>

@@ -15,7 +15,7 @@ import cnBind, { Argument } from 'classnames/bind';
 import { ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum } from 'generated';
 import { UserPhoto } from 'hooks/usePhotoGallery';
 import { useAppDispatch, useAppSelector } from 'store';
-import { updateFaceInfo, updateProfileAction, uploadAvatarAction } from 'store/auth';
+import { deleteFaceInfo, updateFaceInfo, updateProfileAction, uploadAvatarAction } from 'store/auth';
 import { FetchStatus } from 'types/asyncState';
 
 import { AvatarUploader } from 'components/AvatarUploader';
@@ -71,9 +71,7 @@ export const SidebarSettingsEdit = () => {
         [dispatch],
     );
 
-    const [faceInfoStatus, setFaceInfoStatus] = useState<ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum>(
-        ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending,
-    );
+    const [faceInfoStatus, setFaceInfoStatus] = useState<ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum>();
 
     const [jobId, setJobId] = useState<string | null>(null);
 
@@ -91,12 +89,12 @@ export const SidebarSettingsEdit = () => {
                             case ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Cancelled:
                                 // !TODO: handle error
                                 setJobId(null);
-                                setFaceInfoStatus(ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending);
+                                setFaceInfoStatus(ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Cancelled);
                                 break;
                             case ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Done:
                                 // !TODO: handle done with result
                                 setJobId(null);
-                                setFaceInfoStatus(ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending);
+                                setFaceInfoStatus(ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Done);
                                 dispatch(updateFaceInfo(result));
                         }
                     })
@@ -113,6 +111,7 @@ export const SidebarSettingsEdit = () => {
 
     // na sunmit
     const scheduleFaceInfoAnalyze = useCallback(async (photo: UserPhoto) => {
+        setFaceInfoStatus(ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending);
         const { jobId } = await scheduleFaceAnalize({
             fileName: photo.filepath,
             // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -122,9 +121,10 @@ export const SidebarSettingsEdit = () => {
         setJobId(jobId);
     }, []);
 
+    const handleDeleteAvatar = useCallback(() => dispatch(deleteFaceInfo()), [dispatch]);
+
     return (
         <>
-            <IonLoading isOpen={faceInfoStatus === ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending} />
             <IonHeader className="ion-no-border">
                 <IonToolbar>
                     <IonTitle>Редактирование профиля</IonTitle>
@@ -134,6 +134,7 @@ export const SidebarSettingsEdit = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
+                <IonLoading isOpen={faceInfoStatus === ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending} />
                 <Form validate={validateEdit} initialValues={initialValues} onSubmit={handleSubmit}>
                     {({ handleSubmit, valid }) => (
                         <IonList className={cx('list')}>
@@ -147,11 +148,14 @@ export const SidebarSettingsEdit = () => {
                         </IonList>
                     )}
                 </Form>
+
                 <AvatarUploader
+                    onDeleteAvatar={handleDeleteAvatar}
                     isLoading={isLoading}
                     onUploadSubmit={handleUploadAvatar}
                     className={cx('list')}
                     onGenerateSubmit={scheduleFaceInfoAnalyze}
+                    hasAvatar={!!user?.faceInfo}
                 />
             </IonContent>
             <IonFooter className={cx('footer')}>

@@ -3,6 +3,7 @@ import { ApiUserEntityWithFaceInfoResponse } from 'generated';
 import {
     authAction,
     confirmEmailAction,
+    deleteFaceInfo,
     loginAction,
     logoutAction,
     signUpAction,
@@ -36,8 +37,15 @@ export const userSlice = createSlice({
         builder
             .addCase(updateFaceInfo, (state, { payload }) => {
                 if (state.user) {
-                    state.user.faceInfo = payload;
+                    state.user = { ...state.user, faceInfo: payload };
                 }
+            })
+            .addCase(deleteFaceInfo.fulfilled, (state) => {
+                if (state.user) {
+                    state.user = { ...state.user, faceInfo: undefined };
+                }
+                state.errorMessage = '';
+                state.loadingStatus = FetchStatus.FULFILLED;
             })
             .addMatcher(
                 isAnyOf(
@@ -48,7 +56,6 @@ export const userSlice = createSlice({
                     confirmEmailAction.fulfilled,
                     updateProfileAction.fulfilled,
                     uploadAvatarAction.fulfilled,
-                    updateFaceInfo,
                 ),
                 (state, { payload }) => {
                     state.user = payload as ApiUserEntityWithFaceInfoResponse;
@@ -65,6 +72,7 @@ export const userSlice = createSlice({
                     confirmEmailAction.pending,
                     updateProfileAction.pending,
                     uploadAvatarAction.pending,
+                    deleteFaceInfo.pending,
                 ),
                 (state) => {
                     state.errorMessage = '';
@@ -80,6 +88,7 @@ export const userSlice = createSlice({
                     confirmEmailAction.rejected,
                     updateProfileAction.rejected,
                     uploadAvatarAction.rejected,
+                    deleteFaceInfo.rejected,
                 ),
                 (state, { error, type }) => {
                     if (!type?.includes(authAction.typePrefix)) {

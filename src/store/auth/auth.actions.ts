@@ -8,6 +8,7 @@ import {
     AuthApi,
     CreateUserDto,
     EmailApi,
+    FaceAnalyzeApi,
     LoginDto,
     UpdateUserDto,
     UsersApi,
@@ -17,6 +18,7 @@ import heic2any from 'heic2any';
 const authApi = new AuthApi();
 const emailApi = new EmailApi();
 const userApi = new UsersApi();
+const faceApi = new FaceAnalyzeApi();
 
 const wrapAuthTryCatch = async <T>(cb: () => Promise<T>) => {
     try {
@@ -112,4 +114,10 @@ export const uploadAvatarAction = createAsyncThunk('USER/GENERATE_AVATAR', async
 
 export const updateFaceInfo = createAction('USER/UPDATE_FACE_INFO', (faceInfo: ApiFaceInfoEntityResponse) => {
     return { payload: faceInfo };
+});
+
+export const deleteFaceInfo = createAsyncThunk('USER/DELETE_FACE_INFO', async () => {
+    await faceApi.faceControllerRemove();
+
+    return undefined;
 });

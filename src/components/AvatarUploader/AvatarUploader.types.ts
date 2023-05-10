@@ -5,4 +5,6 @@ export type AvatarUploaderProps = {
     isLoading?: boolean;
     onUploadSubmit?: (photo: UserPhoto) => void;
     onGenerateSubmit?: (photo: UserPhoto) => void;
+    hasAvatar?: boolean;
+    onDeleteAvatar?: () => void;
 };
