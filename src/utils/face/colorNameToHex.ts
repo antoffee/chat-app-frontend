@@ -14,7 +14,9 @@ export const colorNameToHex = (colorName: string) => {
             return '#6ca580';
         case 'Green Gray':
             return '#4b7248';
-        default:
+        case 'Other':
             return '#663399';
+        default:
+            return colorName;
     }
 };

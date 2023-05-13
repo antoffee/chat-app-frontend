@@ -25,7 +25,7 @@ const generateTexture = (color = 'rebeccapurple') => {
     gradient.addColorStop(0.5, 'white');
     gradient.addColorStop(0.5, color);
     gradient.addColorStop(0.7, color);
-    gradient.addColorStop(1, 'pink');
+    gradient.addColorStop(0.999, 'pink');
     gradient.addColorStop(1, 'black');
 
     if (context && gradient) context.fillStyle = gradient;

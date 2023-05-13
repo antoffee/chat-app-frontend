@@ -10,10 +10,13 @@ import {
     EmailApi,
     FaceAnalyzeApi,
     LoginDto,
+    UpdateFaceInfoDto,
     UpdateUserDto,
     UsersApi,
 } from 'generated';
 import heic2any from 'heic2any';
+
+import { hexToRgbString } from 'utils';
 
 const authApi = new AuthApi();
 const emailApi = new EmailApi();
@@ -112,7 +115,7 @@ export const uploadAvatarAction = createAsyncThunk('USER/GENERATE_AVATAR', async
     return fileResponse.data;
 });
 
-export const updateFaceInfo = createAction('USER/UPDATE_FACE_INFO', (faceInfo: ApiFaceInfoEntityResponse) => {
+export const saveFaceInfo = createAction('USER/SAVE_FACE_INFO', (faceInfo: ApiFaceInfoEntityResponse) => {
     return { payload: faceInfo };
 });
 
@@ -120,4 +123,19 @@ export const deleteFaceInfo = createAsyncThunk('USER/DELETE_FACE_INFO', async ()
     await faceApi.faceControllerRemove();
 
     return undefined;
+});
+
+export const updateFaceInfo = createAsyncThunk('USER/UPDATE_FACE_INFO', async (dto: UpdateFaceInfoDto) => {
+    const preparedDto: UpdateFaceInfoDto = { ...dto };
+    if (dto.hairColor) {
+        preparedDto.hairColor = hexToRgbString(dto.hairColor);
+    }
+
+    if (dto.skinColor) {
+        preparedDto.leftEyeColor = hexToRgbString(dto.skinColor);
+    }
+
+    const result = await faceApi.faceControllerUpdate(dto);
+
+    return result.data;
 });

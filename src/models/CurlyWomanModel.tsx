@@ -47,10 +47,6 @@ export default function Model({ ...props }: JSX.IntrinsicElements['group']) {
             <mesh geometry={nodes.EyeRight.geometry} material={material} />
             <mesh geometry={nodes.Wolf3D_Head.geometry} material={materials.Wolf3D_Skin} />
             <mesh geometry={nodes.Wolf3D_Teeth.geometry} material={materials.Wolf3D_Teeth} />
-            {/* <mesh geometry={nodes.Wolf3D_Body.geometry} material={materials.Wolf3D_Body} /> */}
-            {/* <mesh geometry={nodes.Wolf3D_Outfit_Bottom.geometry} material={materials.Wolf3D_Outfit_Bottom} /> */}
-            {/* <mesh geometry={nodes.Wolf3D_Outfit_Footwear.geometry} material={materials.Wolf3D_Outfit_Footwear} /> */}
-            {/* <mesh geometry={nodes.Wolf3D_Outfit_Top.geometry} material={materials.Wolf3D_Outfit_Top} /> */}
             <mesh geometry={Wolf3D_Hair.geometry} material={materials.Wolf3D_Hair} material-color="rebeccapurple" />
         </group>
     );

@@ -15,7 +15,7 @@ import cnBind, { Argument } from 'classnames/bind';
 import { ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum } from 'generated';
 import { UserPhoto } from 'hooks/usePhotoGallery';
 import { useAppDispatch, useAppSelector } from 'store';
-import { deleteFaceInfo, updateFaceInfo, updateProfileAction, uploadAvatarAction } from 'store/auth';
+import { deleteFaceInfo, saveFaceInfo, updateProfileAction, uploadAvatarAction } from 'store/auth';
 import { FetchStatus } from 'types/asyncState';
 
 import { AvatarUploader } from 'components/AvatarUploader';
@@ -76,7 +76,7 @@ export const SidebarSettingsEdit = () => {
     const [jobId, setJobId] = useState<string | null>(null);
 
     useEffect(() => {
-        let timer: NodeJS.Timeout | null = null;
+        let timer: ReturnType<typeof setInterval> | null = null;
         if (
             typeof jobId === 'string' &&
             faceInfoStatus === ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending
@@ -95,7 +95,7 @@ export const SidebarSettingsEdit = () => {
                                 // !TODO: handle done with result
                                 setJobId(null);
                                 setFaceInfoStatus(ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Done);
-                                dispatch(updateFaceInfo(result));
+                                dispatch(saveFaceInfo(result));
                         }
                     })
                     .catch(console.error);

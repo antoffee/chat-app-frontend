@@ -28,7 +28,7 @@ const LazyApp = React.lazy(async () => {
         .then((header) => {
             if (header) {
                 localConfigService.initHeader(header);
-                updateLoginConnection(header);
+                updateLoginConnection(header, true);
             }
         })
         .catch(console.error);

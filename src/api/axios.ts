@@ -17,14 +17,16 @@ const axiosInstance = axios.create(requestConfig);
 
 let axiosCredentialInterceptorsId: number;
 
-export const updateLoginConnection = (accessToken: string) => {
+export const updateLoginConnection = (accessToken: string, ignoreSocket?: boolean) => {
     try {
         axiosInstance.interceptors.request.eject(axiosCredentialInterceptorsId);
     } catch (error) {
         console.error('at axios in updateAxiosClientCredential', error);
     }
 
-    socketService.connect(accessToken);
+    if (!ignoreSocket) {
+        socketService.connect(accessToken);
+    }
 
     axiosCredentialInterceptorsId = axiosInstance.interceptors.request.use((config) => {
         config.headers = { ...config.headers, [AUTH_HEADER_NAME]: accessToken };

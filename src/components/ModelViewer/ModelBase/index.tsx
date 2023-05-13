@@ -43,22 +43,19 @@ export default function ModelBase({
     const {
         nodes: { Wolf3D_Hair },
     } = useGLTF('/curly-woman.gltf') as GLTFResult;
-    const material = generateEyeMaterial(faceInfo.leftEyeColor);
+    const leftEyeMaterial = generateEyeMaterial(faceInfo.leftEyeColor);
+    const rightEyeMaterial = generateEyeMaterial(faceInfo.rightEyeColor);
 
     return (
         <group ref={group} {...props} dispose={null} position={[0, -1.5, 0]}>
-            <mesh geometry={nodes.EyeLeft.geometry} material={material} />
-            <mesh geometry={nodes.EyeRight.geometry} material={material} />
+            <mesh geometry={nodes.EyeLeft.geometry} material={leftEyeMaterial} />
+            <mesh geometry={nodes.EyeRight.geometry} material={rightEyeMaterial} />
             <mesh
                 geometry={nodes.Wolf3D_Head.geometry}
                 material={materials.Wolf3D_Skin}
                 material-color={faceInfo.skinColor}
             />
             <mesh geometry={nodes.Wolf3D_Teeth.geometry} material={materials.Wolf3D_Teeth} />
-            {/* <mesh geometry={nodes.Wolf3D_Body.geometry} material={materials.Wolf3D_Body} /> */}
-            {/* <mesh geometry={nodes.Wolf3D_Outfit_Bottom.geometry} material={materials.Wolf3D_Outfit_Bottom} /> */}
-            {/* <mesh geometry={nodes.Wolf3D_Outfit_Footwear.geometry} material={materials.Wolf3D_Outfit_Footwear} /> */}
-            {/* <mesh geometry={nodes.Wolf3D_Outfit_Top.geometry} material={materials.Wolf3D_Outfit_Top} /> */}
             <mesh
                 geometry={Wolf3D_Hair.geometry}
                 material={materials.Wolf3D_Hair}

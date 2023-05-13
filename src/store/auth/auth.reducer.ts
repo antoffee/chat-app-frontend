@@ -6,12 +6,15 @@ import {
     deleteFaceInfo,
     loginAction,
     logoutAction,
+    saveFaceInfo,
     signUpAction,
     updateFaceInfo,
     updateProfileAction,
     uploadAvatarAction,
 } from 'store/auth/auth.actions';
 import { FetchStatus } from 'types/asyncState';
+
+import { colorNameToHex, rgbStrToHex } from 'utils';
 
 export type UserState = {
     user?: ApiUserEntityWithFaceInfoResponse;
@@ -35,17 +38,27 @@ export const userSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(updateFaceInfo, (state, { payload }) => {
-                if (state.user) {
-                    state.user = { ...state.user, faceInfo: payload };
-                }
-            })
             .addCase(deleteFaceInfo.fulfilled, (state) => {
                 if (state.user) {
                     state.user = { ...state.user, faceInfo: undefined };
                 }
                 state.errorMessage = '';
                 state.loadingStatus = FetchStatus.FULFILLED;
+            })
+            .addMatcher(isAnyOf(saveFaceInfo, updateFaceInfo.fulfilled), (state, { payload }) => {
+                if (state.user) {
+                    state.user = {
+                        ...state.user,
+                        faceInfo: {
+                            ...payload,
+                            hairColor: rgbStrToHex(payload.hairColor),
+                            leftEyeColor: colorNameToHex(payload.leftEyeColor),
+                            rightEyeColor: colorNameToHex(payload.rightEyeColor),
+                            skinColor: rgbStrToHex(payload.skinColor),
+                        },
+                    };
+                    state.loadingStatus = FetchStatus.FULFILLED;
+                }
             })
             .addMatcher(
                 isAnyOf(
@@ -58,7 +71,16 @@ export const userSlice = createSlice({
                     uploadAvatarAction.fulfilled,
                 ),
                 (state, { payload }) => {
-                    state.user = payload as ApiUserEntityWithFaceInfoResponse;
+                    const userInfo = payload as ApiUserEntityWithFaceInfoResponse;
+
+                    if (userInfo.faceInfo) {
+                        userInfo.faceInfo.hairColor = rgbStrToHex(userInfo.faceInfo.hairColor);
+                        userInfo.faceInfo.leftEyeColor = colorNameToHex(userInfo.faceInfo.leftEyeColor);
+                        userInfo.faceInfo.rightEyeColor = colorNameToHex(userInfo.faceInfo.rightEyeColor);
+                        userInfo.faceInfo.skinColor = rgbStrToHex(userInfo.faceInfo.skinColor);
+                    }
+
+                    state.user = userInfo;
                     state.errorMessage = '';
                     state.loadingStatus = FetchStatus.FULFILLED;
                 },

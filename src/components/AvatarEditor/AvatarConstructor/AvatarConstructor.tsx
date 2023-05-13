@@ -20,13 +20,15 @@ const ColorParam = ({ title, name, initialValue }: ColorParamProps) => {
     );
 };
 
-export const AvatarConstructor: React.FC<AvatarConstructorProps> = ({ params, dirty }) => {
+export const AvatarConstructor: React.FC<AvatarConstructorProps> = ({ params, dirty, onSubmit }) => {
     return (
         <div className={cx('avatar-constructor')}>
             {params?.map((param) => (
                 <ColorParam key={param.name} {...param} />
             ))}
-            <Button disabled={!dirty}>Сохранить изменения</Button>
+            <Button onClick={onSubmit} disabled={!dirty}>
+                Сохранить изменения
+            </Button>
         </div>
     );
 };

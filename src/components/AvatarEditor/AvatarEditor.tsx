@@ -1,14 +1,15 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { Form } from 'react-final-form';
 import { IonContent } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
 import { ApiFaceInfoEntityResponse } from 'generated';
+import { useAppDispatch } from 'store';
+import { updateFaceInfo } from 'store/auth';
 
 import { AvatarConstructor } from 'components/AvatarEditor/AvatarConstructor';
 import { ColorParamProps } from 'components/AvatarEditor/AvatarConstructor/AvatarConstructor.types';
 import { ModelViewer } from 'components/ModelViewer';
 import { TextType, Typography } from 'components/Typography';
-import { colorNameToHex, noop, rgbStrToHex } from 'utils';
 
 import { AvatarEditorProps } from './AvatarEditor.types';
 
@@ -17,6 +18,7 @@ import styles from './AvatarEditor.module.scss';
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const AvatarEditor: React.FC<AvatarEditorProps> = ({ faceInfo }) => {
+    const dispatch = useAppDispatch();
     const params: ColorParamProps[] = useMemo(
         () =>
             faceInfo
@@ -24,32 +26,43 @@ export const AvatarEditor: React.FC<AvatarEditorProps> = ({ faceInfo }) => {
                       {
                           title: 'Цвет волос',
                           name: 'hairColor',
-                          initialValue: rgbStrToHex(faceInfo?.hairColor),
+                          initialValue: faceInfo?.hairColor,
                       },
                       {
                           title: 'Цвет левого глаза',
                           name: 'leftEyeColor',
-                          initialValue: colorNameToHex(faceInfo.leftEyeColor),
+                          initialValue: faceInfo.leftEyeColor,
                       },
                       {
                           title: 'Цвет правого глаза',
-                          initialValue: colorNameToHex(faceInfo.rightEyeColor),
+                          initialValue: faceInfo.rightEyeColor,
                           name: 'rightEyeColor',
                       },
-                      { title: 'Цвет кожи', initialValue: rgbStrToHex(faceInfo?.skinColor), name: 'skinColor' },
+                      { title: 'Цвет кожи', initialValue: faceInfo?.skinColor, name: 'skinColor' },
                   ]
                 : [],
         [faceInfo],
     );
 
+    const handleSubmitUpdate = useCallback(
+        (values: Partial<ApiFaceInfoEntityResponse>) => {
+            void dispatch(updateFaceInfo(values));
+        },
+        [dispatch],
+    );
+
     return (
         <div className={cx('avatar-editor')}>
             {faceInfo ? (
-                <Form<Partial<ApiFaceInfoEntityResponse>> onSubmit={noop}>
-                    {({ values, modifiedSinceLastSubmit }) => (
+                <Form<Partial<ApiFaceInfoEntityResponse>> onSubmit={handleSubmitUpdate}>
+                    {({ values, modifiedSinceLastSubmit, handleSubmit }) => (
                         <>
                             <ModelViewer faceInfo={{ ...faceInfo, ...values }} />
-                            <AvatarConstructor dirty={modifiedSinceLastSubmit} params={params} />
+                            <AvatarConstructor
+                                dirty={modifiedSinceLastSubmit}
+                                params={params}
+                                onSubmit={handleSubmit}
+                            />
                         </>
                     )}
                 </Form>

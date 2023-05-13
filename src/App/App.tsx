@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Redirect, Route } from 'react-router';
 import { IonLoading, IonPage, IonRouterOutlet, setupIonicReact, useIonRouter } from '@ionic/react';
 import { localConfigService } from 'api/localConfigService';
+import { socketService } from 'api/socketService';
 import { useColorMode } from 'hooks/useColorMode';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { PageLayout } from 'layouts/PageLayout';
@@ -61,6 +62,9 @@ export const App: React.FC = () => {
 
     useEffect(() => {
         if (isAuth) {
+            if (!socketService.socket && localConfigService.authHeader) {
+                socketService.connect(localConfigService.authHeader);
+            }
             void connect();
         } else if (localConfigService.authHeader) {
             void dispatch(authAction());

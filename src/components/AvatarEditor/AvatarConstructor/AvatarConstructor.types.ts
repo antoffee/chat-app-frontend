@@ -1,6 +1,7 @@
 export type AvatarConstructorProps = {
     params: ColorParamProps[];
     dirty?: boolean;
+    onSubmit: () => void;
 };
 
 export type ColorParamProps = {
