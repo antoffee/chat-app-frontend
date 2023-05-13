@@ -1,0 +1,13 @@
+.avatar-constructor {
+    position: fixed;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    /* stylelint-disable-next-line color-function-notation */
+    background-color: rgba(var(--base-0-rgb), 0.3);
+    border-radius: 0 0 0 16px;
+    backdrop-filter: blur(10px);
+    row-gap: 12px;
+}
