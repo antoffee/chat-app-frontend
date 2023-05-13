@@ -132,10 +132,10 @@ export const updateFaceInfo = createAsyncThunk('USER/UPDATE_FACE_INFO', async (d
     }
 
     if (dto.skinColor) {
-        preparedDto.leftEyeColor = hexToRgbString(dto.skinColor);
+        preparedDto.skinColor = hexToRgbString(dto.skinColor);
     }
 
-    const result = await faceApi.faceControllerUpdate(dto);
+    const result = await faceApi.faceControllerUpdate(preparedDto);
 
     return result.data;
 });

@@ -1,6 +1,8 @@
 import React from 'react';
 import { Field } from 'react-final-form';
+import { IonItem, IonLabel, IonRadio, IonRadioGroup } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
+import { ApiFaceInfoEntityResponseGenderEnum } from 'generated';
 
 import { Button } from 'components/Button';
 import { TextType, Typography } from 'components/Typography';
@@ -20,13 +22,35 @@ const ColorParam = ({ title, name, initialValue }: ColorParamProps) => {
     );
 };
 
-export const AvatarConstructor: React.FC<AvatarConstructorProps> = ({ params, dirty, onSubmit }) => {
+export const AvatarConstructor: React.FC<AvatarConstructorProps> = ({
+    params,
+    isButtonDisabled,
+    onSubmit,
+    loading,
+    gender,
+}) => {
     return (
         <div className={cx('avatar-constructor')}>
             {params?.map((param) => (
                 <ColorParam key={param.name} {...param} />
             ))}
-            <Button onClick={onSubmit} disabled={!dirty}>
+            <Field name={'gender'} initialValue={gender}>
+                {({ input }) => (
+                    <IonRadioGroup {...input}>
+                        <Typography type={TextType.CAPTION_16_24}>Пол</Typography>
+                        <IonItem onClick={() => input.onChange(ApiFaceInfoEntityResponseGenderEnum.MALE)}>
+                            <IonLabel>Мужской</IonLabel>
+                            <IonRadio value={ApiFaceInfoEntityResponseGenderEnum.MALE} />
+                        </IonItem>
+                        <IonItem onClick={() => input.onChange(ApiFaceInfoEntityResponseGenderEnum.FEMALE)}>
+                            <IonLabel>Женский</IonLabel>
+                            <IonRadio value={ApiFaceInfoEntityResponseGenderEnum.FEMALE} />
+                        </IonItem>
+                    </IonRadioGroup>
+                )}
+            </Field>
+
+            <Button onClick={onSubmit} loading={loading} disabled={isButtonDisabled}>
                 Сохранить изменения
             </Button>
         </div>

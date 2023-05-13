@@ -3,8 +3,9 @@ import { Form } from 'react-final-form';
 import { IonContent } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
 import { ApiFaceInfoEntityResponse } from 'generated';
-import { useAppDispatch } from 'store';
+import { useAppDispatch, useAppSelector } from 'store';
 import { updateFaceInfo } from 'store/auth';
+import { FetchStatus } from 'types/asyncState';
 
 import { AvatarConstructor } from 'components/AvatarEditor/AvatarConstructor';
 import { ColorParamProps } from 'components/AvatarEditor/AvatarConstructor/AvatarConstructor.types';
@@ -19,6 +20,7 @@ const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const AvatarEditor: React.FC<AvatarEditorProps> = ({ faceInfo }) => {
     const dispatch = useAppDispatch();
+    const { loadingStatus } = useAppSelector((state) => state.auth);
     const params: ColorParamProps[] = useMemo(
         () =>
             faceInfo
@@ -55,13 +57,15 @@ export const AvatarEditor: React.FC<AvatarEditorProps> = ({ faceInfo }) => {
         <div className={cx('avatar-editor')}>
             {faceInfo ? (
                 <Form<Partial<ApiFaceInfoEntityResponse>> onSubmit={handleSubmitUpdate}>
-                    {({ values, modifiedSinceLastSubmit, handleSubmit }) => (
+                    {({ values, touched, handleSubmit }) => (
                         <>
                             <ModelViewer faceInfo={{ ...faceInfo, ...values }} />
                             <AvatarConstructor
-                                dirty={modifiedSinceLastSubmit}
+                                gender={faceInfo.gender}
+                                isButtonDisabled={!touched || loadingStatus === FetchStatus.PENDING}
                                 params={params}
                                 onSubmit={handleSubmit}
+                                loading={loadingStatus === FetchStatus.PENDING}
                             />
                         </>
                     )}

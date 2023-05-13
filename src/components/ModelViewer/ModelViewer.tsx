@@ -2,8 +2,9 @@ import React, { Suspense, useMemo } from 'react';
 import { OrbitControls } from '@react-three/drei';
 import { Canvas, Vector3 as V3 } from '@react-three/fiber';
 import cnBind, { Argument } from 'classnames/bind';
-
-import ModelBase from 'components/ModelViewer/ModelBase';
+import { ApiFaceInfoEntityResponseGenderEnum } from 'generated';
+import ManModelBase from 'models/ManModelBase';
+import WomanModelBase from 'models/WomanModelBase';
 
 import { ModelViewerProps } from './ModelViewer.types';
 
@@ -30,7 +31,11 @@ export const ModelViewer: React.FC<ModelViewerProps> = ({ mode, faceInfo }) => {
             </directionalLight>
             {mode !== 'avatar' && <OrbitControls />}
             <Suspense fallback={null}>
-                <ModelBase faceInfo={faceInfo} />
+                {faceInfo.gender === ApiFaceInfoEntityResponseGenderEnum.FEMALE ? (
+                    <WomanModelBase faceInfo={faceInfo} />
+                ) : (
+                    <ManModelBase faceInfo={faceInfo} />
+                )}
             </Suspense>
         </Canvas>
     );

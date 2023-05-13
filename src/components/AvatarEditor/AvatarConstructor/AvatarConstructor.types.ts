@@ -1,7 +1,11 @@
+import { ApiFaceInfoEntityResponseGenderEnum } from 'generated';
+
 export type AvatarConstructorProps = {
     params: ColorParamProps[];
-    dirty?: boolean;
+    isButtonDisabled?: boolean;
+    loading?: boolean;
     onSubmit: () => void;
+    gender: ApiFaceInfoEntityResponseGenderEnum;
 };
 
 export type ColorParamProps = {

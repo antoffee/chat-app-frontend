@@ -10,4 +10,8 @@
     border-radius: 0 0 0 16px;
     backdrop-filter: blur(10px);
     row-gap: 12px;
+
+    ion-item {
+        --background: transparent;
+    }
 }
