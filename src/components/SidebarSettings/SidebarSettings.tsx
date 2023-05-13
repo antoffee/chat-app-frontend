@@ -21,7 +21,7 @@ import { getIsMobile } from 'store/windowSize';
 import { CustomLinkButton } from 'components/CustomLinkButton';
 import { ThemeToggle } from 'components/ThemeToggle';
 
-import styles from './SidebarChats.module.scss';
+import styles from './SidebarSettings.module.scss';
 
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 

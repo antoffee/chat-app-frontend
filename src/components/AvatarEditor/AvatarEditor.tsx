@@ -17,7 +17,7 @@ export const AvatarEditor: React.FC<AvatarEditorProps> = ({ faceInfo }) => {
             {faceInfo ? (
                 <ModelViewer faceInfo={faceInfo} />
             ) : (
-                <IonContent>
+                <IonContent className={cx('avatar-editor_empty')}>
                     <Typography type={TextType.TITLE_36_48}>Пока что нет созданных аватаров</Typography>
                 </IonContent>
             )}
