@@ -8,6 +8,7 @@ import {
     IonContent,
     IonFab,
     IonFabButton,
+    IonHeader,
     IonIcon,
     IonItem,
     IonLabel,
@@ -65,18 +66,20 @@ export const CreateChatModal: React.FC<CreateChatModalProps> = ({ onDismiss, isE
 
     return (
         <>
-            <IonToolbar>
-                <IonTitle>
-                    <Typography type={TextType.CAPTION_18_24}>
-                        {isEdit ? 'Редактирование чата' : 'Создать чат'}
-                    </Typography>
-                </IonTitle>
-                <IonButtons slot="end">
-                    <IonButton onClick={onDismiss}>
-                        <IonIcon icon={close} />
-                    </IonButton>
-                </IonButtons>
-            </IonToolbar>
+            <IonHeader>
+                <IonToolbar>
+                    <IonTitle>
+                        <Typography type={TextType.CAPTION_18_24}>
+                            {isEdit ? 'Редактирование чата' : 'Создать чат'}
+                        </Typography>
+                    </IonTitle>
+                    <IonButtons slot="end">
+                        <IonButton onClick={onDismiss}>
+                            <IonIcon icon={close} />
+                        </IonButton>
+                    </IonButtons>
+                </IonToolbar>
+            </IonHeader>
             <IonContent>
                 <Form<CreateChatValues>
                     validate={isEdit ? validateEditChat : validateCreateChat}
