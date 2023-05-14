@@ -68,7 +68,10 @@ export const SidebarSettings = () => {
             </IonContent>
             <IonFooter className={cx('footer')}>
                 <IonToolbar>
-                    <ThemeToggle />
+                    <IonItem>
+                        <IonLabel>Цветовая тема</IonLabel>
+                        <ThemeToggle />
+                    </IonItem>
                 </IonToolbar>
             </IonFooter>
         </>

@@ -73,7 +73,7 @@ export const userSlice = createSlice({
                 (state, { payload }) => {
                     const userInfo = payload as ApiUserEntityWithFaceInfoResponse;
 
-                    if (userInfo.faceInfo) {
+                    if (userInfo?.faceInfo) {
                         userInfo.faceInfo.hairColor = rgbStrToHex(userInfo.faceInfo.hairColor);
                         userInfo.faceInfo.leftEyeColor = colorNameToHex(userInfo.faceInfo.leftEyeColor);
                         userInfo.faceInfo.rightEyeColor = colorNameToHex(userInfo.faceInfo.rightEyeColor);

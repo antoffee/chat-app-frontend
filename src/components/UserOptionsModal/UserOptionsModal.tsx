@@ -11,7 +11,13 @@ import styles from './UserOptionsModal.module.scss';
 
 const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
-export const UserOptionsModal = ({ onSettingsClick }: { onSettingsClick?: () => void }) => {
+export const UserOptionsModal = ({
+    onSettingsClick,
+    onLogout,
+}: {
+    onSettingsClick?: () => void;
+    onLogout: () => void;
+}) => {
     const dispatch = useAppDispatch();
 
     const { showCreateChat } = usePresentChatModal({});
@@ -21,15 +27,20 @@ export const UserOptionsModal = ({ onSettingsClick }: { onSettingsClick?: () => 
             <IonList>
                 <IonItem detail={false} button onClick={onSettingsClick}>
                     <IonIcon icon={settingsOutline} slot="start" />
-                    Settings
+                    Настройки
                 </IonItem>
                 <IonItem detail={false} button onClick={() => showCreateChat()}>
                     <IonIcon icon={createOutline} slot="start" />
-                    Create new chat
+                    Создать новый чат
                 </IonItem>
-                <IonItem className={cx('item-danger')} detail={false} button onClick={() => dispatch(logoutAction())}>
+                <IonItem
+                    className={cx('item-danger')}
+                    detail={false}
+                    button
+                    onClick={() => dispatch(logoutAction()).then(onLogout)}
+                >
                     <IonIcon icon={logOutOutline} slot="start" />
-                    Logout
+                    Выход
                 </IonItem>
             </IonList>
         </IonContent>

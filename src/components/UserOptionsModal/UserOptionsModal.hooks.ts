@@ -11,9 +11,14 @@ export const useUserOptionsModal = () => {
         router.push(appRoutes.settingsMobile());
     }, [router]);
 
+    const onLogout = useCallback(() => {
+        router.push(appRoutes.login());
+    }, [router]);
+
     const [showUserOptions, closeUserOptions] = useIonModal(UserOptionsModal, {
         onDismiss: () => closeUserOptions(),
         onSettingsClick,
+        onLogout,
     });
 
     const showModal: UseIonModalResult[0] = useCallback(
@@ -33,9 +38,14 @@ export const useUserOptionsPopover = () => {
         router.push(appRoutes.settings());
     }, [router]);
 
+    const onLogout = useCallback(() => {
+        router.push(appRoutes.login());
+    }, [router]);
+
     const [showUserOptions, closeUserOptions] = useIonPopover(UserOptionsModal, {
         onDismiss: () => closeUserOptions(),
         onSettingsClick,
+        onLogout,
     });
 
     const showModal: UseIonPopoverResult[0] = useCallback(

@@ -5,6 +5,8 @@ import {
     IonContent,
     IonFooter,
     IonHeader,
+    IonItem,
+    IonLabel,
     IonList,
     IonLoading,
     IonTitle,
@@ -160,7 +162,10 @@ export const SidebarSettingsEdit = () => {
             </IonContent>
             <IonFooter className={cx('footer')}>
                 <IonToolbar>
-                    <ThemeToggle />
+                    <IonItem>
+                        <IonLabel>Цветовая тема</IonLabel>
+                        <ThemeToggle />
+                    </IonItem>
                 </IonToolbar>
             </IonFooter>
         </>

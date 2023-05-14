@@ -84,20 +84,24 @@ export const CreateChatModal: React.FC<CreateChatModalProps> = ({ onDismiss, isE
                     mutators={{ ...arrayMutators }}
                     initialValues={initialValues}
                 >
-                    {({ handleSubmit, values, form, valid }) => (
+                    {({ handleSubmit, valid }) => (
                         <IonList className={cx('create-chat-modal__form')}>
+                            {!isEdit && (
+                                <IonItem>
+                                    <IonLabel>Личный</IonLabel>
+                                    <CustomToggleField name="isPrivate" />
+                                </IonItem>
+                            )}
                             <CustomInputField label="Название чата" inputType="input" name="name" />
                             <CustomInputField label="Описание чата" inputType="input" name="description" />
                             {!isEdit && (
                                 <>
-                                    <IonItem>
-                                        <IonLabel>Личный</IonLabel>
-                                        <CustomToggleField name="private" />
-                                    </IonItem>
                                     <FieldArray<CustomSelectableValue> name="members">
-                                        {({ fields }) => (
+                                        {({ fields, meta }) => (
                                             <>
                                                 <CustomSearchBar
+                                                    errorMessage={meta.error as string}
+                                                    hasError={!!meta.error && !!fields.length}
                                                     loading={isLoading}
                                                     label="Участники"
                                                     onSearch={handleSearch}
@@ -110,24 +114,6 @@ export const CreateChatModal: React.FC<CreateChatModalProps> = ({ onDismiss, isE
                                                                 }
                                                                 value={el}
                                                                 onIonChange={(event) => {
-                                                                    if (values.isPrivate) {
-                                                                        form.batch(() => {
-                                                                            form.change('members', []);
-                                                                            if (event.target.checked)
-                                                                                fields.push({
-                                                                                    id: el.id,
-                                                                                    label: `${el.username} (${el.name})`,
-                                                                                });
-                                                                            else
-                                                                                fields.remove(
-                                                                                    fields?.value?.findIndex(
-                                                                                        (item) => item.id === el.id,
-                                                                                    ),
-                                                                                );
-                                                                        });
-
-                                                                        return;
-                                                                    }
                                                                     if (event.target.checked)
                                                                         fields.push({
                                                                             id: el.id,
