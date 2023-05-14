@@ -8,6 +8,7 @@ import {
     IonContent,
     IonFab,
     IonFabButton,
+    IonHeader,
     IonIcon,
     IonItem,
     IonList,
@@ -57,16 +58,18 @@ export const AddToChatModal: React.FC<AddToChatModalProps> = ({ onDismiss, roomI
 
     return (
         <>
-            <IonToolbar>
-                <IonTitle>
-                    <Typography type={TextType.CAPTION_18_24}>Добавить в чат пользователей</Typography>
-                </IonTitle>
-                <IonButtons slot="end">
-                    <IonButton onClick={onDismiss}>
-                        <IonIcon icon={close} />
-                    </IonButton>
-                </IonButtons>
-            </IonToolbar>
+            <IonHeader>
+                <IonToolbar>
+                    <IonTitle>
+                        <Typography type={TextType.CAPTION_18_24}>Добавить в чат пользователей</Typography>
+                    </IonTitle>
+                    <IonButtons slot="end">
+                        <IonButton onClick={onDismiss}>
+                            <IonIcon icon={close} />
+                        </IonButton>
+                    </IonButtons>
+                </IonToolbar>
+            </IonHeader>
             <IonContent>
                 <Form<AddToChatValues>
                     validate={validateAddToChat}
