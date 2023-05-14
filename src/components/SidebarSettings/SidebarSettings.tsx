@@ -18,9 +18,11 @@ import { appRoutes } from 'routes';
 import { useAppSelector } from 'store';
 import { getIsMobile } from 'store/windowSize';
 
+import { useConfirmEmailModal } from 'components/ConfirmEmailModal/ConfirmEmailModal.hooks';
 import { CustomLinkButton } from 'components/CustomLinkButton';
 import { ModelViewer } from 'components/ModelViewer';
 import { ThemeToggle } from 'components/ThemeToggle';
+import { noop } from 'utils';
 
 import styles from './SidebarSettings.module.scss';
 
@@ -28,7 +30,7 @@ const cx = cnBind.bind(styles) as (...args: Argument[]) => string;
 
 export const SidebarSettings = () => {
     const { user } = useAppSelector((state) => state.auth);
-
+    const { showConfirmEmail } = useConfirmEmailModal();
     const isMobile = useAppSelector(getIsMobile);
 
     return (
@@ -58,7 +60,10 @@ export const SidebarSettings = () => {
                             {user?.username}
                         </IonLabel>
                     </IonItem>
-                    <IonItem className={cx({ 'item-danger': !user?.isEmailConfirmed })}>
+                    <IonItem
+                        onClick={() => (!user?.isEmailConfirmed ? showConfirmEmail() : noop)}
+                        className={cx({ 'item-danger': !user?.isEmailConfirmed })}
+                    >
                         <IonLabel>
                             <IonNote>Email</IonNote>
                             {user?.email}
