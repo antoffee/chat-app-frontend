@@ -53,6 +53,7 @@
         "three": "^0.142.0"
     },
     "devDependencies": {
+        "@capacitor/assets": "^2.0.4",
         "@ionic/cli": "6.19.1",
         "@svgr/webpack": "5.5.0",
         "@testing-library/jest-dom": "^5.11.9",
