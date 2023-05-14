@@ -23,6 +23,7 @@ import { useGetRoomDetailsQuery, useSendMessageMutation } from 'store/sockets';
 import { Button } from 'components/Button';
 import { usePresentChatDetailsModal } from 'components/ChatDetailsModal';
 import { ChatMessage } from 'components/ChatMessage';
+import { EnterKeyFormSubmitter } from 'components/EnterKeyFormSubmitter';
 import { CustomInputField } from 'components/Fields/CustomInputField';
 import { sleep } from 'utils';
 
@@ -95,6 +96,7 @@ export const ChatDetailsPage = () => {
                 <Form<SendMessageValues> validate={validateSendMessage} onSubmit={handleSubmit}>
                     {({ handleSubmit, valid }) => (
                         <IonToolbar className={cx('chat-detail__footer-toolbar')}>
+                            <EnterKeyFormSubmitter onSubmit={handleSubmit} valid={valid} />
                             <CustomInputField name="content" placeholder="Type something..." inputType="input" />
                             <Button disabled={!valid} slot="end" size="large" onClick={handleSubmit} shape="round">
                                 <IonIcon slot="icon-only" icon={send} />
