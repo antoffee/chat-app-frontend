@@ -1,0 +1,25 @@
+.list {
+    padding: 16px;
+
+    ion-note {
+        display: block;
+    }
+
+    .item-danger {
+        color: var(--danger-40);
+    }
+
+    & > div {
+        margin-bottom: 20px;
+    }
+
+    ion-button {
+        width: 100%;
+    }
+}
+
+.wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}

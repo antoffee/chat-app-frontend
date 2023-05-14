@@ -16,8 +16,10 @@ import {
 import cnBind, { Argument } from 'classnames/bind';
 import { ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum } from 'generated';
 import { UserPhoto } from 'hooks/usePhotoGallery';
+import { appRoutes } from 'routes';
 import { useAppDispatch, useAppSelector } from 'store';
 import { deleteFaceInfo, saveFaceInfo, updateProfileAction, uploadAvatarAction } from 'store/auth';
+import { getIsMobile } from 'store/windowSize';
 import { FetchStatus } from 'types/asyncState';
 
 import { AvatarUploader } from 'components/AvatarUploader';
@@ -40,6 +42,8 @@ export const SidebarSettingsEdit = () => {
     const { user, loadingStatus } = useAppSelector((state) => state.auth);
 
     const isLoading = loadingStatus === FetchStatus.PENDING;
+
+    const isMobile = useAppSelector(getIsMobile);
 
     const router = useIonRouter();
 
@@ -147,18 +151,25 @@ export const SidebarSettingsEdit = () => {
                             <Button onClick={handleSubmit} disabled={!valid || isLoading}>
                                 Сохранить изменения
                             </Button>
+                            {isMobile && (
+                                <Button onClick={() => router.push(appRoutes.avatarEditMobile())} color={'secondary'}>
+                                    Редактирование аватара
+                                </Button>
+                            )}
                         </IonList>
                     )}
                 </Form>
 
-                <AvatarUploader
-                    onDeleteAvatar={handleDeleteAvatar}
-                    isLoading={isLoading}
-                    onUploadSubmit={handleUploadAvatar}
-                    className={cx('list')}
-                    onGenerateSubmit={scheduleFaceInfoAnalyze}
-                    hasAvatar={!!user?.faceInfo}
-                />
+                {!isMobile && (
+                    <AvatarUploader
+                        onDeleteAvatar={handleDeleteAvatar}
+                        isLoading={isLoading}
+                        onUploadSubmit={handleUploadAvatar}
+                        className={cx('list')}
+                        onGenerateSubmit={scheduleFaceInfoAnalyze}
+                        hasAvatar={!!user?.faceInfo}
+                    />
+                )}
             </IonContent>
             <IonFooter className={cx('footer')}>
                 <IonToolbar>

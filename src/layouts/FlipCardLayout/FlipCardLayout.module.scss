@@ -34,6 +34,7 @@
 
     .flip-card-back {
         z-index: 10;
+        transform: rotateY(var(--rotation-degree)) translate3d(0, 0, 1px);
     }
 
     .flip-card-front {

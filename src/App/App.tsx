@@ -6,6 +6,7 @@ import { socketService } from 'api/socketService';
 import { useColorMode } from 'hooks/useColorMode';
 import { useWindowSize } from 'hooks/useWindowSize';
 import { PageLayout } from 'layouts/PageLayout';
+import { AvatarEditPage } from 'pages/AvatarEditPage';
 import { ChatDetailsPage } from 'pages/ChatDetailsPage';
 import { ChatsPage } from 'pages/ChatsPage';
 import { DemoPage } from 'pages/DemoPage';
@@ -120,6 +121,9 @@ export const App: React.FC = () => {
                                     </ProtectedRoute>
                                     <ProtectedRoute isAuth={isAuth} path={appRoutes.chatDetails()}>
                                         <ChatDetailsPage />
+                                    </ProtectedRoute>
+                                    <ProtectedRoute isAuth={isAuth} path={appRoutes.avatarEditMobile()}>
+                                        <AvatarEditPage />
                                     </ProtectedRoute>
                                     {/* <Route  path={'*'}>404</Route> */}
                                 </PageLayout>

@@ -19,6 +19,7 @@ import { useAppSelector } from 'store';
 import { getIsMobile } from 'store/windowSize';
 
 import { CustomLinkButton } from 'components/CustomLinkButton';
+import { ModelViewer } from 'components/ModelViewer';
 import { ThemeToggle } from 'components/ThemeToggle';
 
 import styles from './SidebarSettings.module.scss';
@@ -65,10 +66,11 @@ export const SidebarSettings = () => {
                         {user?.isEmailConfirmed && <IonIcon slot="end" color="success" icon={shieldCheckmarkOutline} />}
                     </IonItem>
                 </IonList>
+                {isMobile && user?.faceInfo ? <ModelViewer faceInfo={user?.faceInfo} /> : null}
             </IonContent>
             <IonFooter className={cx('footer')}>
                 <IonToolbar>
-                    <IonItem>
+                    <IonItem className="ion-no-border">
                         <IonLabel>Цветовая тема</IonLabel>
                         <ThemeToggle />
                     </IonItem>

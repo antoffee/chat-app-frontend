@@ -17,8 +17,14 @@ export const useUserOptionsModal = () => {
 
     const [showUserOptions, closeUserOptions] = useIonModal(UserOptionsModal, {
         onDismiss: () => closeUserOptions(),
-        onSettingsClick,
-        onLogout,
+        onSettingsClick: () => {
+            onSettingsClick();
+            closeUserOptions();
+        },
+        onLogout: () => {
+            onLogout();
+            closeUserOptions();
+        },
     });
 
     const showModal: UseIonModalResult[0] = useCallback(
