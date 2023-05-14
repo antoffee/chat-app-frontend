@@ -12,6 +12,7 @@ import {
 import cnBind, { Argument } from 'classnames/bind';
 import { person, trash } from 'ionicons/icons';
 
+import { usePresentAvatarModal } from 'components/AvatarModal/AvatarModal.hooks';
 import { ModelViewer } from 'components/ModelViewer';
 
 import { UserItemProps } from './UserItem.types';
@@ -25,9 +26,11 @@ export const UserItem: React.FC<UserItemProps> = ({ user, onDelete, onUserAvatar
         onDelete(user);
     }, [onDelete, user]);
 
+    const { showAvatar } = usePresentAvatarModal({ faceInfo: user.faceInfo });
     const handleUserAvatarClick = useCallback(() => {
         onUserAvatarClick(user);
-    }, [onUserAvatarClick, user]);
+        showAvatar();
+    }, [onUserAvatarClick, showAvatar, user]);
 
     return (
         <IonItemSliding className={cx('user-item__sliding')}>
