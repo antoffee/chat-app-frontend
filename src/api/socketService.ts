@@ -14,6 +14,9 @@ class SocketService {
     disconnect = () => {
         if (this.socket) {
             this.socket.disconnect();
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            this.socket = undefined;
         }
     };
 }

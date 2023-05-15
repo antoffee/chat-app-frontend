@@ -43,7 +43,7 @@ export const UserItem: React.FC<UserItemProps> = ({ user, onDelete, onUserAvatar
                     </IonItemOption>
                 </IonItemOptions>
             )}
-            <IonItem lines="none" className={cx('chat-item')}>
+            <IonItem lines="none" className={cx('user-item')}>
                 <IonAvatar onClick={handleUserAvatarClick} className={cx('avatar')} slot="start">
                     {user.faceInfo ? (
                         <ModelViewer faceInfo={user.faceInfo} mode="avatar" />

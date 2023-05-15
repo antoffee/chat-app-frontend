@@ -11,7 +11,7 @@ import {
     IonNote,
 } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
-import { chatbubble, person, pin, trash } from 'ionicons/icons';
+import { chatbubble, people, person, pin, trash } from 'ionicons/icons';
 import moment from 'moment';
 import { appRoutes } from 'routes';
 
@@ -69,7 +69,7 @@ export const ChatItem = ({
                     ) : image ? (
                         <img src={image} />
                     ) : (
-                        <IonIcon icon={person} />
+                        <IonIcon icon={isPrivate ? person : people} />
                     )}
                 </IonAvatar>
                 <IonLabel>

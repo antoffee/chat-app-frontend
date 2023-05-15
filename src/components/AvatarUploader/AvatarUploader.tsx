@@ -50,7 +50,7 @@ export const AvatarUploader: React.FC<AvatarUploaderProps> = ({
                         Удалить аватар
                     </Button>
                 ) : !photos?.length ? (
-                    <Button onClick={() => takePhoto()}>
+                    <Button onClick={() => takePhoto().catch((err) => alert(err))}>
                         <IonIcon icon={camera} />
                     </Button>
                 ) : (
