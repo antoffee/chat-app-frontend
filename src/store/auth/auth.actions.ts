@@ -15,6 +15,8 @@ import {
     UsersApi,
 } from 'generated';
 import heic2any from 'heic2any';
+import { socketsApi } from 'store/sockets';
+import { usersApi } from 'store/users';
 
 import { hexToRgbString } from 'utils';
 
@@ -59,6 +61,9 @@ export const logoutAction = createAsyncThunk('USER/LOGOUT', async () => {
         await authApi.authControllerLogout();
 
         await localConfigService.removeHeader();
+
+        usersApi.util.resetApiState();
+        socketsApi.util.resetApiState();
 
         return undefined;
     });

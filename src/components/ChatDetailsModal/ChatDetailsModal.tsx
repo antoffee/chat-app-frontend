@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import {
     IonButton,
     IonButtons,
@@ -56,6 +56,11 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
         isEdit: true,
     });
 
+    const name = useMemo(
+        () => data?.name ?? data?.members.find((mem) => mem.id !== user?.id)?.name,
+        [data?.members, data?.name, user?.id],
+    );
+
     if (!data) {
         return null;
     }
@@ -65,7 +70,7 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
             <IonToolbar>
                 <IonTitle>
                     <Typography type={TextType.CAPTION_18_24}>
-                        {data?.name} (
+                        {name} (
                         {data.type === ApiChatRoomEntityDetailsResponseTypeEnum.PRIVATE ? 'Личный' : 'Групповой'})
                     </Typography>
                 </IonTitle>
@@ -120,7 +125,10 @@ export const ChatDetailsModal: React.FC<ChatDetailsModalProps> = ({ onDismiss, i
                 )}
                 <Button
                     onClick={() => {
-                        void leaveRoom({ roomId: data?.id });
+                        void leaveRoom({
+                            roomId: data?.id,
+                            isPrivate: data.type === ApiChatRoomEntityDetailsResponseTypeEnum.PRIVATE,
+                        });
                         onDismiss?.();
                     }}
                     size="default"

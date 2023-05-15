@@ -97,7 +97,7 @@ export const socketsApi = createApi({
                                         ...draft,
                                         ...data,
                                         name:
-                                            data.name ??
+                                            data.name ||
                                             data.members?.find((item) => item.id !== state.auth.user?.id)?.name,
                                     } as unknown as ApiChatRoomEntityDetailsResponse;
                                 }

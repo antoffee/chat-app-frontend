@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { IonHeader } from '@ionic/react';
+import { IonContent, IonHeader, IonLoading, IonTitle, IonToolbar } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
 import { ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum } from 'generated';
 import { UserPhoto } from 'hooks/usePhotoGallery';
@@ -84,12 +84,20 @@ export const AvatarEditPage: React.FC = () => {
         setJobId(jobId);
     }, []);
 
-    const handleDeleteAvatar = useCallback(() => dispatch(deleteFaceInfo()), [dispatch]);
+    const handleDeleteAvatar = useCallback(() => {
+        void dispatch(deleteFaceInfo());
+        setFaceInfoStatus(undefined);
+    }, [dispatch]);
 
     return (
         <>
-            <IonHeader />
-            <div className={cx('wrapper')}>
+            <IonHeader>
+                <IonToolbar>
+                    <IonTitle>Редактирование аватара</IonTitle>
+                </IonToolbar>
+            </IonHeader>
+            <IonLoading isOpen={faceInfoStatus === ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Pending} />
+            <IonContent>
                 <AvatarUploader
                     onDeleteAvatar={handleDeleteAvatar}
                     isLoading={isLoading}
@@ -101,7 +109,7 @@ export const AvatarEditPage: React.FC = () => {
                 <div className={cx('wrapper')}>
                     <AvatarEditor faceInfo={user?.faceInfo} />
                 </div>
-            </div>
+            </IonContent>
         </>
     );
 };
