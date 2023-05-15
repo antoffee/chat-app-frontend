@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Redirect, Route } from 'react-router';
-import { IonLoading, IonPage, IonRouterOutlet, setupIonicReact, useIonRouter } from '@ionic/react';
+import { IonLoading, IonPage, IonRouterOutlet, setupIonicReact, useIonAlert, useIonRouter } from '@ionic/react';
 import { localConfigService } from 'api/localConfigService';
 import { socketService } from 'api/socketService';
 import { useColorMode } from 'hooks/useColorMode';
@@ -16,7 +16,7 @@ import { LoginPage } from 'pages/LoginPage';
 import { ProfilePage } from 'pages/ProfilePage';
 import { appRoutes } from 'routes';
 import { useAppDispatch, useAppSelector } from 'store';
-import { authAction, confirmEmailAction, getIsLoggedIn } from 'store/auth';
+import { authAction, confirmEmailAction, getIsLoggedIn, updatePasswordAction } from 'store/auth';
 import { useLazyConnectQuery } from 'store/sockets';
 import { FetchStatus } from 'types/asyncState';
 
@@ -57,9 +57,36 @@ export const App: React.FC = () => {
 
     const [connect] = useLazyConnectQuery();
 
+    const router = useIonRouter();
     const {
-        routeInfo: { search },
-    } = useIonRouter();
+        routeInfo: { search, pathname },
+    } = router;
+
+    const [presentAlert] = useIonAlert();
+
+    const handleResetPass = useCallback(
+        (token: string) => {
+            presentAlert({
+                message: 'Введите новый пароль',
+                inputs: [
+                    {
+                        placeholder: 'Пароль',
+                        type: 'password',
+                    },
+                ],
+                buttons: [
+                    {
+                        text: 'Подтвердить',
+                        handler: (value: Record<number, string>) => {
+                            void dispatch(updatePasswordAction({ newPassword: value[0], token: token }));
+                        },
+                    },
+                    { text: 'Отмена' },
+                ],
+            }).catch(console.error);
+        },
+        [dispatch, presentAlert],
+    );
 
     useEffect(() => {
         if (isAuth) {
@@ -73,11 +100,19 @@ export const App: React.FC = () => {
     }, [connect, dispatch, isAuth]);
 
     useEffect(() => {
-        const token = new URLSearchParams(search).get('confirmEmailToken');
-        if (token) {
-            void dispatch(confirmEmailAction(token));
+        const emailToken = new URLSearchParams(search).get('confirmEmailToken');
+        if (emailToken) {
+            void dispatch(confirmEmailAction(emailToken)).then(() => {
+                router.push(pathname);
+            });
         }
-    }, [dispatch, search]);
+    }, [dispatch, pathname, router, search]);
+    useEffect(() => {
+        const passToken = new URLSearchParams(search).get('forgotPasswordToken');
+        if (passToken) {
+            handleResetPass(passToken);
+        }
+    }, [dispatch, handleResetPass, pathname, router, search]);
 
     const authIsPending =
         !isAuth &&

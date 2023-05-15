@@ -6,6 +6,7 @@ import {
     ApiFaceInfoEntityResponse,
     ApiUserEntityWithFaceInfoResponse,
     AuthApi,
+    ChangePasswordDto,
     CreateUserDto,
     EmailApi,
     FaceAnalyzeApi,
@@ -79,6 +80,10 @@ export const updateProfileAction = createAsyncThunk('USER/UPDATE', async (dto: U
     const responce = await userApi.usersControllerUpdateSelf(dto);
 
     return responce.data;
+});
+
+export const updatePasswordAction = createAsyncThunk('USER/RESET_PASSWORD', async (dto: ChangePasswordDto) => {
+    await emailApi.emailControllerChangePassword(dto);
 });
 
 export type FileInput = { filePath: string; mimeType: string; fileName: string };

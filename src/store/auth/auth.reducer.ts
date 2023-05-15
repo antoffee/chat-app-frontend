@@ -9,6 +9,7 @@ import {
     saveFaceInfo,
     signUpAction,
     updateFaceInfo,
+    updatePasswordAction,
     updateProfileAction,
     uploadAvatarAction,
 } from 'store/auth/auth.actions';
@@ -43,6 +44,9 @@ export const userSlice = createSlice({
                     state.user = { ...state.user, faceInfo: undefined };
                 }
                 state.errorMessage = '';
+                state.loadingStatus = FetchStatus.FULFILLED;
+            })
+            .addCase(updatePasswordAction.fulfilled, (state) => {
                 state.loadingStatus = FetchStatus.FULFILLED;
             })
             .addMatcher(isAnyOf(saveFaceInfo, updateFaceInfo.fulfilled), (state, { payload }) => {
@@ -95,6 +99,7 @@ export const userSlice = createSlice({
                     updateProfileAction.pending,
                     uploadAvatarAction.pending,
                     deleteFaceInfo.pending,
+                    updatePasswordAction.pending,
                 ),
                 (state) => {
                     state.errorMessage = '';
@@ -111,6 +116,7 @@ export const userSlice = createSlice({
                     updateProfileAction.rejected,
                     uploadAvatarAction.rejected,
                     deleteFaceInfo.rejected,
+                    updatePasswordAction.rejected,
                 ),
                 (state, { error, type }) => {
                     if (!type?.includes(authAction.typePrefix)) {

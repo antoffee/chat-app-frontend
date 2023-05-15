@@ -43,14 +43,14 @@ export const ConfirmEmailModal = ({ onDismiss, initialStep }: ConfirmEmailModalP
                     <>
                         <IonItem>
                             <IonLabel>
-                                Email will be sent to <b>{user?.email}</b>
+                                Письмо будет отправлено на <b>{user?.email}</b>
                             </IonLabel>
                         </IonItem>
-                        <Button onClick={sendConfirmation}>Send email</Button>
+                        <Button onClick={sendConfirmation}>Отправить письмо</Button>
                         <IonItem>
-                            <IonLabel>Incorrect email address?</IonLabel>
+                            <IonLabel>Неправильный адрес?</IonLabel>
                             <Button fill="clear" size="large" href={appRoutes.settings()}>
-                                Change
+                                Изменить
                             </Button>
                         </IonItem>
                     </>
@@ -60,14 +60,14 @@ export const ConfirmEmailModal = ({ onDismiss, initialStep }: ConfirmEmailModalP
                     <>
                         <IonItem>
                             <IonLabel>
-                                Follow the instructions in the email sent to <b>{user?.email}</b>
+                                Следуйте инструкциям, отправленным на <b>{user?.email}</b>
                             </IonLabel>
                         </IonItem>
                         <IonItem>
-                            <IonLabel> Did not get the email? Check your spam folder or</IonLabel>
+                            <IonLabel> Не получили письмо? Проверьте папку СПАМ или</IonLabel>
                         </IonItem>
                         <Button fill="clear" size="large" onClick={sendConfirmation}>
-                            Resend confirmation
+                            Отправить повторно
                         </Button>
                     </>
                 );
@@ -80,7 +80,7 @@ export const ConfirmEmailModal = ({ onDismiss, initialStep }: ConfirmEmailModalP
         <>
             <IonToolbar>
                 <IonTitle>
-                    <Typography type={TextType.CAPTION_18_24}>Confirm Email</Typography>
+                    <Typography type={TextType.CAPTION_18_24}>Подтвердить e-mail</Typography>
                 </IonTitle>
                 <IonButtons slot="end">
                     <IonButton onClick={onDismiss}>
