@@ -11,6 +11,7 @@ import {
     IonLoading,
     IonTitle,
     IonToolbar,
+    useIonAlert,
     useIonRouter,
 } from '@ionic/react';
 import cnBind, { Argument } from 'classnames/bind';
@@ -81,6 +82,8 @@ export const SidebarSettingsEdit = () => {
 
     const [jobId, setJobId] = useState<string | null>(null);
 
+    const [presentAlert] = useIonAlert();
+
     useEffect(() => {
         let timer: ReturnType<typeof setInterval> | null = null;
         if (
@@ -104,7 +107,11 @@ export const SidebarSettingsEdit = () => {
                                 dispatch(saveFaceInfo(result));
                         }
                     })
-                    .catch(console.error);
+                    .catch((e) => {
+                        setFaceInfoStatus(ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Cancelled);
+
+                        console.error(e);
+                    });
             }, 2000);
         }
 
@@ -114,6 +121,16 @@ export const SidebarSettingsEdit = () => {
             }
         };
     }, [dispatch, faceInfoStatus, jobId]);
+
+    useEffect(() => {
+        if (faceInfoStatus === ApiCheckAnalyzeJobStatusSuccessfulResponseStatusEnum.Cancelled) {
+            void presentAlert({
+                header: 'Ошибка',
+                message: 'Не удалось сгенерировать аватар, пожалуйста, попробуйте с другой фотографией',
+                buttons: ['Закрыть'],
+            });
+        }
+    }, [faceInfoStatus, presentAlert]);
 
     // na sunmit
     const scheduleFaceInfoAnalyze = useCallback(async (photo: UserPhoto) => {

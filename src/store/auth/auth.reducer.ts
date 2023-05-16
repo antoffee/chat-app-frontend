@@ -49,6 +49,7 @@ export const userSlice = createSlice({
             .addCase(updatePasswordAction.fulfilled, (state) => {
                 state.loadingStatus = FetchStatus.FULFILLED;
             })
+            .addCase(logoutAction.fulfilled, () => initialState)
             .addMatcher(isAnyOf(saveFaceInfo, updateFaceInfo.fulfilled), (state, { payload }) => {
                 if (state.user) {
                     state.user = {
@@ -69,7 +70,6 @@ export const userSlice = createSlice({
                     authAction.fulfilled,
                     signUpAction.fulfilled,
                     loginAction.fulfilled,
-                    logoutAction.fulfilled,
                     confirmEmailAction.fulfilled,
                     updateProfileAction.fulfilled,
                     uploadAvatarAction.fulfilled,
